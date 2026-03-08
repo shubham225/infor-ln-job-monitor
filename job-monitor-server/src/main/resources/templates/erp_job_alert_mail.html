@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ERP Job Monitoring Alert</title>
+</head>
+
+<body style="font-family:Segoe UI, Arial, sans-serif; background-color:#f4f6f8; padding:20px;">
+
+<table width="100%" cellpadding="0" cellspacing="0"
+       style="max-width:820px; margin:auto; background:#ffffff;
+              border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.08);">
+
+    <!-- HEADER -->
+    <tr>
+        <td style="background:#c62828; color:#ffffff; padding:18px 26px;
+                   border-radius:8px 8px 0 0;">
+            <h2 style="margin:0; font-size:20px;">🔔 ERP Job Monitoring Alert</h2>
+            <p style="margin:6px 0 0; font-size:13px;">
+                An exception was detected during ERP job monitoring.
+            </p>
+        </td>
+    </tr>
+
+    <!-- SUMMARY -->
+    <tr>
+        <td style="padding:20px 26px;">
+            <table width="100%" cellpadding="10" cellspacing="0"
+                   style="background:#fff4f4; border-left:5px solid #d32f2f;
+                          border-radius:6px;">
+                <tr>
+                    <td style="font-size:14px;">
+                        <strong>Error Type:</strong>
+                        <span style="color:#d32f2f;" th:text="${errorType}">
+                            ExecWithRuntimeErr
+                        </span><br/>
+                        <strong>Description:</strong>
+                        <span th:text="${errorDescription}">
+                            ERP job failed during execution
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- EVTX INFO -->
+    <tr th:if="${evtxAttached}">
+        <td style="padding:0 26px 20px;">
+            <table width="100%" cellpadding="10" cellspacing="0"
+                   style="background:#eef5ff; border-left:5px solid #1976d2;
+                          border-radius:6px;">
+                <tr>
+                    <td style="font-size:13px; color:#1e3a5f;">
+                        ℹ️ <strong>Logs Attached</strong> –
+                        A Windows Event Log file (<strong>.evtx</strong>) is attached with this email
+                        to assist in root-cause analysis.
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ALL DETAILS IN ONE TABLE -->
+    <tr>
+        <td style="padding:0 26px 26px;">
+            <table width="100%" cellpadding="7" cellspacing="0"
+                   style="border:1px solid #e0e0e0;
+                          border-collapse:collapse; font-size:13px;">
+
+                <!-- MONITOR TASK -->
+                <tr style="background:#f1f5fb;">
+                    <th colspan="2" align="left" style="border:1px solid #e0e0e0;">
+                        Monitor Task Details
+                    </th>
+                </tr>
+                <tr>
+                    <th width="35%" align="left" style="border:1px solid #e0e0e0;">
+                        Trigger Time
+                    </th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${taskTriggerTime}">
+                        08-12-2021 07:55:20 PM (IST)
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">
+                        Termination Time
+                    </th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${taskTerminationTime}">
+                        08-12-2021 07:55:25 PM (IST)
+                    </td>
+                </tr>
+
+                <!-- ERP JOB -->
+                <tr style="background:#f1f5fb;">
+                    <th colspan="2" align="left" style="border:1px solid #e0e0e0;">
+                        ERP Job Details
+                    </th>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Job</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${jobName}">
+                        TEST_JOB_ERROR_2
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Description</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${jobDescription}">
+                        Testing Job errors
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Status</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${jobStatus}">
+                        Free
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Last Execution</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${lastExecution}">
+                        08-12-2021 07:55:03 PM (IST)
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Server</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${server}">
+                        EETPUNE-SHUBHAM
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Job User</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${jobUser}">
+                        baan [BW Host : 172.24.50.196]
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Company</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${company}">
+                        550 (Copy of GES 710)
+                    </td>
+                </tr>
+
+                <!-- WINDOWS TASK -->
+                <tr style="background:#f1f5fb;">
+                    <th colspan="2" align="left" style="border:1px solid #e0e0e0;">
+                        Windows Scheduler Task
+                    </th>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Task Name</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${taskName}">
+                        Test_Job_Remote_Database
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Task Status</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${taskStatus}">
+                        Ready
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" style="border:1px solid #e0e0e0;">Next Run</th>
+                    <td style="border:1px solid #e0e0e0;" th:text="${taskNextRun}">
+                        08-12-2021 08:30:00 PM (IST)
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+    <!-- FOOTER -->
+    <tr>
+        <td style="padding:16px 26px; font-size:12px; color:#777;
+                   background:#f7f9fc; border-radius:0 0 8px 8px;">
+            This is an automated email. Please do not reply.<br/>
+            © 2025 JobMonitor – ERP Job Monitoring System
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

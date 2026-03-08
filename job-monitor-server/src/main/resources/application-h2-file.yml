@@ -1,0 +1,14 @@
+
+spring:
+  # H2 Config
+  datasource:
+    url: jdbc:h2:file:${JOB_MONITOR_HOME}/data/job-monitor_db;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE;DB_CLOSE_DELAY=-1;
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  # (optional) Enable H2 console
+  h2:
+    console:
+      enabled: true
+      path: /h2

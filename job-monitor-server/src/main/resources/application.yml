@@ -1,0 +1,33 @@
+# Application Info
+info:
+  application:
+    name: JobMonitor-Server
+    description: Job monitoring service for Infor LN, providing real-time job tracking and status APIs.
+    author: Shubham Shinde
+    version: v1.0.0
+
+# Server Config
+server:
+  port: ${JOB_MONITOR_PORT:8080}
+
+# Spring Config
+spring:
+  application:
+    name: job-monitor-server
+  profiles:
+    active: h2-file
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    thymeleaf:
+      cache: true
+      encoding: utf-8
+      enabled: true
+      prefix: classpath:/templates/
+      suffix: .html
+
+mail:
+  user: ${MAIL_USER}
+  password: ${MAIL_PASSWORD}

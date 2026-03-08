@@ -1,0 +1,15 @@
+
+${AnsiColor.RED}       __      __    ${AnsiColor.BRIGHT_WHITE}_  ___            _ __
+${AnsiColor.RED}      / /___  / /_  /${AnsiColor.BRIGHT_WHITE}  |/  /___  ____  (_) /_____  _____
+${AnsiColor.RED} __  / / __ \/ __ \/${AnsiColor.BRIGHT_WHITE} /|_/ / __ \/ __ \/ / __/ __ \/ ___/
+${AnsiColor.RED}/ /_/ / /_/ / /_/ /${AnsiColor.BRIGHT_WHITE} /  / / /_/ / / / / / /_/ /_/ / /
+${AnsiColor.RED}\____/\____/_.___/${AnsiColor.BRIGHT_WHITE}_/  /_/\____/_/ /_/_/\__/\____/_/
+${AnsiColor.DEFAULT}
++---------------------------------------------------+
+| Name:               ${AnsiColor.BRIGHT_WHITE}${AnsiStyle.BOLD}${info.application.name} [${AnsiColor.48}Backend${AnsiColor.BRIGHT_WHITE}]${AnsiStyle.NORMAL}${AnsiColor.DEFAULT}   |
+| Version:            ${AnsiColor.BRIGHT_WHITE}${info.application.version}${AnsiColor.DEFAULT}                        |
+| SpringBoot Version: ${spring-boot.version}                         |
+| Port:               ${server.port}                          |
+| Profile:            ${spring.profiles.active}                       |
++---------------------------------------------------+
+${AnsiColor.DEFAULT}
