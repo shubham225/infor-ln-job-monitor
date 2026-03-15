@@ -1,0 +1,20 @@
+[package]
+name = "job-monitor-cli"
+version = "1.0.0"
+edition = "2021"
+description = "Command-line tool for running and managing JobMonitor operations."
+authors = ["Shubham Shinde <shubhamshinde225@gmail.com>"]
+
+[[bin]]
+name = "job-monitor-cli"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+reqwest = { version = "0.12", features = ["blocking", "json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+opt-level = "z"
+lto = "thin"

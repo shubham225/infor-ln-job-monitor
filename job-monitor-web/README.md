@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# job-monitor-web
+
+[![Framework](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
+[![Language](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org/)
+[![Styling](https://img.shields.io/badge/TailwindCSS-4.x-38B2AC.svg)](https://tailwindcss.com/)
+
+`job-monitor-web` is a modern web UI for the Job Monitor platform, built with Next.js, React, and TypeScript.  
+It provides dashboards, job status views, and configuration screens backed by `job-monitor-server`.
+
+---
+
+## Features
+
+- Real-time overview of monitored Infor LN ERP jobs
+- Job detail pages with execution history and failure reasons
+- Filtering and search across jobs and executions
+- Dark/light mode support
+- Form-driven configuration for alerts and job registration
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- **Node.js** (LTS recommended)
+- **npm**, **pnpm**, **yarn**, or **bun**
+- A running instance of `job-monitor-server`
+
+### Install Dependencies
+
+From the repository root:
+
+```bash
+cd job-monitor-web
+npm install
+```
+
+### Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Configuration
 
-## Learn More
+The UI typically needs to know where `job-monitor-server` is running.  
+Configure this via environment variables (for example, `.env.local`):
 
-To learn more about Next.js, take a look at the following resources:
+```env
+NEXT_PUBLIC_JOB_MONITOR_SERVER_URL=http://localhost:8080
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Refer to your actual configuration in the codebase and deployment manifests for the authoritative list of supported variables.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Production Build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create an optimized production build:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+```
+
+Then start the production server:
+
+```bash
+npm start
+```
+
+You can also deploy this app to platforms like Vercel, Netlify, or any Node-capable hosting provider.
+
+---
+
+## Tech Stack
+
+- **Next.js 16** (App Router)
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS 4**
+- **Radix UI** primitives
+- **React Hook Form** + **Zod** for forms and validation
+- **TanStack Table** and **Recharts** for tables and charts
+
+---
+
+## Related Modules
+
+- `job-monitor-server` – REST backend for monitoring and alerts
+- `job-monitor-core` / `job-monitor-common` – domain and shared logic
+- `job-monitor-cli` / `job-monitor-cli-rs` – CLIs for automation and integration
+
