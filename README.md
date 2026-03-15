@@ -97,6 +97,6 @@ Check the individual module READMEs and configuration files for full details.
 ---
 
 ## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Specify the project license here (for example, MIT, Apache-2.0, etc.) and add a `LICENSE` file in the repository root.
 
