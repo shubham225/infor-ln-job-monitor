@@ -171,16 +171,12 @@ public class TaskSchedulerClientImpl implements TaskSchedulerClient {
     }
 
     private TaskSchedulerStatus parseStatus(String value) {
-        switch (value.toUpperCase()) {
-            case "READY":
-                return TaskSchedulerStatus.READY;
-            case "RUNNING":
-                return TaskSchedulerStatus.RUNNING;
-            case "DISABLED":
-                return TaskSchedulerStatus.DISABLED;
-            default:
-                return TaskSchedulerStatus.UNKNOWN;
-        }
+        return switch (value.toUpperCase()) {
+            case "READY" -> TaskSchedulerStatus.READY;
+            case "RUNNING" -> TaskSchedulerStatus.RUNNING;
+            case "DISABLED" -> TaskSchedulerStatus.DISABLED;
+            default -> TaskSchedulerStatus.UNKNOWN;
+        };
     }
 
     private LocalDateTime parseDate(String value) {

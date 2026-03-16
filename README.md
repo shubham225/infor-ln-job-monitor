@@ -92,10 +92,20 @@ Common environment variables used across modules:
 | `MAIL_PASSWORD`          | Server                 | SMTP password or app-specific token          |
 | `NEXT_PUBLIC_JOB_MONITOR_SERVER_URL` | Web UI   | Public server URL exposed to the browser     |
 
-Check the individual module READMEs and configuration files for full details.
+Check the individual module README's and configuration files for full details.
 
 ---
+## Screenshot
+### Homepage
+![homepage](./docs/readme/homepage.png)
 
+### Settings
+![settings](./docs/readme/settings.png)
+
+### Alert Email Template
+![alert-template](./docs/readme/alert-email-template.png)
+
+---
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
