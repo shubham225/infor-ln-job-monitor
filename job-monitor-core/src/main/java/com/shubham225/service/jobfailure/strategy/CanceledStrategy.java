@@ -19,11 +19,11 @@ public class CanceledStrategy implements JobFailureStrategy {
 
     @Override
     public void handleFailureOrSuccess(MonitoringTask task) {
-        log.error("Job '{}' has been cancelled in ERP", task.getJob());
+        log.error("Job '{}' has been canceled in ERP", task.getJob());
 
         String subject = String.format(
-                "%s Job \"%s\" was cancelled", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
-        String errorInfo = "The job execution was canceled.";
+                "%s Job \"%s\" was canceled", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
+        String errorInfo = "The job execution was canceled in the ERP system.";
 
         String body = notificationService.generateMailBody(task, errorInfo, false);
         task.setMailSent(notificationService.sendMail(subject, body, Set.of()));

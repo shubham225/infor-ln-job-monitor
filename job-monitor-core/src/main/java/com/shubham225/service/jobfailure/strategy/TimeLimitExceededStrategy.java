@@ -28,8 +28,8 @@ public class TimeLimitExceededStrategy implements JobFailureStrategy {
         String subject = String.format(
                 "%s Job \"%s\" exceeded time limit", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
         String errorInfo = String.format(
-                "The job execution exceeded the configured time limit and is running for long time in ERP. " +
-                "Job usually takes '%s' to complete but its been running for '%s'.",
+                "The job execution exceeded the configured time limit and has been running for a long time in ERP. " +
+                        "Job usually takes '%s' to complete but it's been running for '%s'.",
                 formatDuration(task.getJob().getJobAverageRuntimeInSec()),
                 formatDuration(lapsedTimeInSeconds));
 
