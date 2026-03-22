@@ -1,7 +1,8 @@
 use std::env;
 
 // ── Default constants ───────────────────────────────────────────────
-pub const DEFAULT_SERVER_URL: &str = "http://localhost:8080";
+pub const DEFAULT_SERVER_URL: &str = "http://localhost";
+pub const DEFAULT_SERVER_PORT: &str = "8080";
 pub const DEFAULT_MONITOR_API_PATH: &str = "/api/v1/monitor";
 pub const DEFAULT_STATUS_API_PATH: &str = "/api/v1/status";
 
@@ -10,7 +11,10 @@ pub const DEFAULT_STATUS_API_PATH: &str = "/api/v1/status";
 /// Returns the job-monitor server base URL from `JOB_MONITOR_SERVER_URL`,
 /// falling back to [`DEFAULT_SERVER_URL`].
 pub fn server_url() -> String {
-    env_or_default("JOB_MONITOR_SERVER_URL", DEFAULT_SERVER_URL)
+    let url = env_or_default("JOB_MONITOR_SERVER_URL", DEFAULT_SERVER_URL);
+    let port = env_or_default("JOB_MONITOR_SERVER_PORT", DEFAULT_SERVER_PORT);
+
+    format!("{}:{}", url.trim_end_matches(':'), port)
 }
 
 /// Returns the monitor API endpoint (base URL + path).
