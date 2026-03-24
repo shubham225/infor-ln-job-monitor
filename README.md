@@ -1,4 +1,4 @@
-# Job Monitor
+# ![logo](./docs/readme/job-monitor-logo.png)
 
 [![Language](https://img.shields.io/badge/Java-17+-007396.svg)](https://www.java.com/)
 [![Backend](https://img.shields.io/badge/Spring%20Boot-backend-brightgreen.svg)](https://spring.io/projects/spring-boot)
@@ -34,6 +34,7 @@ Each module has its own `README.md` with more detailed information.
 - **Web UI (`job-monitor-web`)**  
   Visualizes job status and history, and provides configuration and administration views.
 
+![architecture](./docs/readme/architecture.gif)
 ---
 
 ## Getting Started

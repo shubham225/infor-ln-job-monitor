@@ -34,3 +34,4 @@ build/
 
 ### env & others ###
 .env*
+*.drawio
