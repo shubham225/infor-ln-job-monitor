@@ -1,4 +1,4 @@
-# job-monitor-server
+# Job Monitor Server
 
 [![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
 [![Framework](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)](https://spring.io/projects/spring-boot)

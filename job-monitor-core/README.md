@@ -1,4 +1,4 @@
-# job-monitor-core
+# Job Monitor Core
 
 [![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
 [![Framework](https://img.shields.io/badge/spring-data-green.svg)](https://spring.io/projects/spring-data)
