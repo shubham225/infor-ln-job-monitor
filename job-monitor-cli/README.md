@@ -1,4 +1,4 @@
-# job-monitor-cli (Java)
+# Job Monitor CLI (Java)
 
 [![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
 [![Build](https://img.shields.io/badge/build-Maven-blue.svg)](https://maven.apache.org/)

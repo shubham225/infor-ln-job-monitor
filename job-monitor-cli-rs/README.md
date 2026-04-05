@@ -1,4 +1,4 @@
-# job-monitor-cli-rs (Rust)
+# Job Monitor CLI (Rust)
 
 [![Language](https://img.shields.io/badge/language-Rust-orange.svg)](https://www.rust-lang.org/)
 [![Crate Type](https://img.shields.io/badge/binary-CLI-green.svg)](#)

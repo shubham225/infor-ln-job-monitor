@@ -1,4 +1,4 @@
-# job-monitor-web
+# Job Monitor Web
 
 [![Framework](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
 [![Language](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org/)

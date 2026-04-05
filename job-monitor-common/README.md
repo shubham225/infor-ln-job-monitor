@@ -1,4 +1,4 @@
-# job-monitor-common
+# Job Monitor Common
 
 [![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
 [![Packaging](https://img.shields.io/badge/packaging-JAR-lightgrey.svg)](#)
