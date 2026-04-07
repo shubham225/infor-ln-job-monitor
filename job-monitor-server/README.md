@@ -1,8 +1,11 @@
-# Job Monitor Server
+# Job Monitor Server ![Backend](https://img.shields.io/badge/{_}-Backend-16A34A?style=flat-square)
 
-[![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
-[![Framework](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Packaging](https://img.shields.io/badge/packaging-JAR-lightgrey.svg)](#)
+![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7+-green?logo=springboot&logoColor=white&style=flat)
+![H2 Database](https://img.shields.io/badge/Database-H2-blue)
+![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)
+![Docker](https://img.shields.io/badge/Containerized-Docker-blue?logo=docker&style=flat)
+![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
 
 `job-monitor-server` is a Spring Boot–based backend service that monitors Infor LN ERP jobs, persists execution history, and sends alerts when jobs fail or breach defined SLAs.
 

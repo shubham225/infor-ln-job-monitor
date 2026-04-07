@@ -1,8 +1,10 @@
-# Job Monitor Web
+# Job Monitor Web ![Frontend](https://img.shields.io/badge/{_}-Frontend-38BDF8?style=flat-square)
 
-[![Framework](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
-[![Language](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org/)
-[![Styling](https://img.shields.io/badge/TailwindCSS-4.x-38B2AC.svg)](https://tailwindcss.com/)
+![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=nextdotjs&logoColor=white&style=flat)
+![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-38bdf8?logo=tailwindcss&logoColor=white&style=flat)
+![shadcn/ui](https://img.shields.io/badge/UI-shadcn/ui-9f7aea?style=flat)
+![Yarn](https://img.shields.io/badge/Package_Manager-Yarn-2C8EBB?logo=yarn&style=flat)
+![License](https://img.shields.io/github/license/shubham225/online-coding-platform-frontend?style=flat)
 
 `job-monitor-web` is a modern web UI for the Job Monitor platform, built with Next.js, React, and TypeScript.  
 It provides dashboards, job status views, and configuration screens backed by `job-monitor-server`.
