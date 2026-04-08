@@ -1,9 +1,14 @@
 # ![logo](./docs/readme/job-monitor-logo.png)
 
-[![Language](https://img.shields.io/badge/Java-17+-007396.svg)](https://www.java.com/)
-[![Backend](https://img.shields.io/badge/Spring%20Boot-backend-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Frontend](https://img.shields.io/badge/Next.js-frontend-black.svg)](https://nextjs.org/)
-[![CLI](https://img.shields.io/badge/CLI-Rust-orange.svg)](https://www.rust-lang.org/)
+![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7+-green?logo=springboot&logoColor=white&style=flat)
+![H2 Database](https://img.shields.io/badge/Database-H2-blue?logo=h2database&style=flat)
+![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)
+![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=nextdotjs&logoColor=white&style=flat)
+![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-38bdf8?logo=tailwindcss&logoColor=white&style=flat)
+![shadcn/ui](https://img.shields.io/badge/UI-shadcn/ui-9f7aea?logo=shadcnui&style=flat)
+![Yarn](https://img.shields.io/badge/Package_Manager-Yarn-2C8EBB?logo=yarn&style=flat)
+![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
 
 Job Monitor is a multi-module system for monitoring **Infor LN ERP** jobs and sending alerts when executions fail or breach SLAs.  
 It consists of a Spring Boot backend, a modern Next.js web UI, and CLI tools for easy integration with existing schedulers.

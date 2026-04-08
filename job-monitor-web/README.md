@@ -2,7 +2,7 @@
 
 ![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=nextdotjs&logoColor=white&style=flat)
 ![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-38bdf8?logo=tailwindcss&logoColor=white&style=flat)
-![shadcn/ui](https://img.shields.io/badge/UI-shadcn/ui-9f7aea?style=flat)
+![shadcn/ui](https://img.shields.io/badge/UI-shadcn/ui-9f7aea?logo=shadcnui&style=flat)
 ![Yarn](https://img.shields.io/badge/Package_Manager-Yarn-2C8EBB?logo=yarn&style=flat)
 ![License](https://img.shields.io/github/license/shubham225/online-coding-platform-frontend?style=flat)
 
