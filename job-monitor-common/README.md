@@ -1,7 +1,8 @@
 # Job Monitor Common
 
-[![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
-[![Packaging](https://img.shields.io/badge/packaging-JAR-lightgrey.svg)](#)
+![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
+![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)
+![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
 
 Shared Java utilities, models, and helper abstractions used across the Job Monitor ecosystem (`job-monitor-core`, `job-monitor-server`, CLIs, and the web layer).
 

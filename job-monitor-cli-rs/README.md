@@ -1,7 +1,8 @@
 # Job Monitor CLI (Rust)
 
-[![Language](https://img.shields.io/badge/language-Rust-orange.svg)](https://www.rust-lang.org/)
-[![Crate Type](https://img.shields.io/badge/binary-CLI-green.svg)](#)
+![Java](https://img.shields.io/badge/Rust-1.90.0-red?logo=rust&logoColor=white&style=flat)
+![Maven](https://img.shields.io/badge/Build-Cargo-orange?style=flat)
+![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
 
 Modern Rust-based command-line interface for interacting with the `job-monitor-server`.  
 This CLI is designed to be fast, portable, and easy to integrate into automation around Infor LN ERP job monitoring.

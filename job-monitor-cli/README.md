@@ -1,7 +1,8 @@
 # Job Monitor CLI (Java)
 
-[![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
-[![Build](https://img.shields.io/badge/build-Maven-blue.svg)](https://maven.apache.org/)
+![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
+![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)
+![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
 
 Legacy command-line interface for interacting with the `job-monitor-server`.  
 It allows you to register jobs for monitoring, check system status, and communicate with the Job Monitor service from scripts or terminals.

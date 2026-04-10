@@ -1,7 +1,8 @@
 # Job Monitor Core
 
-[![Language](https://img.shields.io/badge/language-Java-007396.svg)](https://www.java.com/)
-[![Framework](https://img.shields.io/badge/spring-data-green.svg)](https://spring.io/projects/spring-data)
+![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
+![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)
+![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
 
 Core business logic and domain services for the Job Monitor application.  
 This module encapsulates the central concepts around monitored jobs, executions, alert rules, and integrations with Infor LN ERP–style job scheduling.
