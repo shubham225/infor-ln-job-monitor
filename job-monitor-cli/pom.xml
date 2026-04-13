@@ -10,7 +10,6 @@
     <artifactId>job-monitor-cli</artifactId>
     <packaging>jar</packaging>
     <name>job-monitor-cli</name>
-    <version>1.0.0</version>
     <description>Command-line tool for running and managing JobMonitor operations.</description>
 
     <developers>
@@ -72,25 +71,25 @@
             </plugin>
 
             <!-- GraalVM Native Image Plugin -->
-<!--            <plugin>-->
-<!--                <groupId>org.graalvm.buildtools</groupId>-->
-<!--                <artifactId>native-maven-plugin</artifactId>-->
-<!--                <version>0.11.3</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>build-native</id>-->
-<!--                        <goals>-->
-<!--                            <goal>compile</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>package</phase>-->
-<!--                        <configuration>-->
-<!--                            <mainClass>com.shubham225.JobMonitorCliApplication</mainClass>-->
-<!--                            <outputDirectory>${project.build.directory}</outputDirectory>-->
-<!--                            <imageName>job-monitor-cli</imageName>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>0.11.3</version>
+                <executions>
+                    <execution>
+                        <id>build-native</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <mainClass>com.shubham225.JobMonitorCliApplication</mainClass>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <imageName>job-monitor-cli</imageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <resources>
