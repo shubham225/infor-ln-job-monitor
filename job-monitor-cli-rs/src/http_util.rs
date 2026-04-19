@@ -2,7 +2,6 @@ use std::fmt;
 
 // ── HTTP result ─────────────────────────────────────────────────────
 
-/// Mirrors the Java `HttpResult` record.
 pub struct HttpResult {
     pub code: i32,
     pub body: Option<String>,
@@ -73,7 +72,7 @@ pub fn post(url: &str, json_body: &serde_json::Value) -> HttpResult {
     }
 }
 
-// ── Error mapping (mirrors Java error codes) ────────────────────────
+// ── Error mapping ────────────────────────
 
 fn map_reqwest_error(url: &str, e: reqwest::Error) -> HttpResult {
     if e.is_connect() {

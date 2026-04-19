@@ -4,8 +4,6 @@ use std::io;
 use std::path::Path;
 
 /// Parses a simple INI file into a nested `HashMap<section, HashMap<key, value>>`.
-///
-/// Mirrors the Java `FileUtils.parseIniFile` method.
 pub fn parse_ini_file(path: &Path) -> io::Result<HashMap<String, HashMap<String, String>>> {
     let content = fs::read_to_string(path)?;
     let mut result: HashMap<String, HashMap<String, String>> = HashMap::new();
@@ -42,8 +40,6 @@ pub fn parse_ini_file(path: &Path) -> io::Result<HashMap<String, HashMap<String,
 }
 
 /// Extracts the `BSE_COMPNR` value from a command-line string.
-///
-/// Mirrors the Java `FileUtils.extractCompany` method.
 pub fn extract_company(command_line: &str) -> String {
     const KEY: &str = "BSE_COMPNR=";
 
