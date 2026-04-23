@@ -25,7 +25,6 @@ struct Cli {
 enum Commands {
     /// Registers a job with the job-monitor service for real-time monitoring.
     Monitor(MonitorArgs),
-
     /// Checks the status of the job-monitor service.
     Status,
 }
