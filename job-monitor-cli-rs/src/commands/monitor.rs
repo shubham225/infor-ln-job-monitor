@@ -51,10 +51,8 @@ impl MonitorArgs {
         let hostname = get("Remote", "hostname");
         let username = get("Remote", "username");
 
-        // Extract BSE_COMPNR from command
         let bse_company = file_utils::extract_company(&command);
 
-        // Build JSON payload
         let payload = json!({
             "jobName":     self.job_name,
             "commandLine": command,
