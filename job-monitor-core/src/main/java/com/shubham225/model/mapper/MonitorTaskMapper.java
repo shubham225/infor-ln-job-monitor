@@ -1,6 +1,6 @@
 package com.shubham225.model.mapper;
 
-import com.shubham225.model.dto.RunningTasksDTO;
+import com.shubham225.model.dto.RunningTaskDTO;
 import com.shubham225.model.entity.MonitoringTask;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,5 +16,5 @@ public interface MonitorTaskMapper {
             @Mapping(target = "jobUser", source = "job.jobUser"),
             @Mapping(target = "jobStartedAt", source = "job.jobStartedAt"),
     })
-    RunningTasksDTO toDTO(MonitoringTask task);
+    RunningTaskDTO toDTO(MonitoringTask task);
 }

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WinSchedTask extends CommonFields{
+public class WinSchedTask extends AuditableEntity{
     @EmbeddedId
     private WinSchedTaskId id;
     @Version

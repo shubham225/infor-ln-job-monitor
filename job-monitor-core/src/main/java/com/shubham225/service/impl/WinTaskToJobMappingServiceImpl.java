@@ -112,9 +112,9 @@ public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingServic
                 String hostname = data.get("Remote").get("hostname");
 
                 // Extract BSE_COMPNR from command
-                String bseCompany = FileUtils.extractCompany(command);
+                String companyCode = FileUtils.extractCompany(command);
 
-                mappings.add(new WinTaskToJobMapping(erpJobName, bseCompany, task.getTaskName()));
+                mappings.add(new WinTaskToJobMapping(erpJobName, companyCode, task.getTaskName()));
             } catch (IOException e) {
                 log.error("Error reading batch file for task: {}" ,task.getTaskName());
             }

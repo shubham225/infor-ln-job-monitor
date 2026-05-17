@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServerMapping extends BaseModel{
+public class ServerMapping extends BaseEntity{
     @NotBlank
     private String hostname;
     @NotBlank

@@ -1,9 +1,9 @@
 package com.shubham225.service.impl;
 
-import com.shubham225.model.dto.ExecHistoryDTO;
-import com.shubham225.model.dto.MonitorReqDTO;
-import com.shubham225.model.dto.MonitorRespDTO;
-import com.shubham225.model.dto.RunningTasksDTO;
+import com.shubham225.model.dto.ExecutionHistoryDTO;
+import com.shubham225.model.dto.MonitorRequestDTO;
+import com.shubham225.model.dto.MonitorResponseDTO;
+import com.shubham225.model.dto.RunningTaskDTO;
 import com.shubham225.model.entity.InforERPJob;
 import com.shubham225.model.entity.MonitoringTask;
 import com.shubham225.model.mapper.MonitorHistoryMapper;
@@ -29,32 +29,32 @@ public class MonitorServiceImpl implements MonitorService {
     private final MonitorHistoryMapper monitorHistoryMapper;
 
     @Override
-    public MonitorRespDTO addJobToMonitoringQueue(MonitorReqDTO request) {
+    public MonitorResponseDTO addJobToMonitoringQueue(MonitorRequestDTO request) {
         log.info("Adding Job {}-{}-{} to monitoring queue",
-                request.getBwHostName(), request.getJobName(), request.getBseCompany());
+                request.getServerHostName(), request.getJobName(), request.getCompanyCode());
 
         InforERPJob job = jobService.findOrCreateJob(
                                                     request.getJobName(),
-                                                    request.getBseCompany(),
-                                                    request.getBwHostName());
+                                                    request.getCompanyCode(),
+                                                    request.getServerHostName());
         MonitoringTask task = monitorService.createMonitorTask(job);
 
         log.info("Monitoring task {} created with status {}",task.getId(), task.getStatus());
 
-        return MonitorRespDTO.builder()
+        return MonitorResponseDTO.builder()
                 .id(task.getId())
                 .status(task.getStatus())
                 .build();
     }
 
     @Override
-    public List<RunningTasksDTO> getMonitoringQueue() {
+    public List<RunningTaskDTO> getMonitoringQueue() {
         List<MonitoringTask> runningTasks = monitorService.findActiveMonitoringTasks();
         return runningTasks.stream().map(monitorTaskMapper::toDTO).toList();
     }
 
     @Override
-    public List<ExecHistoryDTO> getMonitoringHistory() {
+    public List<ExecutionHistoryDTO> getMonitoringHistory() {
         return monitoringTaskHistoryService.findAllMonitoringTaskHistory().stream()
                 .map(monitorHistoryMapper::toDTO).toList();
     }

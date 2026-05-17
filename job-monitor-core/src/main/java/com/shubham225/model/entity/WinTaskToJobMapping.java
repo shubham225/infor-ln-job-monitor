@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 // TODO: Temp class has only jobname and taskname will have to include company and other details
-public class WinTaskToJobMapping extends BaseModel{
+public class WinTaskToJobMapping extends BaseEntity{
     public String jobName;
     public String jobCompany;
     public String taskName;

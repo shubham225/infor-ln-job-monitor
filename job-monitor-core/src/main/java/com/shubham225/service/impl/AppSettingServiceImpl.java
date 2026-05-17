@@ -2,11 +2,11 @@ package com.shubham225.service.impl;
 
 import com.shubham225.model.dto.AppSettingDTO;
 import com.shubham225.model.dto.ServerMappingDTO;
-import com.shubham225.model.entity.AppSettings;
+import com.shubham225.model.entity.AppSetting;
 import com.shubham225.model.entity.ServerMapping;
-import com.shubham225.model.mapper.AppSettingsMapper;
+import com.shubham225.model.mapper.AppSettingMapper;
 import com.shubham225.model.mapper.ServerMappingMapper;
-import com.shubham225.repository.AppSettingsRepository;
+import com.shubham225.repository.AppSettingRepository;
 import com.shubham225.repository.ServerMappingRepository;
 import com.shubham225.service.AppSettingService;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +18,19 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AppSettingServiceImpl implements AppSettingService {
-    private final AppSettingsRepository appSettingsRepository;
+    private final AppSettingRepository appSettingsRepository;
     private final ServerMappingRepository serverMappingRepository;
     private final ServerMappingMapper mappingMapper;
-    private final AppSettingsMapper settingsMapper;
+    private final AppSettingMapper settingsMapper;
 
     @Override
-    public AppSettings findAppSettings() {
-        return appSettingsRepository.findById(1L).orElse(new AppSettings());
+    public AppSetting findAppSettings() {
+        return appSettingsRepository.findById(1L).orElse(new AppSetting());
     }
 
     @Override
-    public AppSettings saveOrUpdateAppSettings(AppSettingDTO settingDTO) {
-        AppSettings settings = settingsMapper.toEntity(settingDTO);
+    public AppSetting saveOrUpdateAppSettings(AppSettingDTO settingDTO) {
+        AppSetting settings = settingsMapper.toEntity(settingDTO);
         settings.setId(1L);
         return appSettingsRepository.save(settings);
     }

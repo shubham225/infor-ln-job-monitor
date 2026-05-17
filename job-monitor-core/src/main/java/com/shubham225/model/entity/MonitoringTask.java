@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MonitoringTask extends BaseModel {
+public class MonitoringTask extends BaseEntity {
     private String taskName;
     @Version
     private Long version;

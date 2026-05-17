@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InforERPJob extends CommonFields {
+public class InforERPJob extends AuditableEntity {
     @EmbeddedId
     private ERPJobId id;
     @Version

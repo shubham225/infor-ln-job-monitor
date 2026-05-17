@@ -1,7 +1,7 @@
 package com.shubham225.controller;
 
 import com.shubham225.domain.AppResult;
-import com.shubham225.model.dto.MonitorReqDTO;
+import com.shubham225.model.dto.MonitorRequestDTO;
 import com.shubham225.service.MonitorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class MonitorController {
             value = "",
             method = RequestMethod.POST
     )
-    public ResponseEntity<AppResult> addJobtoMonitorQueue(@RequestBody MonitorReqDTO request) {
+    public ResponseEntity<AppResult> addJobToMonitorQueue(@RequestBody MonitorRequestDTO request) {
         return AppResult.created(monitorService.addJobToMonitoringQueue(request));
     }
 
