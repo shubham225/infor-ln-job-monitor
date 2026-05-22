@@ -16,7 +16,6 @@ It provides dashboards, job status views, and configuration screens backed by `j
 - Real-time overview of monitored Infor LN ERP jobs
 - Job detail pages with execution history and failure reasons
 - Filtering and search across jobs and executions
-- Dark/light mode support
 - Form-driven configuration for alerts and job registration
 
 ---
