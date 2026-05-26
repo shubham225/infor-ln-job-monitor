@@ -28,6 +28,12 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
 
+# Logging
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{0} - %msg%n"
+
+# App Config
 mail:
   user: ${MAIL_USER}
   password: ${MAIL_PASSWORD}
