@@ -1,5 +1,6 @@
 package com.shubham225.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,8 +9,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MonitorRequestDTO {
-    private String jobName;
-    private String bseCompany;
-    private String bwHostName;
-    private String user;
+    @NotBlank
+    private String jobCode;
+    @NotBlank
+    private String company;
+    @NotBlank
+    private String hostName;
+    @NotBlank
+    private String username;
+    private String bse;
 }

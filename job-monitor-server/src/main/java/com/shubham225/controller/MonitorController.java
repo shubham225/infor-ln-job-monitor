@@ -3,6 +3,7 @@ package com.shubham225.controller;
 import com.shubham225.domain.AppResult;
 import com.shubham225.model.dto.MonitorRequestDTO;
 import com.shubham225.service.MonitorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,23 +23,23 @@ public class MonitorController {
             value = "",
             method = RequestMethod.POST
     )
-    public ResponseEntity<AppResult> addJobToMonitorQueue(@RequestBody MonitorRequestDTO request) {
-        return AppResult.created(monitorService.addJobToMonitoringQueue(request));
+    public ResponseEntity<AppResult> createMonitoringTask(@Valid @RequestBody MonitorRequestDTO request) {
+        return AppResult.created(monitorService.createMonitoringTask(request));
     }
 
     @RequestMapping(
             value = "",
             method = RequestMethod.GET
     )
-    public ResponseEntity<AppResult> getMonitorQueue() {
-        return AppResult.success(monitorService.getMonitoringQueue());
+    public ResponseEntity<AppResult> getMonitoringTasks() {
+        return AppResult.success(monitorService.getMonitoringTasks());
     }
 
     @RequestMapping(
             value = "/history",
             method = RequestMethod.GET
     )
-    public ResponseEntity<AppResult> getMonitorHistory() {
+    public ResponseEntity<AppResult> getMonitoringHistory() {
         return AppResult.success(monitorService.getMonitoringHistory());
     }
 }

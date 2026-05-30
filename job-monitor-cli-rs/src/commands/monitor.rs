@@ -54,28 +54,24 @@ impl MonitorArgs {
         let bse_company = file_utils::extract_company(&command);
 
         let payload = json!({
-            "jobName":     self.job_name,
-            "commandLine": command,
-            "bseCompany":  bse_company,
-            "user":        username,
-            "bwHostName":  hostname,
-            "bse":         bse,
+            "jobCode":      self.job_name,
+            "hostName":     hostname,
+            "company":      bse_company,
+            "username":     username,
+            "commandLine":  command,
+            "bse":          bse,
         });
 
         // Send POST request
         let result = http_util::post(&server_url, &payload);
 
-        eprintln!("Sending: {} {}", &server_url, &payload);
-        eprintln!("Code: {}", result.code);
-        eprintln!("Body: {:?}", result.body);
+        eprintln!("Triggering MonitorTask: {}", &payload);
+        eprintln!("RESPONSE [{}]: {:?}", result.code, result.body.as_deref().unwrap_or(""));
 
         if !result.is_success() {
-            eprintln!("ERROR: {}", result.error.as_deref().unwrap_or("Unknown error"));
+            eprintln!("ERROR: {}", result.error.as_deref().unwrap_or("Unknown error while sending request to JobMonitor"));
             return result.code;
         }
-
-        println!("Response Code: {}", result.code);
-        println!("Status: {}", result.body.as_deref().unwrap_or(""));
 
         0
     }

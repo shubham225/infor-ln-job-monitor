@@ -11,6 +11,6 @@ import java.util.UUID;
 @Setter
 @Builder
 public class MonitorResponseDTO {
-    UUID id;
+    UUID monitorTaskId;
     MonitoringStatus status;
 }

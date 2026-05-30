@@ -29,26 +29,26 @@ public class MonitorServiceImpl implements MonitorService {
     private final MonitorHistoryMapper monitorHistoryMapper;
 
     @Override
-    public MonitorResponseDTO addJobToMonitoringQueue(MonitorRequestDTO request) {
-        log.info("Adding Job {}-{}-{} to monitoring queue",
-                request.getBwHostName(), request.getJobName(), request.getBseCompany());
+    public MonitorResponseDTO createMonitoringTask(MonitorRequestDTO request) {
+        log.info("Adding Job {} [{} - Co. {}] to monitoring queue",
+                request.getJobCode(), request.getHostName(), request.getCompany());
 
         InforERPJob job = jobService.findOrCreateJob(
-                                                    request.getJobName(),
-                                                    request.getBseCompany(),
-                                                    request.getBwHostName());
+                                                    request.getJobCode(),
+                                                    request.getCompany(),
+                                                    request.getHostName());
         MonitoringTask task = monitorService.createMonitorTask(job);
 
         log.info("Monitoring task {} created with status {}",task.getId(), task.getStatus());
 
         return MonitorResponseDTO.builder()
-                .id(task.getId())
+                .monitorTaskId(task.getId())
                 .status(task.getStatus())
                 .build();
     }
 
     @Override
-    public List<RunningTaskDTO> getMonitoringQueue() {
+    public List<RunningTaskDTO> getMonitoringTasks() {
         List<MonitoringTask> runningTasks = monitorService.findActiveMonitoringTasks();
         return runningTasks.stream().map(monitorTaskMapper::toDTO).toList();
     }
