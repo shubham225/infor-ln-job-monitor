@@ -31,12 +31,12 @@ public class MonitorServiceImpl implements MonitorService {
     @Override
     public MonitorResponseDTO addJobToMonitoringQueue(MonitorRequestDTO request) {
         log.info("Adding Job {}-{}-{} to monitoring queue",
-                request.getServerHostName(), request.getJobName(), request.getCompanyCode());
+                request.getBwHostName(), request.getJobName(), request.getBseCompany());
 
         InforERPJob job = jobService.findOrCreateJob(
                                                     request.getJobName(),
-                                                    request.getCompanyCode(),
-                                                    request.getServerHostName());
+                                                    request.getBseCompany(),
+                                                    request.getBwHostName());
         MonitoringTask task = monitorService.createMonitorTask(job);
 
         log.info("Monitoring task {} created with status {}",task.getId(), task.getStatus());

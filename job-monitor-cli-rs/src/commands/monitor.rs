@@ -65,6 +65,10 @@ impl MonitorArgs {
         // Send POST request
         let result = http_util::post(&server_url, &payload);
 
+        eprintln!("Sending: {} {}", &server_url, &payload);
+        eprintln!("Code: {}", result.code);
+        eprintln!("Body: {:?}", result.body);
+
         if !result.is_success() {
             eprintln!("ERROR: {}", result.error.as_deref().unwrap_or("Unknown error"));
             return result.code;

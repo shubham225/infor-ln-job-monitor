@@ -9,9 +9,7 @@ import lombok.ToString;
 @ToString
 public class MonitorRequestDTO {
     private String jobName;
-    private String companyCode;
-    private String serverHostName;
+    private String bseCompany;
+    private String bwHostName;
     private String user;
-    private String applicationServer;
-    private String commandLine;
 }
