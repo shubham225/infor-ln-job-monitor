@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface ServerMappingRepository extends JpaRepository<ServerMapping, UUID> {
-    Optional<ServerMapping> findFirstByHostname(String hostname);
+    Optional<ServerMapping> findFirstByHostName(String hostname);
 }

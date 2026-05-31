@@ -114,7 +114,7 @@ public class TaskSchedulerClientImpl implements TaskSchedulerClient {
 
         ScheduledTask task = new ScheduledTask();
         task.setTaskName(taskName);
-        task.setServer("localhost");
+        task.setHostName("localhost");
 
         try {
             ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", command);
@@ -149,7 +149,7 @@ public class TaskSchedulerClientImpl implements TaskSchedulerClient {
 
         switch (key) {
             case "HostName":
-                task.setServer(value);
+                task.setHostName(value);
                 break;
 
             case "Status":

@@ -13,5 +13,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class WinSchedTaskId {
     private String taskName;
-    private String server;
+    private String hostName;
 }

@@ -22,7 +22,7 @@ public class NotFoundStrategy implements JobFailureStrategy {
         log.error("Job '{}' does not exists in ERP", task.getJob());
 
         String subject = String.format(
-                "%s Job \"%s\" not found in ERP system", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
+                "%s Job \"%s\" not found in ERP system", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
         String errorInfo = "The job could not be found in the ERP system.";
 
         String body = notificationService.generateMailBody(task, errorInfo, false);

@@ -43,7 +43,7 @@ public class ExecutedWithRuntimeErrorStrategy implements JobFailureStrategy {
         );
 
         String subject = String.format(
-                "%s Job \"%s\" completed with runtime errors", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
+                "%s Job \"%s\" completed with runtime errors", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
         String errorInfo = "The job executed but completed with runtime errors.";
 
         String body = notificationService.generateMailBody(task, errorInfo, success == 0);

@@ -34,11 +34,11 @@ public class WinSchedTaskServiceImpl implements WinSchedTaskService {
         String taskName = "";
 
         try {
-            taskName = winTaskToJobMappingService.findWinTaskOfJob(job.getId().getJobName(), job.getId().getCompany());
+            taskName = winTaskToJobMappingService.findWinTaskOfJob(job.getJobCode(), job.getCompany());
         } catch (JobTaskMappingNotFoundException e) {
             winTaskToJobMappingService.generateWinTaskToJobMapping();
             try {
-                taskName = winTaskToJobMappingService.findWinTaskOfJob(job.getId().getJobName(), job.getId().getCompany());
+                taskName = winTaskToJobMappingService.findWinTaskOfJob(job.getJobCode(), job.getCompany());
             } catch (JobTaskMappingNotFoundException ex) {
                 throw new IllegalStateException(
                         "Failed to resolve WinTask mapping even after regeneration", ex
@@ -46,7 +46,7 @@ public class WinSchedTaskServiceImpl implements WinSchedTaskService {
             }
         }
 
-        return refershWinSchedTask(new WinSchedTaskId(taskName, job.getId().getServer()));
+        return refershWinSchedTask(new WinSchedTaskId(taskName, job.getHostName()));
     }
 
     @Override

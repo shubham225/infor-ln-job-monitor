@@ -38,7 +38,7 @@ public class AppSettingServiceImpl implements AppSettingService {
     @Override
     public ServerMapping findFirstServerMappingByServer(String hostname) {
         // TODO: Exception handling
-        return serverMappingRepository.findFirstByHostname(hostname)
+        return serverMappingRepository.findFirstByHostName(hostname)
                 .orElse(new ServerMapping());
     }
 
@@ -51,7 +51,7 @@ public class AppSettingServiceImpl implements AppSettingService {
     @Override
     public ServerMapping updateServerMapping(UUID id, ServerMappingDTO mappingDTO) {
         ServerMapping mapping = findServerMappingByID(id);
-        mapping.setHostname(mappingDTO.getHostname());
+        mapping.setHostName(mappingDTO.getHostname());
         mapping.setApiUrl(mappingDTO.getApiUrl());
         mapping = serverMappingRepository.save(mapping);
         return mapping;

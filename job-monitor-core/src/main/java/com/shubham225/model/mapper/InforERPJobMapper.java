@@ -9,9 +9,9 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface InforERPJobMapper {
     @Mappings({
-            @Mapping(target = "id.jobName", source = "jobName"),
-            @Mapping(target = "id.company", source = "jobCompany"),
-            @Mapping(target = "id.server", source = "jobServer"),
+            @Mapping(target = "jobCode", source = "jobName"),
+            @Mapping(target = "company", source = "jobCompany"),
+            @Mapping(target = "hostName", source = "jobServer"),
             @Mapping(target = "winTask", ignore = true),
     })
     public InforERPJob toInforJob(ERPJob job);

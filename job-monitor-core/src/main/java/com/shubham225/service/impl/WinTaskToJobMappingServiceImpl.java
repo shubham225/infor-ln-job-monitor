@@ -37,7 +37,7 @@ public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingServic
     @Override
     public String findWinTaskOfJob(String jobName, String jobCompany) {
         log.info("finding win task associated with the job");
-        return winTaskToJobMappingRepository.findFirstByJobNameAndJobCompany(jobName, jobCompany)
+        return winTaskToJobMappingRepository.findFirstByJobCodeAndCompany(jobName, jobCompany)
                 .map(WinTaskToJobMapping::getTaskName)
                 .orElseThrow(() ->
                         new JobTaskMappingNotFoundException(
@@ -114,7 +114,7 @@ public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingServic
                 // Extract BSE_COMPNR from command
                 String companyCode = FileUtils.extractCompany(command);
 
-                mappings.add(new WinTaskToJobMapping(erpJobName, companyCode, task.getTaskName()));
+                mappings.add(new WinTaskToJobMapping(erpJobName, companyCode ,task.getTaskName()));
             } catch (IOException e) {
                 log.error("Error reading batch file for task: {}" ,task.getTaskName());
             }

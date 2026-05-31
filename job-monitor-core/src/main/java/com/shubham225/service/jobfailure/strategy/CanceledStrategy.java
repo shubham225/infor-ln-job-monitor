@@ -22,7 +22,7 @@ public class CanceledStrategy implements JobFailureStrategy {
         log.error("Job '{}' has been canceled in ERP", task.getJob());
 
         String subject = String.format(
-                "%s Job \"%s\" was canceled", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
+                "%s Job \"%s\" was canceled", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
         String errorInfo = "The job execution was canceled in the ERP system.";
 
         String body = notificationService.generateMailBody(task, errorInfo, false);

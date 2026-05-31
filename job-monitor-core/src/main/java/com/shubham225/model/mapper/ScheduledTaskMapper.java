@@ -8,9 +8,5 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface ScheduledTaskMapper {
-    @Mappings({
-            @Mapping(target = "id.taskName", source = "taskName"),
-            @Mapping(target = "id.server", source = "server"),
-    })
     public WinSchedTask toWinSchedTask(ScheduledTask task);
 }

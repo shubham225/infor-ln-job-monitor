@@ -30,8 +30,8 @@ public class JobValidationServiceImpl implements JobValidationService {
     @Override
     public boolean jobDetailsAreValid(MonitoringTask monitoringTask) {
         // If job and company details are present then return true else false
-        return !monitoringTask.getJob().getId().getJobName().isBlank() &&
-                !monitoringTask.getJob().getId().getCompany().isBlank();
+        return !monitoringTask.getJob().getJobCode().isBlank() &&
+                !monitoringTask.getJob().getCompany().isBlank();
     }
 
     private FailureReason evaluateFailureReason(MonitoringTask monitoringTask) {

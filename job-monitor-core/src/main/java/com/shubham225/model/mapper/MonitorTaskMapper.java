@@ -9,9 +9,9 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface MonitorTaskMapper {
     @Mappings({
-            @Mapping(target = "jobName", source = "job.id.jobName"),
-            @Mapping(target = "company", source = "job.id.company"),
-            @Mapping(target = "server", source = "job.id.server"),
+            @Mapping(target = "jobName", source = "job.jobCode"),
+            @Mapping(target = "company", source = "job.company"),
+            @Mapping(target = "server", source = "job.hostName"),
             @Mapping(target = "jobStatus", source = "job.status"),
             @Mapping(target = "jobUser", source = "job.jobUser"),
             @Mapping(target = "jobStartedAt", source = "job.jobStartedAt"),

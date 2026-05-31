@@ -23,7 +23,7 @@ public class NotExecutedStrategy implements JobFailureStrategy {
         log.error("Job '{}' is not executed in ERP", task.getJob());
 
         String subject = String.format(
-                "%s Job \"%s\" did not execute as scheduled", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
+                "%s Job \"%s\" did not execute as scheduled", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
         String errorInfo = (task.getJob().getStatus() == ERPJobStatus.FREE) ?
                 "The job did not execute as scheduled in the ERP system." :
                 String.format(

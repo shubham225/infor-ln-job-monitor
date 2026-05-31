@@ -15,7 +15,7 @@ public class ServerMappingInitializer {
     public void init() {
         if (serverMappingRepository.count() == 0) {
             ServerMapping mapping = new ServerMapping();
-            mapping.setHostname("172.24.50.124");
+            mapping.setHostName("172.24.50.124");
             mapping.setApiUrl("http://localhost:3000/getJobDetails");
 
             serverMappingRepository.save(mapping);

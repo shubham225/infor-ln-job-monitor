@@ -8,7 +8,7 @@ import com.shubham225.model.dto.RunningTaskDTO;
 import java.util.List;
 
 public interface MonitorService {
-    public MonitorResponseDTO createMonitoringTask(MonitorRequestDTO request);
-    public List<RunningTaskDTO> getMonitoringTasks();
-    public List<ExecutionHistoryDTO> getMonitoringHistory();
+    MonitorResponseDTO createMonitoringTask(MonitorRequestDTO request);
+    List<RunningTaskDTO> getMonitoringTasks();
+    List<ExecutionHistoryDTO> getMonitoringHistory();
 }

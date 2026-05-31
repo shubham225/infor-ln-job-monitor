@@ -22,7 +22,7 @@ public class JobDetailsMissingStrategy implements JobFailureStrategy {
         log.error("Job '{}' received from the client app has some details missing", task.getJob());
 
         String subject = String.format(
-                "%s Missing details for job \"%s\"", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
+                "%s Missing details for job \"%s\"", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
         String errorInfo = "Required job details received from the client app are incomplete or missing.";
 
         String body = notificationService.generateMailBody(task, errorInfo, false);

@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface WinTaskToJobMappingRepository extends JpaRepository<WinTaskToJobMapping, UUID> {
     //TODO : find better alternative
-    Optional<WinTaskToJobMapping> findFirstByJobNameAndJobCompany(String jobName, String jobCompany);
+    Optional<WinTaskToJobMapping> findFirstByJobCodeAndCompany(String jobName, String jobCompany);
 }

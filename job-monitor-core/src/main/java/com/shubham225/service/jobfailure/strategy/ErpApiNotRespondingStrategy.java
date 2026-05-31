@@ -19,10 +19,10 @@ public class ErpApiNotRespondingStrategy implements JobFailureStrategy {
 
     @Override
     public void handleFailureOrSuccess(MonitoringTask task) {
-        log.error("ERP Integrator for server '{}' is not responding.", task.getJob().getId().getServer());
+        log.error("ERP Integrator for server '{}' is not responding.", task.getJob().getHostName());
 
         String subject = String.format(
-                "%s ERP API for server \"%s\" is down", MailUtils.getMailSubjectTitle(), task.getJob().getId().getServer());
+                "%s ERP API for server \"%s\" is down", MailUtils.getMailSubjectTitle(), task.getJob().getHostName());
         String errorInfo = "Unable to retrieve job details due to ERP API unavailability.";
 
         String body = notificationService.generateMailBody(task, errorInfo, false);

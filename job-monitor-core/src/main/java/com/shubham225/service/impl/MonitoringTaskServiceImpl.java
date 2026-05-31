@@ -35,7 +35,7 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
     @Override
     public MonitoringTask createMonitorTask(InforERPJob job) {
         MonitoringTask task = MonitoringTask.builder()
-                .taskName(job.getWinTask().getId().getTaskName())
+                .taskName(job.getWinTask().getTaskName())
                 .job(job)
                 .status(MonitoringStatus.PENDING)
                 .reason(FailureReason.PENDING)

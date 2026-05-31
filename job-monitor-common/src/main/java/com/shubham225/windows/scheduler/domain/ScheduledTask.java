@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 @ToString
 public class ScheduledTask {
     private String taskName;
-    private String server;
-    private TaskSchedulerStatus status;
+    private String hostName;
+
     private String action;
+    private TaskSchedulerStatus status;
     private LocalDateTime lastRuntime;
     private LocalDateTime nextRuntime;
 }

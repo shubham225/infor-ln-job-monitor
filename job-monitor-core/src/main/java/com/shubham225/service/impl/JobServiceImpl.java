@@ -87,8 +87,8 @@ public class JobServiceImpl implements JobService {
     }
 
     private InforERPJob refreshERPJob(InforERPJob job) throws ErpApiException {
-        String apiURL = appSettingService.findFirstServerMappingByServer(job.getId().getServer()).getApiUrl();
-        ERPJobQuery query = new ERPJobQuery(job.getId().getJobName(), job.getId().getCompany(),
+        String apiURL = appSettingService.findFirstServerMappingByServer(job.getHostName()).getApiUrl();
+        ERPJobQuery query = new ERPJobQuery(job.getJobCode(), job.getCompany(),
                 apiURL, 1, 1);
 
         ERPJob jobDTO = erpClient.findERPJob(query);
@@ -100,12 +100,12 @@ public class JobServiceImpl implements JobService {
 
         if (jobDTO.getNotFound()) {
             throw new ERPJobNotFoundException(
-                    MessageFormat.format("Job with id {0} not found in ERP", job.getId().toString()));
+                    MessageFormat.format("Job with id {0} not found in ERP", job.toString()));
         }
 
         log.debug("job {} fetched from ERP", jobDTO.getJobName());
 
-        job.setJobDescription(jobDTO.getJobDescription());
+        job.setDescription(jobDTO.getJobDescription());
         job.setStatus(jobDTO.getStatus());
         job.setHistoryStatus(jobDTO.getHistoryStatus());
         job.setJobUser(jobDTO.getJobUser());
@@ -119,7 +119,10 @@ public class JobServiceImpl implements JobService {
 
     private InforERPJob getERPJobAndWinTask(ERPJobId jobId) {
         InforERPJob ERPJob = new InforERPJob();
-        ERPJob.setId(jobId);
+//        ERPJob.setJobId(jobId);
+        ERPJob.setJobCode(jobId.getJobCode());
+        ERPJob.setCompany(jobId.getCompany());
+        ERPJob.setHostName(jobId.getHostName());
         ERPJob.setStatus(ERPJobStatus.UNKNOWN);
 
         try {
@@ -133,7 +136,9 @@ public class JobServiceImpl implements JobService {
         }
 
         WinSchedTask winTask = new WinSchedTask();
-        winTask.setId(new WinSchedTaskId("NA", "NA"));
+//        winTask.setTaskId(new WinSchedTaskId("NA", "NA"));
+        winTask.setTaskName("NA");
+        winTask.setHostName("NA");
 
         try {
            winTask = winSchedTaskService.findOrCreateWinSchedTask(ERPJob);
@@ -147,13 +152,13 @@ public class JobServiceImpl implements JobService {
     }
 
     private InforERPJob getERPJob(ERPJobId jobId) throws ErpApiException {
-        String apiURL = appSettingService.findFirstServerMappingByServer(jobId.getServer()).getApiUrl();
-        ERPJobQuery query = new ERPJobQuery(jobId.getJobName(), jobId.getCompany(), apiURL, 1, 1);
+        String apiURL = appSettingService.findFirstServerMappingByServer(jobId.getHostName()).getApiUrl();
+        ERPJobQuery query = new ERPJobQuery(jobId.getJobCode(), jobId.getCompany(), apiURL, 1, 1);
         ERPJob jobDTO = erpClient.findERPJob(query);
 
         if (jobDTO.getNotFound()) {
             throw new ERPJobNotFoundException(
-                    MessageFormat.format("Job with id {0} not found in ERP", jobId.getJobName()));
+                    MessageFormat.format("Job with id {0} not found in ERP", jobId.getJobCode()));
         }
 
         InforERPJob job = inforERPJobMapper.toInforJob(jobDTO);

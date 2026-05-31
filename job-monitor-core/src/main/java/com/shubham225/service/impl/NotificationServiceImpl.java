@@ -48,9 +48,9 @@ public class NotificationServiceImpl implements NotificationService {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a");
         String timeZone = getShortTimeZone();
-        String serverHostName = task.getJob().getWinTask().getId().getServer();
-        String jobUserDetails = task.getJob().getJobUser() + " [BW Host: " + task.getJob().getId().getServer() + "]";
-        String companyDetails = task.getJob().getId().getCompany();
+        String serverHostName = task.getJob().getWinTask().getHostName();
+        String jobUserDetails = task.getJob().getJobUser() + " [BW Host: " + task.getJob().getHostName() + "]";
+        String companyDetails = task.getJob().getCompany();
 
         // Monitor Task Details
         context.setVariable("monitorStatus", task.getStatus().toString());
@@ -66,8 +66,8 @@ public class NotificationServiceImpl implements NotificationService {
                         task.getTerminatedOn().format(formatter) + " (" + timeZone + ")" : "N/A");
 
         // Job Details
-        context.setVariable("jobName", task.getJob().getId().getJobName());
-        context.setVariable("jobDescription", task.getJob().getJobDescription());
+        context.setVariable("jobName", task.getJob().getJobCode());
+        context.setVariable("jobDescription", task.getJob().getDescription());
         context.setVariable("jobStatus", task.getJob().getStatus().toString());
         context.setVariable("lastExecution",
                 task.getJob().getJobStartedAt() != null ?
@@ -77,7 +77,7 @@ public class NotificationServiceImpl implements NotificationService {
         context.setVariable("company", companyDetails);
 
         // Task Details
-        context.setVariable("taskName", task.getJob().getWinTask().getId().getTaskName());
+        context.setVariable("taskName", task.getJob().getWinTask().getTaskName());
         context.setVariable("taskStatus", task.getJob().getWinTask().getStatus().toString());
         context.setVariable("taskNextRun",
                 task.getJob().getWinTask().getNextRuntime() != null ?

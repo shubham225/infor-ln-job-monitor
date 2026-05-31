@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ServerMapping extends BaseEntity{
     @NotBlank
-    private String hostname;
+    private String hostName;
     @NotBlank
     private String apiUrl;
 }

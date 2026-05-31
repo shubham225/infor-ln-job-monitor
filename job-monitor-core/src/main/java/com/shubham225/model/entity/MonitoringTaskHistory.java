@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class MonitoringTaskHistory extends BaseEntity{
-    private String jobName;
+    private String jobCode;
     private String jobUser;
     private String company;
-    private String server;
-    private String serverName;
+    private String hostName;
+    private String hostDisplayName;
     private ERPJobStatus jobStatus;
     private LocalDateTime jobStartedAt;
     private LocalDateTime jobEndedAt;

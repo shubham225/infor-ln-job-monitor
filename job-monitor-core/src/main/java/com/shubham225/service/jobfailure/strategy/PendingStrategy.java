@@ -22,7 +22,7 @@ public class PendingStrategy implements JobFailureStrategy {
         log.error("Unknown error occurred while monitoring Job '{}', monitor status is still pending but it executed the monitor", task.getJob());
 
         String subject = String.format(
-                "%s Unknown error occurred monitoring Job \"%s\"", MailUtils.getMailSubjectTitle(), task.getJob().getId().getJobName());
+                "%s Unknown error occurred monitoring Job \"%s\"", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
         String errorInfo = "Unknown error occurred while monitoring Job, Monitor status is still PENDING but it executed the monitor";
 
         String body = notificationService.generateMailBody(task, errorInfo, false);

@@ -15,16 +15,11 @@ import java.time.LocalDateTime;
 @Builder
 public class MonitoringTask extends BaseEntity {
     private String taskName;
-    @Version
-    private Long version;
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumns({
-            @JoinColumn(name = "job_name", referencedColumnName = "jobName"),
-            @JoinColumn(name = "job_company", referencedColumnName = "company"),
-            @JoinColumn(name = "job_server", referencedColumnName = "server")
-    })
-    private InforERPJob job;
     private MonitoringStatus status;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private InforERPJob job;
+
     private FailureReason reason;
     private LocalDateTime executedOn;
     private LocalDateTime terminatedOn;
