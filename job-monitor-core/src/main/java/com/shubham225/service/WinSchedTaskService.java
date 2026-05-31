@@ -5,6 +5,5 @@ import com.shubham225.model.entity.WinSchedTask;
 import com.shubham225.model.key.WinSchedTaskId;
 
 public interface WinSchedTaskService {
-    public WinSchedTask findOrCreateWinSchedTask(InforERPJob job);
-    public WinSchedTask refershWinSchedTask(WinSchedTaskId task);
+    WinSchedTask getWinSchedTaskForJob(String hostName, String jobCode, String company);
 }

@@ -31,6 +31,12 @@ public class TaskSchedulerClientImpl implements TaskSchedulerClient {
         return getTasksFromFolder(taskQuery.folder());
     }
 
+    @Override
+    public ScheduledTask fetchWinSchedTaskDetails(String hostName, String taskName, String folder) {
+        log.info("fetching details of task '{}' from windows scheduler folder '{}'", taskName, folder);
+        return getTask(taskName, folder);
+    }
+
     private List<ScheduledTask> getTasksFromFolder(String folder) {
         log.info("finding all tasks from win scheduler folder '{}'", folder);
 

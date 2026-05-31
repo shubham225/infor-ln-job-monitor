@@ -4,6 +4,6 @@ import com.shubham225.model.entity.InforERPJob;
 import com.shubham225.model.entity.MonitoringTask;
 
 public interface JobService {
-    public InforERPJob findOrCreateJob(String jobName, String company, String server);
+    InforERPJob createInforERPJob(String jobCode, String company, String hostName);
     public void refreshJobDetails(MonitoringTask task);
 }

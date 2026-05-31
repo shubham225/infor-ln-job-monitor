@@ -6,9 +6,9 @@ import com.shubham225.model.entity.MonitoringTask;
 import java.util.List;
 
 public interface MonitoringTaskService {
-    public MonitoringTask createMonitorTask(InforERPJob job);
-    public MonitoringTask saveMonitorTask(MonitoringTask monitoringTask);
-    public List<MonitoringTask> findActiveMonitoringTasks();
-    public void archiveMonitoringTask(MonitoringTask task);
-    public void validateAndNotifyTaskExecution(MonitoringTask monitoringTask);
+    MonitoringTask createMonitorTask(InforERPJob job);
+    MonitoringTask saveMonitorTask(MonitoringTask monitoringTask);
+    List<MonitoringTask> findActiveMonitoringTasks();
+    void archiveMonitoringTask(MonitoringTask task);
+    void validateAndNotifyTaskExecution(MonitoringTask monitoringTask);
 }

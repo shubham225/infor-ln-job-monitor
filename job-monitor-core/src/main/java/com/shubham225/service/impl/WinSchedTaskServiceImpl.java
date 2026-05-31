@@ -3,6 +3,7 @@ package com.shubham225.service.impl;
 import com.shubham225.exception.JobTaskMappingNotFoundException;
 import com.shubham225.model.entity.InforERPJob;
 import com.shubham225.model.entity.WinSchedTask;
+import com.shubham225.model.enums.TaskSchedulerStatus;
 import com.shubham225.model.key.WinSchedTaskId;
 import com.shubham225.model.mapper.ScheduledTaskMapper;
 import com.shubham225.repository.WinSchedTaskRepository;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -25,20 +28,16 @@ public class WinSchedTaskServiceImpl implements WinSchedTaskService {
     private final ScheduledTaskMapper scheduledTaskMapper;
 
     @Override
-    public WinSchedTask findOrCreateWinSchedTask(InforERPJob job) {
-        // TODO: Just in case, modify later
-        if (job.getWinTask() != null) {
-            return job.getWinTask();
-        }
-
+    public WinSchedTask getWinSchedTaskForJob(String hostName, String jobCode, String company) {
+        // Fetch TaskName of the WinSchedTask
         String taskName = "";
 
         try {
-            taskName = winTaskToJobMappingService.findWinTaskOfJob(job.getJobCode(), job.getCompany());
+            taskName = winTaskToJobMappingService.findWinTaskOfJob(jobCode, company);
         } catch (JobTaskMappingNotFoundException e) {
             winTaskToJobMappingService.generateWinTaskToJobMapping();
             try {
-                taskName = winTaskToJobMappingService.findWinTaskOfJob(job.getJobCode(), job.getCompany());
+                taskName = winTaskToJobMappingService.findWinTaskOfJob(jobCode, company);
             } catch (JobTaskMappingNotFoundException ex) {
                 throw new IllegalStateException(
                         "Failed to resolve WinTask mapping even after regeneration", ex
@@ -46,18 +45,20 @@ public class WinSchedTaskServiceImpl implements WinSchedTaskService {
             }
         }
 
-        return refershWinSchedTask(new WinSchedTaskId(taskName, job.getHostName()));
-    }
+        // Create WinSchedTask object from TaskName.
+        WinSchedTask winSchedTask = new WinSchedTask();
 
-    @Override
-    public WinSchedTask refershWinSchedTask(WinSchedTaskId task) {
-        TaskQuery query = new TaskQuery(task.getTaskName(), "");
-        ScheduledTask taskDto = taskSchedulerClient.findWinSchedTask(query);
-        WinSchedTask winSchedTask = scheduledTaskMapper.toWinSchedTask(taskDto);
-        return saveWinSchedTask(winSchedTask);
-    }
+        try {
+            ScheduledTask task = taskSchedulerClient.fetchWinSchedTaskDetails(hostName, taskName, "");
+            winSchedTask = scheduledTaskMapper.toWinSchedTask(task);
+        } catch (Exception e) {
+            log.error("Exception occurred while trying to fetch Windows Scheduler Task", e);
+            winSchedTask.setStatus(TaskSchedulerStatus.UNKNOWN);
+        }
 
-    private WinSchedTask saveWinSchedTask(WinSchedTask task) {
-        return winSchedTaskRepository.save(task);
+        winSchedTask.setTaskName(taskName);
+        winSchedTask.setHostName(hostName);
+
+        return winSchedTask;
     }
 }

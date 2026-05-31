@@ -33,10 +33,11 @@ public class MonitorServiceImpl implements MonitorService {
         log.info("Adding Job {} [{} - Co. {}] to monitoring queue",
                 request.getJobCode(), request.getHostName(), request.getCompany());
 
-        InforERPJob job = jobService.findOrCreateJob(
+        InforERPJob job = jobService.createInforERPJob(
                                                     request.getJobCode(),
                                                     request.getCompany(),
                                                     request.getHostName());
+
         MonitoringTask task = monitorService.createMonitorTask(job);
 
         log.info("Monitoring task {} created with status {}",task.getId(), task.getStatus());

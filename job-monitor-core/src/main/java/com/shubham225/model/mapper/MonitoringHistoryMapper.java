@@ -9,7 +9,7 @@ public class MonitoringHistoryMapper {
     public MonitoringTaskHistory toHistory(MonitoringTask task) {
         return MonitoringTaskHistory.builder()
                 .jobCode(task.getJob().getJobCode())
-                .jobUser(task.getJob().getJobUser())
+                .jobUser(task.getJob().getUserId())
                 .company(task.getJob().getCompany())
                 .hostName(task.getJob().getHostName())
                 .hostDisplayName("TODO")

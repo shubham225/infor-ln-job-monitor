@@ -37,6 +37,7 @@ public class ERPClientImpl implements ERPClient {
             HttpResponse<String> response =
                     client.send(request, HttpResponse.BodyHandlers.ofString());
 
+
             int status = response.statusCode();
 
             if (status >= 500) {
@@ -61,5 +62,45 @@ public class ERPClientImpl implements ERPClient {
         }
 
         return job;
+    }
+
+    @Override
+    public FetchERPJobResponseDTO fetchERPJobDetails(String apiURL, String jobCode, String company) {
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        try {
+            // Convert query object → JSON
+            String requestJson = mapper.writeValueAsString(new FetchERPJobRequestDTO(jobCode, company));
+
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(apiURL))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestJson))
+                    .build();
+
+            HttpResponse<String> response = client.send(httpRequest,
+                                                        HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() != 200) {
+                throw new RuntimeException(
+                        "ERP API returned status "
+                                + response.statusCode());
+            }
+
+            // Convert response JSON → FetchERPJobResponseDTO
+            return mapper.readValue(
+                    response.body(),
+                    FetchERPJobResponseDTO.class);
+        } catch (HttpTimeoutException | ConnectException e) {
+            throw new ErpApiException("ERP API not responding", e);
+        } catch (IOException e) {
+            throw new ErpApiException("ERP API IO error", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new ErpApiException("ERP API interrupted", e);
+        } catch (Exception e) {
+            throw new ErpApiException("Exception Occurred while sending request to ERP", e);
+        }
     }
 }

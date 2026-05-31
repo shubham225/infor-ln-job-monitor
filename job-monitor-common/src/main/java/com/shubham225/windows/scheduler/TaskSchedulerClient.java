@@ -8,4 +8,5 @@ import java.util.List;
 public interface TaskSchedulerClient {
     public ScheduledTask findWinSchedTask(TaskQuery taskQuery);
     public List<ScheduledTask> findAllWinSchedTask(TaskQuery taskQuery);
+    ScheduledTask fetchWinSchedTaskDetails(String hostName, String taskName, String folder);
 }

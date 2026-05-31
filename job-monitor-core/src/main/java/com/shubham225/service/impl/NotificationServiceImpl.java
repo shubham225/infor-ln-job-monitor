@@ -49,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a");
         String timeZone = getShortTimeZone();
         String serverHostName = task.getJob().getWinTask().getHostName();
-        String jobUserDetails = task.getJob().getJobUser() + " [BW Host: " + task.getJob().getHostName() + "]";
+        String jobUserDetails = task.getJob().getUserId() + " [BW Host: " + task.getJob().getHostName() + "]";
         String companyDetails = task.getJob().getCompany();
 
         // Monitor Task Details

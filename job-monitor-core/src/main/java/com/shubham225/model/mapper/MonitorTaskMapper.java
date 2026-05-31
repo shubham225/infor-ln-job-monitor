@@ -13,7 +13,7 @@ public interface MonitorTaskMapper {
             @Mapping(target = "company", source = "job.company"),
             @Mapping(target = "server", source = "job.hostName"),
             @Mapping(target = "jobStatus", source = "job.status"),
-            @Mapping(target = "jobUser", source = "job.jobUser"),
+            @Mapping(target = "jobUser", source = "job.userId"),
             @Mapping(target = "jobStartedAt", source = "job.jobStartedAt"),
     })
     RunningTaskDTO toDTO(MonitoringTask task);

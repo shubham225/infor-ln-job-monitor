@@ -24,15 +24,19 @@ public class InforERPJob extends BaseEntity {
     private String hostName;
 
     private String description;
+    private String hostDisplayName;
     private ERPJobStatus status;
     private ERPJobHistoryStatus historyStatus;
-    private String jobUser;
+    private String userId;
     private LocalDateTime jobStartedAt;
     private LocalDateTime jobEndedAt;
     private LocalDateTime nextJobExecutionAt;
     private Integer jobAverageRuntimeInSec = 0;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private WinSchedTask winTask;
 
     public Boolean isRunning() {
