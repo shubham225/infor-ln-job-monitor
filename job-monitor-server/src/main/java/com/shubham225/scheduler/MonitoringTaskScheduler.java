@@ -15,7 +15,6 @@ import java.util.List;
 @Slf4j
 public class MonitoringTaskScheduler {
     private final MonitoringTaskService monitorService;
-    private final MailClient client;
 
     @Scheduled(fixedDelay = 15000)
     private void doERPJobMonitoring() {

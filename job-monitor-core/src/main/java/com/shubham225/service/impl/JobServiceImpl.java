@@ -1,8 +1,6 @@
 package com.shubham225.service.impl;
 
 import com.shubham225.erp.ERPClient;
-import com.shubham225.erp.domain.ERPJob;
-import com.shubham225.erp.domain.ERPJobQuery;
 import com.shubham225.erp.domain.FetchERPJobResponseDTO;
 import com.shubham225.exception.ERPJobNotFoundException;
 import com.shubham225.exception.ErpApiException;
@@ -10,9 +8,7 @@ import com.shubham225.model.entity.InforERPJob;
 import com.shubham225.model.entity.MonitoringTask;
 import com.shubham225.model.entity.WinSchedTask;
 import com.shubham225.model.enums.*;
-import com.shubham225.model.key.ERPJobId;
 import com.shubham225.model.mapper.InforERPJobMapper;
-import com.shubham225.model.mapper.InforERPJobMapperNew;
 import com.shubham225.repository.InforERPJobRepository;
 import com.shubham225.service.AppSettingService;
 import com.shubham225.service.JobService;
@@ -22,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -33,7 +28,6 @@ public class JobServiceImpl implements JobService {
     private final WinSchedTaskService winSchedTaskService;
     private final AppSettingService appSettingService;
     private final InforERPJobMapper inforERPJobMapper;
-    private final InforERPJobMapperNew  inforERPJobMapperNew;
 
     private static final int MAX_RETRIES = 3;
     private static final long RETRY_DELAY_MS = 2000; // 2 seconds
@@ -50,20 +44,20 @@ public class JobServiceImpl implements JobService {
 
         InforERPJob inforERPJob = new InforERPJob();
 
-        String apiURL = appSettingService.findFirstServerMappingByServer(hostName).getApiUrl();
-
-        try{
-            FetchERPJobResponseDTO responseDTO = erpClient.fetchERPJobDetails(apiURL, jobCode, company);
-            inforERPJob = inforERPJobMapperNew.toEntity(responseDTO);
-        } catch(RuntimeException e){
-            log.error("Exception occurred while fetching InforERPJob", e);
-            inforERPJob.setStatus(ERPJobStatus.UNKNOWN);
-        }
-
         // Index values
         inforERPJob.setJobCode(jobCode);
         inforERPJob.setCompany(company);
         inforERPJob.setHostName(hostName);
+
+        String apiURL = appSettingService.findFirstServerMappingByServer(hostName).getApiUrl();
+
+        try{
+            FetchERPJobResponseDTO responseDTO = erpClient.fetchERPJobDetails(apiURL, jobCode, company);
+            inforERPJobMapper.updateEntity(responseDTO, inforERPJob);
+        } catch(RuntimeException e){
+            log.error("Exception occurred while fetching InforERPJob", e);
+            inforERPJob.setStatus(ERPJobStatus.UNKNOWN);
+        }
 
         // Fetch Windows Task for the Infor Job
         WinSchedTask winSchedTask = new WinSchedTask();
@@ -79,15 +73,24 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void refreshJobDetails(MonitoringTask task) {
+    public void refreshERPJobDetails(MonitoringTask task) {
         int attempt = 1;
+        String apiURL = appSettingService.findFirstServerMappingByServer(task.getJob().getHostName()).getApiUrl();
 
         while (attempt <= MAX_RETRIES) {
             log.info("refreshing job [{}] details, attempt {}", task.getJob(), attempt);
             try {
                 attempt++;
                 log.info("fetching job {} from ERP", task.getJob());
-                task.setJob(refreshERPJob(task.getJob()));
+                FetchERPJobResponseDTO responseDTO = erpClient.fetchERPJobDetails(apiURL,
+                                                                                  task.getJob().getJobCode(),
+                                                                                  task.getJob().getCompany());
+                if (responseDTO.getJobNotFound()) {
+                    throw new ERPJobNotFoundException(
+                            MessageFormat.format("Job {0} not found in ERP", task.getJob()));
+                }
+
+                inforERPJobMapper.updateEntity(responseDTO, task.getJob());
                 break;
             } catch (ErpApiException e) {
                 log.error("Error '{}' while executing ERP API, status code: {}", e.getMessage(), e.getStatusCode());
@@ -98,7 +101,7 @@ public class JobServiceImpl implements JobService {
                     break;
                 }
 
-                sleep(RETRY_DELAY_MS);
+                sleep();
             } catch (ERPJobNotFoundException e) {
                 log.error("job {} is not found in ERP, updating monitor status", task.getJob());
                 task.setReason(FailureReason.NOT_FOUND);
@@ -108,47 +111,12 @@ public class JobServiceImpl implements JobService {
         }
     }
 
-    private void sleep(long millis) {
+    private void sleep() {
         try {
-            Thread.sleep(millis);
+            Thread.sleep(JobServiceImpl.RETRY_DELAY_MS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.warn("Retry sleep interrupted", e);
         }
-    }
-
-    private InforERPJob refreshERPJob(InforERPJob job) throws ErpApiException {
-        String apiURL = appSettingService.findFirstServerMappingByServer(job.getHostName()).getApiUrl();
-        ERPJobQuery query = new ERPJobQuery(job.getJobCode(), job.getCompany(),
-                apiURL, 1, 1);
-
-        ERPJob jobDTO = erpClient.findERPJob(query);
-
-        if (jobDTO == null) {
-            log.error("Issue with job fetching, continue without updating job...");
-            return job;
-        }
-
-        if (jobDTO.getNotFound()) {
-            throw new ERPJobNotFoundException(
-                    MessageFormat.format("Job with id {0} not found in ERP", job.toString()));
-        }
-
-        log.debug("job {} fetched from ERP", jobDTO.getJobName());
-
-        job.setDescription(jobDTO.getJobDescription());
-        job.setStatus(jobDTO.getStatus());
-        job.setHistoryStatus(jobDTO.getHistoryStatus());
-        job.setUserId(jobDTO.getJobUser());
-        job.setJobStartedAt(jobDTO.getJobStartedAt());
-        job.setJobEndedAt(jobDTO.getJobEndedAt());
-        job.setNextJobExecutionAt(jobDTO.getNextJobExecutionAt());
-        job.setJobAverageRuntimeInSec(jobDTO.getJobAverageRuntimeInSec());
-
-        return saveInforERPJob(job);
-    }
-
-    private InforERPJob saveInforERPJob(InforERPJob job) {
-        return inforERPJobRepository.save(job);
     }
 }

@@ -5,5 +5,5 @@ import com.shubham225.model.entity.MonitoringTask;
 
 public interface JobService {
     InforERPJob createInforERPJob(String jobCode, String company, String hostName);
-    public void refreshJobDetails(MonitoringTask task);
+    public void refreshERPJobDetails(MonitoringTask task);
 }

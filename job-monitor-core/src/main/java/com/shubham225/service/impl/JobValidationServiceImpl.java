@@ -21,7 +21,6 @@ public class JobValidationServiceImpl implements JobValidationService {
             log.info("Job {} is completed in ERP, reason {}",
                     monitoringTask.getJob(), monitoringTask.getReason().toString());
         } else {
-
             log.error("Unknown Scenario: Job {} is not running in ERP, but have status {}",
                     monitoringTask.getJob(), monitoringTask.getJob().getStatus());
         }

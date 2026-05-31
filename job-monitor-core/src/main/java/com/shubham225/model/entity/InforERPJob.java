@@ -47,4 +47,9 @@ public class InforERPJob extends BaseEntity {
         return status == ERPJobStatus.CANCELED || status == ERPJobStatus.BLOCKED ||
                status == ERPJobStatus.FREE || status == ERPJobStatus.RUNTIME_ERROR;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s [%s - Co. %s]", this.jobCode, this.hostName, this.company);
+    }
 }

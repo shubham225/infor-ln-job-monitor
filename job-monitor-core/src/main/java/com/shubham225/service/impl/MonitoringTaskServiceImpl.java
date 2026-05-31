@@ -87,7 +87,7 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
                 this can cause too much requests to ERP, sending request for each job, can create endpoint which will
                 send status of all jobs at once.
              */
-            jobService.refreshJobDetails(monitoringTask);
+            jobService.refreshERPJobDetails(monitoringTask);
 
             /* TODO:
                 Change logic such that job started in ERP will be fetched from ERP and not calculated at server.
