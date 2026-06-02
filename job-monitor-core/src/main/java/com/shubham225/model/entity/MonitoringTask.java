@@ -17,7 +17,10 @@ public class MonitoringTask extends BaseEntity {
     private String taskName;
     private MonitoringStatus status;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE },
+            orphanRemoval = true
+    )
     private InforERPJob job;
 
     private FailureReason reason;
@@ -46,5 +49,9 @@ public class MonitoringTask extends BaseEntity {
     public void setStatus(MonitoringStatus status) {
         this.status = status;
         this.terminatedOn = LocalDateTime.now();
+    }
+
+    public String toString() {
+        return String.format("%s@%s[%s]", taskName, job.getHostName(), job.getCompany());
     }
 }

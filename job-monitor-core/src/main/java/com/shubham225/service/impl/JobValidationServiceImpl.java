@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 public class JobValidationServiceImpl implements JobValidationService {
     @Override
     public void validateJobExecutionInERP(MonitoringTask monitoringTask) {
-        // NOTE: This function will run after job execution has been completed in the ERP
-        // TODO: If started in ERP then proceed with verification of status and update reason in monitor task
+        // This function will run after job execution has been completed in the ERP
         if (monitoringTask.getJob().isCompleted()) {
             monitoringTask.setStatus(MonitoringStatus.COMPLETED);
             monitoringTask.setReason(evaluateFailureReason(monitoringTask));
@@ -21,7 +20,7 @@ public class JobValidationServiceImpl implements JobValidationService {
             log.info("Job {} is completed in ERP, reason {}",
                     monitoringTask.getJob(), monitoringTask.getReason().toString());
         } else {
-            log.error("Unknown Scenario: Job {} is not running in ERP, but have status {}",
+            log.error("Unknown Scenario: Job {} is not completed in ERP, but have status {}",
                     monitoringTask.getJob(), monitoringTask.getJob().getStatus());
         }
     }
@@ -34,7 +33,7 @@ public class JobValidationServiceImpl implements JobValidationService {
     }
 
     private FailureReason evaluateFailureReason(MonitoringTask monitoringTask) {
-        // TODO: mail logic to update failure reason
+        // Evaluate failure reason based on job history status and job status
         FailureReason reason = FailureReason.PENDING;
 
         reason = switch (monitoringTask.getJob().getStatus()) {

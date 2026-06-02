@@ -34,7 +34,7 @@ public class InforERPJob extends BaseEntity {
     private Integer jobAverageRuntimeInSec = 0;
 
     @OneToOne(
-            cascade = CascadeType.ALL,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE },
             orphanRemoval = true
     )
     private WinSchedTask winTask;

@@ -49,11 +49,6 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
     }
 
     @Override
-    public MonitoringTask saveMonitorTask(MonitoringTask monitoringTask) {
-        return monitoringTaskRepository.save(monitoringTask);
-    }
-
-    @Override
     public List<MonitoringTask> findActiveMonitoringTasks() {
         return monitoringTaskRepository.findAllByStatusIn(
                 List.of(MonitoringStatus.PENDING, MonitoringStatus.RUNNING)
@@ -62,12 +57,16 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
 
     @Override
     public void archiveMonitoringTask(MonitoringTask task) {
-        log.info("Archiving the monitor task");
+        log.info("Archiving the monitor task {}", task);
         MonitoringTaskHistory history = monitoringHistoryMapper.toHistory(task);
         history = monitoringTaskHistoryService.saveMonitoringTaskHistory(history);
-        // REVIEW: should we only initialize the record in table or delete whole entry?
-        // as CascadeType.REMOVE is set it will delete all the associated records
+        // CascadeType.REMOVE is set for related tables, it will delete all the related table records.
         monitoringTaskRepository.delete(task);
+    }
+
+    @Override
+    public MonitoringTask saveMonitorTask(MonitoringTask monitoringTask) {
+        return monitoringTaskRepository.save(monitoringTask);
     }
 
     @Override
@@ -83,21 +82,14 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
         }
 
         if (monitoringTask.isRunning()) {
-            /* TODO:
-                this can cause too much requests to ERP, sending request for each job, can create endpoint which will
-                send status of all jobs at once.
-             */
+            // Send Request to ERP to fetch job details
             jobService.refreshERPJobDetails(monitoringTask);
 
-            /* TODO:
-                Change logic such that job started in ERP will be fetched from ERP and not calculated at server.
-                If job doesn't start in ERP it will continue to loop here fix need
-                may use: jobValidationService.verifyJobStartInErp() here
-             */
+            // Calculate lapsedTime to determine if job is started in ERP
             long lapsedTimeInSeconds = Duration.between(monitoringTask.getExecutedOn(), LocalDateTime.now()).getSeconds();
             long maxWaitTimeInSeconds = 30;
 
-            // If API is down then monitoring task is not running
+            // If API is down then monitoring task will not be running
             if (monitoringTask.isRunning()) {
                 if (lapsedTimeInSeconds < maxWaitTimeInSeconds) {
                     log.info("Waiting for job to start in ERP, waited for {} seconds", lapsedTimeInSeconds);
@@ -128,10 +120,7 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
                     monitoringTask.setStatus(MonitoringStatus.COMPLETED);
                 }
 
-                /* TODO:
-                    Check if job has been running for long time than expected and
-                    calculate and update next polling time, for demo I'm just updating current-time.
-                 */
+                // Calculate next pooling time, logic: based on runtime calculate mid-time in between current and expected
                 monitoringTask.setNextPoolingAt(
                         calculateNextPollingAt(
                                 monitoringTask.getJob().getJobStartedAt(),
@@ -139,10 +128,14 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
                 );
             } else {
                 /* NOTE:
-                    This section defines job has finished / is not running in ERP anymore, now will check if
+                    This section defines job has finished / is not running in ERP anymore, this check if
                     job completed correctly and update Monitoring Task status accordingly.
                  */
-                jobValidationService.validateJobExecutionInERP(monitoringTask);
+
+                // If job is not executed in ERP then no need to validate job execution
+                if (!monitoringTask.getReason().equals(FailureReason.NOT_EXECUTED)) {
+                    jobValidationService.validateJobExecutionInERP(monitoringTask);
+                }
             }
         }
 
@@ -158,10 +151,8 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
 
         }
 
-        /* TODO:
-                will be removing monitoring task in future if its completed record will be saved as history
-                so only save the task along with job and task details to db for next cycle if task is not completed
-         */
+        // Archive monitoring task to history and delete related records once monitoring task is completed, else
+        // save the monitor task and related tables
         if (monitoringTask.isCompleted()) {
             archiveMonitoringTask(monitoringTask);
         } else {
