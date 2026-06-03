@@ -12,7 +12,7 @@ public class MonitoringHistoryMapper {
                 .jobUser(task.getJob().getUserId())
                 .company(task.getJob().getCompany())
                 .hostName(task.getJob().getHostName())
-                .hostDisplayName("TODO")
+                .hostDisplayName(task.getJob().getHostDisplayName())
                 .jobStatus(task.getJob().getStatus())
                 .jobStartedAt(task.getJob().getJobStartedAt())
                 .jobEndedAt(task.getJob().getJobEndedAt())

@@ -13,16 +13,8 @@ import org.springframework.http.ResponseEntity;
 @AllArgsConstructor
 public class AppResult {
     private Integer code;
-    private String message;
-    private Object payload;
-
-    public static ResponseEntity<AppResult> success() {
-        return success("");
-    }
-
-    public static ResponseEntity<AppResult> success(final String msg) {
-        return success(msg, null);
-    }
+    private String  message;
+    private Object  payload;
 
     public static ResponseEntity<AppResult> success(final Object data) {
         return success("", data);

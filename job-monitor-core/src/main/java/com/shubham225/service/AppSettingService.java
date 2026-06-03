@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AppSettingService {
-    public AppSetting findAppSettings();
-    public AppSetting saveOrUpdateAppSettings(AppSettingDTO settingsDTO);
-    public ServerMapping findFirstServerMappingByServer(String server);
-    public ServerMapping addServerMapping(ServerMappingDTO mapping);
-    public ServerMapping updateServerMapping(UUID id, ServerMappingDTO mappingDTO);
-    public List<ServerMappingDTO> getAllServerMappings();
-    public ServerMapping deleteServerMapping(UUID id);
+    AppSetting findAppSettings();
+    AppSetting saveOrUpdateAppSettings(AppSettingDTO settingsDTO);
+    ServerMapping findFirstServerMappingByServer(String server);
+    ServerMapping addServerMapping(ServerMappingDTO mapping);
+    ServerMapping updateServerMapping(UUID id, ServerMappingDTO mappingDTO);
+    List<ServerMappingDTO> getAllServerMappings();
+    ServerMapping deleteServerMapping(UUID id);
 }
