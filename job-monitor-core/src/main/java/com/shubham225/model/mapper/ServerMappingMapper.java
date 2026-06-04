@@ -6,6 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ServerMappingMapper {
-    public ServerMapping toEntity(ServerMappingDTO mappingDTO);
-    public ServerMappingDTO toDTO(ServerMapping mapping);
+    ServerMapping toEntity(ServerMappingDTO mappingDTO);
+    ServerMappingDTO toDTO(ServerMapping mapping);
 }

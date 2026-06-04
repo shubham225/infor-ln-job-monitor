@@ -34,14 +34,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public InforERPJob createInforERPJob(String jobCode, String company, String hostName) {
-        /* TODO:
-            1. Trigger API call to fetch job details from ERP (Same class will be used to refresh the jobDetails)
-            2. Handle Response from API call
-            3. Update InforERPJob Table with details if error in API call still update will null or blank values.
-            4. Once InforERPJob has been updated create WinSchedTask and update task details.
-            5. Task Details will be fetched from the Job to Task Mapping Generated at the initialization of this application
-        */
-
         InforERPJob inforERPJob = new InforERPJob();
 
         // Index values

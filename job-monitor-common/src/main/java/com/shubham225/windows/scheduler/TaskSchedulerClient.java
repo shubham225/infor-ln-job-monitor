@@ -6,7 +6,7 @@ import com.shubham225.windows.scheduler.domain.TaskQuery;
 import java.util.List;
 
 public interface TaskSchedulerClient {
-    public ScheduledTask findWinSchedTask(TaskQuery taskQuery);
-    public List<ScheduledTask> findAllWinSchedTask(TaskQuery taskQuery);
+    ScheduledTask findWinSchedTask(TaskQuery taskQuery);
+    List<ScheduledTask> findAllWinSchedTask(TaskQuery taskQuery);
     ScheduledTask fetchWinSchedTaskDetails(String hostName, String taskName, String folder);
 }

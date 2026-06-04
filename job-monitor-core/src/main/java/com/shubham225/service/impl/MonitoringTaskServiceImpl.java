@@ -5,7 +5,7 @@ import com.shubham225.model.entity.MonitoringTask;
 import com.shubham225.model.entity.MonitoringTaskHistory;
 import com.shubham225.model.enums.FailureReason;
 import com.shubham225.model.enums.MonitoringStatus;
-import com.shubham225.model.mapper.MonitoringHistoryMapper;
+import com.shubham225.model.mapper.MonitorHistoryMapper;
 import com.shubham225.repository.MonitoringTaskRepository;
 import com.shubham225.service.JobService;
 import com.shubham225.service.JobValidationService;
@@ -29,7 +29,7 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
     private final JobValidationService jobValidationService;
     private final JobFailureStrategyFactory jobFailureStrategyFactory;
     private final MonitoringTaskRepository monitoringTaskRepository;
-    private final MonitoringHistoryMapper monitoringHistoryMapper;
+    private final MonitorHistoryMapper monitorHistoryMapper;
     private final MonitoringTaskHistoryService monitoringTaskHistoryService;
 
     @Override
@@ -58,7 +58,7 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
     @Override
     public void archiveMonitoringTask(MonitoringTask task) {
         log.info("Archiving the monitor task {}", task);
-        MonitoringTaskHistory history = monitoringHistoryMapper.toHistory(task);
+        MonitoringTaskHistory history = monitorHistoryMapper.toHistory(task);
         history = monitoringTaskHistoryService.saveMonitoringTaskHistory(history);
         // CascadeType.REMOVE is set for related tables, it will delete all the related table records.
         monitoringTaskRepository.delete(task);
