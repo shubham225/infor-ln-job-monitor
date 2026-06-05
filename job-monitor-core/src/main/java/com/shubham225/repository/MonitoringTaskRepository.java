@@ -12,5 +12,4 @@ import java.util.UUID;
 @Repository
 public interface MonitoringTaskRepository extends JpaRepository<MonitoringTask, UUID> {
     List<MonitoringTask> findAllByStatusIn(Collection<MonitoringStatus> statuses);
-
 }

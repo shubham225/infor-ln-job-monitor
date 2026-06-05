@@ -1,5 +1,8 @@
 package com.shubham225.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ErpApiException extends RuntimeException {
     private final int statusCode;
 
@@ -13,7 +16,4 @@ public class ErpApiException extends RuntimeException {
         this.statusCode = statusCode;
     }
 
-    public int getStatusCode() {
-        return statusCode;
-    }
 }
