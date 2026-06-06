@@ -20,9 +20,14 @@ export const settingsSchema = z.object({
   mailTo: colonSeparatedEmails,
   mailCc: colonSeparatedEmails.optional().or(z.literal("")),
   emailAlerts: z.boolean(),
+  sendMonthlyReports: z.boolean(),
   allowedJobStartDelay: z
     .number()
     .min(0, "Must be 0 or greater")
     .max(1440, "Max 1440 minutes"),
+  taskReleaseDelay: z
+    .number()
+    .min(0, "Must be 0 or greater")
+    .max(3600, "Max 3600 seconds"),
   errorKeywords: z.string().optional(),
 });
