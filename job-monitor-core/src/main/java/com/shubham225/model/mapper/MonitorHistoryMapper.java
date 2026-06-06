@@ -12,6 +12,8 @@ public interface MonitorHistoryMapper {
     ExecutionHistoryDTO toDTO(MonitoringTaskHistory history);
 
     @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "version", ignore = true),
             @Mapping(target = "jobCode", source = "job.jobCode"),
             @Mapping(target = "jobUser", source = "job.userId"),
             @Mapping(target = "company", source = "job.company"),
@@ -22,7 +24,8 @@ public interface MonitorHistoryMapper {
             @Mapping(target = "jobEndedAt", source = "job.jobEndedAt"),
             @Mapping(target = "taskName", source = "job.winTask.taskName"),
             @Mapping(target = "taskStatus", source = "job.winTask.status"),
-            @Mapping(target = "cause", source = "reason")
+            @Mapping(target = "cause", source = "reason"),
+            @Mapping(target = "isMailSent", source = "mailSent")
     })
     MonitoringTaskHistory toHistory(MonitoringTask task);
 }

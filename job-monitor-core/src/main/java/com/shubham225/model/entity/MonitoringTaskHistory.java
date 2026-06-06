@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class MonitoringTaskHistory extends BaseEntity{
     private String jobCode;
     private String jobUser;
