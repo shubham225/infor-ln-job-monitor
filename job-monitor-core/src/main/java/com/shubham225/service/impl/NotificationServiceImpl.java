@@ -3,6 +3,7 @@ package com.shubham225.service.impl;
 import com.shubham225.exception.MailNotSentException;
 import com.shubham225.mail.MailClient;
 import com.shubham225.mail.domain.MailRequest;
+import com.shubham225.model.entity.AppSetting;
 import com.shubham225.model.entity.MonitoringTask;
 import com.shubham225.service.AppSettingService;
 import com.shubham225.service.NotificationService;
@@ -29,8 +30,15 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Boolean sendMail(String subject, String body, Set<Path> attachments) {
-        String mailTo = appSettingService.findAppSettings().getMailTo();
-        String mailCc = appSettingService.findAppSettings().getMailCc();
+        AppSetting configurations = appSettingService.findAppSettings();
+        String mailTo = configurations.getMailTo();
+        String mailCc = configurations.getMailCc();
+        boolean sendAlert = configurations.isEmailAlerts();
+
+        if (!sendAlert) {
+            log.warn("Email Alerts are disabled in application settings");
+            return false;
+        }
 
         try {
             mailClient.sendEmail(new MailRequest(mailTo, mailCc, subject, body, attachments));

@@ -10,10 +10,10 @@ const formatFailure = (value?: string) =>
     .replace(/\b\w/g, (c) => c.toUpperCase()) ?? "—";
 
 export const columns: ColumnDef<ExecutionHistory>[] = [
-  { accessorKey: "taskName", header: "Task Name", minSize: 70 },
-  { accessorKey: "jobName", header: "Job Name", minSize: 70 },
-  { accessorKey: "jobUser", header: "Job User", minSize: 70 },
-  { accessorKey: "company", header: "Company", minSize: 70 },
+  { accessorKey: "taskName", header: "Task Name", minSize: 170 },
+  { accessorKey: "jobName", header: "Job Name", minSize: 170 },
+  { accessorKey: "jobUser", header: "Job User", minSize: 100 },
+  { accessorKey: "company", header: "Company", minSize: 100, size: 100 },
   { accessorKey: "server", header: "Server" },
   {
     accessorKey: "cause",
@@ -32,8 +32,7 @@ export const columns: ColumnDef<ExecutionHistory>[] = [
       const v = getValue<string>();
       return v ? new Date(v).toLocaleString() : "";
     },
-    size: 200,
-    minSize: 200,
+    minSize: 150,
   },
   {
     accessorKey: "terminatedOn",
@@ -42,12 +41,13 @@ export const columns: ColumnDef<ExecutionHistory>[] = [
       const v = getValue<string>();
       return v ? new Date(v).toLocaleString() : "";
     },
+    minSize: 150,
   },
   {
     accessorKey: "isMailSent",
     header: "Mail Sent",
     cell: ({ getValue }) => (getValue<boolean>() ? "Yes" : "No"),
-    size: 80,
-    minSize: 80,
+    size: 100,
+    minSize: 100,
   },
 ];

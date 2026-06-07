@@ -9,6 +9,11 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface MonitorHistoryMapper {
+    @Mappings({
+            @Mapping(target="jobName", source = "jobCode"),
+            @Mapping(target="server", source = "hostName"),
+            @Mapping(target="serverName", source = "hostDisplayName"),
+    })
     ExecutionHistoryDTO toDTO(MonitoringTaskHistory history);
 
     @Mappings({

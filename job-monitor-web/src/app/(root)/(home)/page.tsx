@@ -158,7 +158,7 @@ export default async function Home() {
   return (
     <main className="p-4 space-y-4 bg-background">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
+      {/* <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Job Monitor Dashboard</h1>
         </div>
@@ -178,7 +178,6 @@ export default async function Home() {
               Custom
             </Button>
           </div>
-
           <div className="flex gap-2">
             <Button variant="outline" size="icon" aria-label="Refresh">
               <IconReload size={18} />
@@ -191,7 +190,7 @@ export default async function Home() {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Key Stats - Full Width */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
