@@ -11,4 +11,6 @@ public class AppSettingDTO {
     private Integer allowedJobStartDelay;
     private boolean emailAlerts;
     private String errorKeywords;
+    private boolean sendMonthlyReports;
+    private Integer taskReleaseDelay;
 }

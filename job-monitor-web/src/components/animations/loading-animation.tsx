@@ -1,8 +1,5 @@
-import React from "react";
 
-type Props = {};
-
-export default function LoadingAnimation({}: Props) {
+export default function LoadingAnimation() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-transparent">
       <div className="overlay" id="overlay"></div>

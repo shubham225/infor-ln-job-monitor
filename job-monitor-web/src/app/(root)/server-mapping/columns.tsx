@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ServerMapping } from "@/types/api";
 import { IconTrash } from "@tabler/icons-react";
 import { ColumnDef } from "@tanstack/react-table";
-import { DeleteIcon } from "lucide-react";
 
 export const columns = (onDelete : (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void) => {
   return [

@@ -1,16 +1,15 @@
 "use client";
 
 import { DataTable } from "@/components/data-table-custom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { columns } from "./columns";
 import { RunningTask } from "@/types/api";
 import { fetchAllRunningTasks } from "@/service/monitor-service";
 import { Button } from "@/components/ui/button";
-import { IconArrowsDiagonal, IconMenu2, IconReload } from "@tabler/icons-react";
+import { IconArrowsDiagonal, IconReload } from "@tabler/icons-react";
 
-type Props = {};
 
-export default function Tasks({}: Props) {
+export default function Tasks() {
   const [runningTasks, setRunningTasks] = useState<RunningTask[] | []>([]);
 
   const refreshTable = async () => {
@@ -34,28 +33,35 @@ export default function Tasks({}: Props) {
   }, []);
 
   return (
-    <div className="space-y-1 p-2">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold"></h1>
+    <div className="p-4 space-y-4 bg-background">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Running Tasks</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Monitor all currently running job execution tasks in real-time.
+          </p>
+        </div>
+
         <div className="flex gap-2">
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
             onClick={(e) => {
               e.preventDefault();
               refreshTable();
             }}
+            aria-label="Refresh"
           >
-            <IconReload />
+            <IconReload size={18} />
           </Button>
-          <Button variant="ghost" size="icon">
-            <IconArrowsDiagonal />
-          </Button>
-          <Button variant="ghost" size="icon">
-            <IconMenu2 />
+          <Button variant="outline" size="icon" aria-label="Export">
+            <IconArrowsDiagonal size={18} />
           </Button>
         </div>
       </div>
+
+      {/* Table Card */}
       <DataTable
         columns={columns}
         data={runningTasks}

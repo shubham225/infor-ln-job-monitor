@@ -1,13 +1,14 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { FailureData } from "@/types/dashboard";
+
+const getFailureColor = (key: string): string => {
+  if (key.includes("PENDING")) return "bg-yellow-100 text-yellow-700";
+  if (key.includes("SUCCESS") || key === "EXECUTED") return "bg-green-100 text-green-700";
+  if (key.includes("ERROR") || key.includes("FAILED") || key.includes("RUNTIME")) return "bg-red-100 text-red-700";
+  if (key.includes("TIME_LIMIT") || key.includes("TIMEOUT")) return "bg-orange-100 text-orange-700";
+  if (key.includes("CANCELED") || key === "NOT_FOUND") return "bg-gray-100 text-gray-700";
+  return "bg-blue-100 text-blue-700";
+};
 
 export default function FailureDashboardTable({
   data,
@@ -15,47 +16,26 @@ export default function FailureDashboardTable({
   data: FailureData[];
 }) {
   return (
-    <div className="">
-      {/* Table */}
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-muted/40">
-            <TableHead className="h-9 text-xs text-gray-500">Failure Type</TableHead>
-            <TableHead className="h-9 text-xs text-gray-500 text-right">Count</TableHead>
-          </TableRow>
-        </TableHeader>
-      </Table>
-      <div className="h-[290px] overflow-auto">
-        <Table>
-          <TableBody>
-            {data.map((item) => (
-              <TableRow key={item.label} className="hover:bg-muted/30">
-                <TableCell className="py-2 text-sm font-medium">
-                  <Badge className="bg-blue-100/60 text-blue-500 rounded-xs">
-                  {item.key}
-                  </Badge>
-                </TableCell>
+    <div className="w-full h-full flex flex-col">
+      <div className="flex-1 overflow-y-auto">
+        <div className="space-y-2">
+          {data.map((item) => (
+            <div key={item.label} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+              <Badge className={`${getFailureColor(item.key)} font-semibold rounded text-xs`}>
+                {item.key}
+              </Badge>
+              <Badge variant="outline" className="font-bold rounded">
+                {item.count}
+              </Badge>
+            </div>
+          ))}
 
-                <TableCell className="py-2 text-right">
-                  <Badge variant="secondary" className="rounded-sm px-2.5">
-                    {item.count}
-                  </Badge>
-                </TableCell>
-              </TableRow>
-            ))}
-
-            {data.length === 0 && (
-              <TableRow>
-                <TableCell
-                  colSpan={2}
-                  className="py-6 text-center text-xs text-muted-foreground"
-                >
-                  No failures detected
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+          {data.length === 0 && (
+            <div className="py-8 text-center text-xs text-muted-foreground">
+              No failures detected
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

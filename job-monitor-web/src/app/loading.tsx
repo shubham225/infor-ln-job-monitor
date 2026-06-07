@@ -1,9 +1,6 @@
 import LoadingAnimation from "@/components/animations/loading-animation";
-import React from "react";
 
-type Props = {};
-
-const Loading = (props: Props) => {
+const Loading = () => {
   return <LoadingAnimation />;
 };
 

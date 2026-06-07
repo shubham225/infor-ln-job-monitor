@@ -1,5 +1,4 @@
 import { AppSetting } from "@/types/api";
-import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
@@ -79,7 +78,8 @@ export default function AlertSettings({ form }: Props) {
                     Send Monthly Reports
                   </FormLabel>
                   <FormDescription>
-                    Automatically send an end-of-month summary report to the configured recipients.
+                    Automatically send an end-of-month summary report to the
+                    configured recipients.
                   </FormDescription>
                 </div>
                 <FormControl>
@@ -94,58 +94,58 @@ export default function AlertSettings({ form }: Props) {
         </div>
 
         <div className="space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-5">
-        {/* Mail To */}
-        <div className="space-y-3">
-          <FormField
-            control={form.control}
-            name="mailTo"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base font-semibold">
-                  Recipient Email Address
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="recipient@example.com"
-                    {...field}
-                    className="text-base"
-                  />
-                </FormControl>
-                <p className="text-xs text-muted-foreground">
-                  Primary email address for alerts
-                </p>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+          {/* Mail To */}
+          <div className="space-y-3">
+            <FormField
+              control={form.control}
+              name="mailTo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold">
+                    Recipient Email Address
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="recipient@example.com"
+                      {...field}
+                      className="text-base"
+                    />
+                  </FormControl>
+                  <p className="text-xs text-muted-foreground">
+                    Primary email address for alerts
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-        {/* Mail CC */}
-        <div className="space-y-3">
-          <FormField
-            control={form.control}
-            name="mailCc"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base font-semibold">
-                  CC Email Address
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="cc-recipient@example.com"
-                    {...field}
-                    className="text-base"
-                  />
-                </FormControl>
-                <p className="text-xs text-muted-foreground">
-                  Optional CC email address for notifications (separate multiple
-                  addresses with ;)
-                </p>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+          {/* Mail CC */}
+          <div className="space-y-3">
+            <FormField
+              control={form.control}
+              name="mailCc"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold">
+                    CC Email Address
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="cc-recipient@example.com"
+                      {...field}
+                      className="text-base"
+                    />
+                  </FormControl>
+                  <p className="text-xs text-muted-foreground">
+                    Optional CC email address for notifications (separate
+                    multiple addresses with ;)
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>

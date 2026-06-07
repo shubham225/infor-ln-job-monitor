@@ -67,14 +67,22 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-4 bg-background">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Application Settings</h1>
+          <p className="text-sm text-muted-foreground mt-1">Configure alerts, notification recipients, and monitoring thresholds from one central location.Save your changes when you are ready to apply them.</p>
+        </div>
+      </div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="h-full flex flex-col"
+          className="flex min-h-[72vh] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
         >
-          <Tabs defaultValue="general" className="flex flex-col flex-1">
-            <TabsList variant="line" className="w-full px-2 py-2">
+          <Tabs defaultValue="general" className="flex flex-col flex-1 p-2">
+            <TabsList variant="line" className="w-full px-2 py-2 border-b border-slate-200">
               <TabsTrigger value="general">
                 <IconSettings /> General
               </TabsTrigger>
@@ -85,7 +93,7 @@ export default function SettingsPage() {
                 <IconAlertCircle /> Exclusions
               </TabsTrigger>
             </TabsList>
-            <div className="flex-1 min-h-[44.5rem]">
+            <div className="flex-1 overflow-hidden">
               <TabsContent value="general" className="h-full">
                 <div className="h-full p-6 text-sm text-muted-foreground">
                   <GeneralSettings form={form} />
@@ -104,8 +112,13 @@ export default function SettingsPage() {
             </div>
           </Tabs>
 
-          <div className="p-4 flex justify-end">
-            <Button type="submit">Save Settings</Button>
+          <div className="flex flex-col gap-3 border-t border-slate-200 bg-slate-50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-muted-foreground">
+              Settings are applied when you click save. Review each section before submitting.
+            </p>
+            <Button type="submit" className="w-full sm:w-auto">
+              Save Settings
+            </Button>
           </div>
         </form>
       </Form>

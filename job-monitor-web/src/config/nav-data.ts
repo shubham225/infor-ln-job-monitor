@@ -1,20 +1,10 @@
 import {
-  IconApi,
-  IconCamera,
-  IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFolder,
   IconHelp,
   IconHistory,
   IconList,
-  IconListDetails,
-  IconMail,
   IconReport,
   IconSettings,
-  IconUsers,
   IconWorldWww,
 } from "@tabler/icons-react"
 
@@ -30,11 +20,6 @@ export const navData = {
       url: "/",
       icon: IconDashboard,
     },
-    // {
-    //   title: "eMail Setup",
-    //   url: "/mail-setup",
-    //   icon: IconMail,
-    // },
     {
       title: "Server API Mappings",
       url: "/server-mapping",

@@ -1,11 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import {
-  IconCreditCard,
   IconDotsVertical,
   IconLogout,
   IconNotification,
-  IconUserCircle,
 } from "@tabler/icons-react"
 
 import {
@@ -28,6 +27,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { NotificationPanel } from "@/components/notification-panel"
 
 export function NavUser({
   user,
@@ -39,11 +39,13 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [notificationOpen, setNotificationOpen] = useState(false)
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
+        <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
@@ -84,7 +86,12 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setMenuOpen(false)
+                  setNotificationOpen(true)
+                }}
+              >
                 <IconNotification />
                 Notifications
               </DropdownMenuItem>
@@ -96,6 +103,10 @@ export function NavUser({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <NotificationPanel
+          open={notificationOpen}
+          onOpenChange={setNotificationOpen}
+        />
       </SidebarMenuItem>
     </SidebarMenu>
   )

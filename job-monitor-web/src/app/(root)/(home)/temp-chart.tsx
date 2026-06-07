@@ -39,58 +39,51 @@ export const chartConfig = {
 
 export function ChartAreaLegend() {
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <CardTitle className="text-sm text-muted-foreground">
-          Monthly Job Execution Trend
-        </CardTitle>
-      </CardHeader>
+    <div className="w-full h-full flex flex-col">
+      <ChartContainer config={chartConfig} className="flex-1 w-full min-h-0">
+        <AreaChart
+          data={chartData}
+          margin={{ left: 0, right: 0, top: 10, bottom: 10 }}
+        >
+          <CartesianGrid vertical={false} stroke="var(--border)" />
 
-      <CardContent className="h-[290px]">
-        <ChartContainer config={chartConfig} className="h-full w-full">
-            <AreaChart
-            data={chartData}
-            margin={{ left: 12, right: 12 }}
-          >
-            <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="month"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={8}
+            tickFormatter={(value) => value.slice(0, 3)}
+            style={{ fontSize: "0.75rem" }}
+          />
 
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent indicator="line" />}
+          />
 
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
+          {/* Completed */}
+          <Area
+            dataKey="completed"
+            type="natural"
+            fill="var(--color-completed)"
+            stroke="var(--color-completed)"
+            fillOpacity={0.5}
+            stackId="a"
+          />
 
-           {/* Completed */}
-            <Area
-              dataKey="completed"
-              type="natural"
-              fill="var(--color-completed)"
-              stroke="var(--color-completed)"
-              fillOpacity={0.4}
-              stackId="a"
-            />
+          {/* Failed */}
+          <Area
+            dataKey="failed"
+            type="natural"
+            fill="var(--color-failed)"
+            stroke="var(--color-failed)"
+            fillOpacity={0.5}
+            stackId="a"
+          />
 
-            {/* Failed */}
-            <Area
-              dataKey="failed"
-              type="natural"
-              fill="var(--color-failed)"
-              stroke="var(--color-failed)"
-              fillOpacity={0.4}
-              stackId="a"
-            />
-
-            <ChartLegend content={<ChartLegendContent />} />
-          </AreaChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+          <ChartLegend content={<ChartLegendContent />} wrapperStyle={{ paddingTop: "12px" }} />
+        </AreaChart>
+      </ChartContainer>
+    </div>
   )
 }

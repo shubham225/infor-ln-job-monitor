@@ -28,14 +28,8 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useId, useState } from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from "@/components/ui/pagination";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { IconRefresh } from "@tabler/icons-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,7 +41,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const id = useId();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 12,
@@ -71,24 +64,24 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="space-y-2">
-      <div className="overflow-hidden rounded-md border border-border bg-background">
+    <div className="space-y-4">
+      <div className="overflow-hidden rounded-lg border border-border bg-background shadow-sm">
         <Table className="table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-muted/50">
+              <TableRow key={headerGroup.id} className="border-b bg-linear-to-r from-muted/80 to-muted/40 hover:bg-linear-to-r hover:from-muted hover:to-muted/50">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
                       style={{ width: `${header.getSize()}px` }}
-                      className="h-10 py-2"
+                      className="h-12 py-3 px-4 font-semibold text-foreground text-xs uppercase tracking-wider"
                     >
                       {header.isPlaceholder ? null : header.column.getCanSort() ? (
                         <div
                           className={cn(
                             header.column.getCanSort() &&
-                              "flex h-full cursor-pointer select-none items-center justify-between gap-2"
+                              "flex h-full cursor-pointer select-none items-center justify-between gap-2 group hover:text-foreground transition-colors"
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
@@ -110,17 +103,17 @@ export function DataTable<TData, TValue>({
                           {{
                             asc: (
                               <ChevronUp
-                                className="shrink-0 opacity-60"
-                                size={16}
-                                strokeWidth={2}
+                                className="shrink-0 opacity-70 group-hover:opacity-100"
+                                size={14}
+                                strokeWidth={2.5}
                                 aria-hidden="true"
                               />
                             ),
                             desc: (
                               <ChevronDown
-                                className="shrink-0 opacity-60"
-                                size={16}
-                                strokeWidth={2}
+                                className="shrink-0 opacity-70 group-hover:opacity-100"
+                                size={14}
+                                strokeWidth={2.5}
                                 aria-hidden="true"
                               />
                             ),
@@ -140,13 +133,17 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row, idx) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={cn(
+                    "border-b transition-colors hover:bg-muted/60",
+                    idx % 2 === 0 ? "bg-background" : "bg-muted/20"
+                  )}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="py-2">
+                    <TableCell key={cell.id} className="py-3 px-4 text-sm">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -159,9 +156,12 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-32 text-center text-muted-foreground"
                 >
-                  No results.
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <p className="text-sm font-medium">No data available</p>
+                    <p className="text-xs text-muted-foreground">Try adjusting your filters or date range</p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
@@ -169,38 +169,12 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-between gap-8">
-        {/* Results per page */}
-        <div className="flex items-center gap-3">
-          {/* <Label htmlFor={id} className="max-sm:sr-only">
-            Rows per page
-          </Label>
-          <Select
-            value={table.getState().pagination.pageSize.toString()}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger id={id} className="w-fit whitespace-nowrap">
-              <SelectValue placeholder="Select number of results" />
-            </SelectTrigger>
-            <SelectContent className="[&_*[role=option]>span]:end-2 [&_*[role=option]>span]:start-auto [&_*[role=option]]:pe-8 [&_*[role=option]]:ps-2">
-              {[5, 10, 25, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={pageSize.toString()}>
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select> */}
-        </div>
-        {/* Page number information */}
-
-        <div className="flex grow justify-end whitespace-nowrap text-sm text-muted-foreground">
-          <p
-            className="whitespace-nowrap text-sm text-muted-foreground"
-            aria-live="polite"
-          >
-            <span className="text-foreground">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
+        {/* Results info */}
+        <div className="text-sm text-muted-foreground">
+          <p aria-live="polite">
+            Showing{" "}
+            <span className="font-semibold text-foreground">
               {table.getState().pagination.pageIndex *
                 table.getState().pagination.pageSize +
                 1}
@@ -215,70 +189,55 @@ export function DataTable<TData, TValue>({
                 table.getRowCount()
               )}
             </span>{" "}
-            of{" "}
-            <span className="text-foreground">
-              {table.getRowCount().toString()}
-            </span>
+            of <span className="font-semibold text-foreground">{table.getRowCount()}</span>
           </p>
         </div>
+        
         {/* Pagination buttons */}
-        <div>
-          <Pagination>
-            <PaginationContent>
-              {/* First page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.firstPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label="Go to first page"
-                >
-                  <ChevronFirst size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-              {/* Previous page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label="Go to previous page"
-                >
-                  <ChevronLeft size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-              {/* Next page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label="Go to next page"
-                >
-                  <ChevronRight size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-              {/* Last page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.lastPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label="Go to last page"
-                >
-                  <ChevronLast size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+        <div className="flex items-center gap-1">
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-8 w-8 p-0 rounded-l-md disabled:pointer-events-none disabled:opacity-50"
+            onClick={() => table.firstPage()}
+            disabled={!table.getCanPreviousPage()}
+            aria-label="Go to first page"
+          >
+            <ChevronFirst size={16} strokeWidth={2} aria-hidden="true" />
+          </Button>
+          
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-8 w-8 p-0 rounded-none border-l-0 disabled:pointer-events-none disabled:opacity-50"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            aria-label="Go to previous page"
+          >
+            <ChevronLeft size={16} strokeWidth={2} aria-hidden="true" />
+          </Button>
+          
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-8 w-8 p-0 rounded-none border-l-0 disabled:pointer-events-none disabled:opacity-50"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            aria-label="Go to next page"
+          >
+            <ChevronRight size={16} strokeWidth={2} aria-hidden="true" />
+          </Button>
+          
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-8 w-8 p-0 rounded-r-md border-l-0 disabled:pointer-events-none disabled:opacity-50"
+            onClick={() => table.lastPage()}
+            disabled={!table.getCanNextPage()}
+            aria-label="Go to last page"
+          >
+            <ChevronLast size={16} strokeWidth={2} aria-hidden="true" />
+          </Button>
         </div>
       </div>
     </div>

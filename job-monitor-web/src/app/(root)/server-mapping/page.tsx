@@ -4,7 +4,7 @@ import { DataTable } from "@/components/data-table-custom";
 import { useEffect, useState } from "react";
 import { columns } from "./columns";
 import type { ServerMapping } from "@/types/api";
-import { initServerMapping, initServerMappings } from "@/constants/init-data";
+import { initServerMapping } from "@/constants/init-data";
 import {
   addServerMappings,
   deleteServerMappings,
@@ -23,27 +23,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  IconArrowsDiagonal,
-  IconDeviceDesktopPlus,
-  IconMenu2,
-  IconReload,
-} from "@tabler/icons-react";
+import { IconDeviceDesktopPlus, IconReload } from "@tabler/icons-react";
+import { useMounted } from "@/hooks/use-mounted";
 
-type Props = {};
-
-export default function ServerMapping({}: Props) {
+export default function ServerMapping() {
   const [open, setOpen] = useState(false);
   const [serverMappings, setServerMappings] = useState<ServerMapping[] | []>(
-    []
+    [],
   );
   const [serverMapping, setServerMapping] =
     useState<ServerMapping>(initServerMapping);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useMounted();
 
   useEffect(() => {
     const fetchAppSettingsAsync = async () => {
@@ -60,7 +50,7 @@ export default function ServerMapping({}: Props) {
   }
 
   const handleAddMapping = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     try {
@@ -80,7 +70,7 @@ export default function ServerMapping({}: Props) {
 
   const handleDeleteMapping = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: string
+    id: string,
   ) => {
     e.preventDefault();
     try {
@@ -98,73 +88,84 @@ export default function ServerMapping({}: Props) {
   };
 
   return (
-    <div className="space-y-1 p-2">
-      <Dialog open={open} onOpenChange={setOpen}>
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold"></h1>
-          <div className="flex gap-2">
+    <div className="p-4 space-y-4 bg-background">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Server Mapping</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Configure BW host to API URL mappings for job monitoring.
+          </p>
+        </div>
+
+        <div className="flex gap-2">
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <IconDeviceDesktopPlus />
+              <Button variant="default" size="sm" className="gap-2">
+                <IconDeviceDesktopPlus size={18} />
+                Add Mapping
               </Button>
             </DialogTrigger>
-            <Button variant="ghost" size="icon">
-              <IconMenu2 />
-            </Button>
-          </div>
-        </div>
-        <DialogContent className="sm:max-w-[425px] m-2">
-          <DialogHeader>
-            <DialogTitle>Add Server Mapping</DialogTitle>
-            <DialogDescription>
-              Add BW Host to API Url mapping. Click save when you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
+            <DialogContent className="sm:max-w-[425px] m-2">
+              <DialogHeader>
+                <DialogTitle>Add Server Mapping</DialogTitle>
+                <DialogDescription>
+                  Add BW Host to API Url mapping. Click save when you&apos;re
+                  done.
+                </DialogDescription>
+              </DialogHeader>
 
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="hostname">BW Hostname</FieldLabel>
-              <Input
-                id="hostname"
-                type="text"
-                value={serverMapping?.hostname}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setServerMapping((data: any) => ({
-                    ...data,
-                    hostname: e.target.value,
-                  }));
-                }}
-                placeholder="127.0.0.1"
-              />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="apiUrl">ApiUrl</FieldLabel>
-              <Input
-                id="apiUrl"
-                type="text"
-                value={serverMapping?.apiUrl}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setServerMapping((data: any) => ({
-                    ...data,
-                    apiUrl: e.target.value,
-                  }));
-                }}
-                placeholder="http://localhost:3000/getJobDetails"
-              />
-            </Field>
-          </FieldGroup>
-          <DialogFooter className="pt-2">
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <DialogClose asChild>
-              <Button onClick={handleAddMapping}>Save changes</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+              <FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor="hostname">BW Hostname</FieldLabel>
+                  <Input
+                    id="hostname"
+                    type="text"
+                    value={serverMapping?.hostname}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setServerMapping((data: ServerMapping) => ({
+                        ...data,
+                        hostname: e.target.value,
+                      }));
+                    }}
+                    placeholder="127.0.0.1"
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="apiUrl">ApiUrl</FieldLabel>
+                  <Input
+                    id="apiUrl"
+                    type="text"
+                    value={serverMapping?.apiUrl}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setServerMapping((data: ServerMapping) => ({
+                        ...data,
+                        apiUrl: e.target.value,
+                      }));
+                    }}
+                    placeholder="http://localhost:3000/getJobDetails"
+                  />
+                </Field>
+              </FieldGroup>
+              <DialogFooter className="pt-2">
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button onClick={handleAddMapping}>Save changes</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <Button variant="outline" size="icon" aria-label="Refresh">
+            <IconReload size={18} />
+          </Button>
+        </div>
+      </div>
+
+      {/* Table Card */}
       <DataTable columns={columns(handleDeleteMapping)} data={serverMappings} />
     </div>
   );
