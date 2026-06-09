@@ -2,6 +2,7 @@
 
 import { DataTable } from "@/components/data-table-custom";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { columns } from "./columns";
 import type { ServerMapping } from "@/types/api";
 import { initServerMapping } from "@/constants/init-data";
@@ -13,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { getErrorMessage } from "@/lib/api-error";
 import {
   Dialog,
   DialogClose,
@@ -37,9 +39,15 @@ export default function ServerMapping() {
 
   useEffect(() => {
     const fetchAppSettingsAsync = async () => {
-      const response = await fetchServerMappings();
-      setServerMappings(response);
-      console.log("response mapping", response);
+      try {
+        const response = await fetchServerMappings();
+        setServerMappings(response);
+        console.log("response mapping", response);
+      } catch (error) {
+        const message = getErrorMessage(error);
+        toast.error(message);
+        console.error("Failed to fetch server mappings:", error);
+      }
     };
 
     fetchAppSettingsAsync();
@@ -49,41 +57,38 @@ export default function ServerMapping() {
     return null;
   }
 
-  const handleAddMapping = (
+  const handleAddMapping = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    try {
-      const addServerMappingsAsync = async () => {
-        const response = await addServerMappings(serverMapping);
-        setServerMappings((prev) => [...prev, response]);
-        setServerMapping(initServerMapping);
-        console.log("response mapping added", response);
-        setOpen(false);
-      };
 
-      addServerMappingsAsync();
+    try {
+      const response = await addServerMappings(serverMapping);
+      setServerMappings((prev) => [...prev, response]);
+      setServerMapping(initServerMapping);
+      setOpen(false);
+      console.log("response mapping added", response);
     } catch (error) {
-      console.error("Error: ", error);
+      const message = getErrorMessage(error);
+      toast.error(message);
+      console.error("Error adding server mapping:", error);
     }
   };
 
-  const handleDeleteMapping = (
+  const handleDeleteMapping = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: string,
   ) => {
     e.preventDefault();
-    try {
-      const deleteServerMappingsAsync = async (id: string) => {
-        const response = await deleteServerMappings(id);
-        setServerMappings((prev) => prev.filter((item) => item.id !== id));
-        console.log("response mapping deleted", response);
-        setOpen(false);
-      };
 
-      deleteServerMappingsAsync(id);
+    try {
+      const response = await deleteServerMappings(id);
+      setServerMappings((prev) => prev.filter((item) => item.id !== id));
+      console.log("response mapping deleted", response);
     } catch (error) {
-      console.error("Error: ", error);
+      const message = getErrorMessage(error);
+      toast.error(message);
+      console.error("Error deleting server mapping:", error);
     }
   };
 
