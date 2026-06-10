@@ -2,7 +2,6 @@
 
 import { DataTable } from "@/components/data-table-custom";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { columns } from "./columns";
 import type { ServerMapping } from "@/types/api";
 import { initServerMapping } from "@/constants/init-data";
@@ -27,6 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { IconDeviceDesktopPlus, IconReload } from "@tabler/icons-react";
 import { useMounted } from "@/hooks/use-mounted";
+import {toast} from "sonner"
 
 export default function ServerMapping() {
   const [open, setOpen] = useState(false);
