@@ -31,15 +31,15 @@ public class WinSchedTaskServiceImpl implements WinSchedTaskService {
 
         // TODO: Remove or update logic after testing on Linux
         // ------------------------------------------
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("linux")) {
-            WinSchedTask winSchedTaskDummy = new WinSchedTask();
-            winSchedTaskDummy.setTaskName(jobCode);
-            winSchedTaskDummy.setHostName(hostName);
-            winSchedTaskDummy.setStatus(TaskSchedulerStatus.RUNNING);
-            winSchedTaskDummy.setLastRuntime(LocalDateTime.now());
-            return winSchedTaskDummy;
-        }
+//        String os = System.getProperty("os.name").toLowerCase();
+//        if (os.contains("linux")) {
+//            WinSchedTask winSchedTaskDummy = new WinSchedTask();
+//            winSchedTaskDummy.setTaskName(jobCode);
+//            winSchedTaskDummy.setHostName(hostName);
+//            winSchedTaskDummy.setStatus(TaskSchedulerStatus.RUNNING);
+//            winSchedTaskDummy.setLastRuntime(LocalDateTime.now());
+//            return winSchedTaskDummy;
+//        }
         // ------------------------------------------
 
         try {

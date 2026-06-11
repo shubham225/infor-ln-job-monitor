@@ -11,10 +11,6 @@ public enum FailureReason {
     CANCELED,
     ERP_API_DOWN,
     EXECUTED,
-    /*
-        Below failure reasons will be checked in Executed strategy as
-        this needs to be checked after job has been successfully executed in ERP
-     */
     WIN_SCHEDULER_RUNNING,
     EXEC_WITH_ERROR_MESSAGE
 }
