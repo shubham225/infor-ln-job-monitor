@@ -33,7 +33,7 @@ public class RuntimeErrorStrategy implements JobFailureStrategy {
         String jobMonitorHome = Environments.getJobMonitorHome();
         String fileName = FileUtils.evtxWithTimestamp(task.getTaskName());
         Path eventLogPath = Paths.get(jobMonitorHome, fileName);
-        int success = eventLogClient.generateEventViewerLog(
+        int success = eventLogClient.getEventViewerLog(
                 new EventLogQuery(
                         "Application",
                         task.getExecutedOn(),

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class EventLogClientImpl implements EventLogClient {
     @Override
-    public int generateEventViewerLog(EventLogQuery query) {
+    public int getEventViewerLog(EventLogQuery query) {
         try {
             exportWindowsEventLog(query.logName(), query.startTime(), query.endTime(), query.outputFilepath().toString());
         } catch (IOException e) {
@@ -22,6 +22,21 @@ public class EventLogClientImpl implements EventLogClient {
             log.error("Runtime Error [{}]: {}", query.outputFilepath(), e.getMessage());
             return -2;
         }
+        return 0;
+    }
+
+    @Override
+    public int addEventViewerLog(String logName, String source, String entryType, String message) {
+        try {
+            writeEvent(logName, source, 1001, entryType, message);
+        } catch (IOException e) {
+            log.error("I/O Error [{} -> {}]: {}", logName, source, e.getMessage());
+            return -1;
+        } catch (InterruptedException e) {
+            log.error("Runtime Error [{} -> {}]: {}", logName, source, e.getMessage());
+            return -2;
+        }
+
         return 0;
     }
 
@@ -50,6 +65,42 @@ public class EventLogClientImpl implements EventLogClient {
 
         if (exitCode != 0) {
             throw new RuntimeException("Failed to export event logs. Exit code: " + exitCode);
+        }
+    }
+
+    private void writeEvent(
+            String logName,
+            String source,
+            int eventId,
+            String entryType,
+            String message) throws IOException, InterruptedException {
+
+        String escapedMessage = message
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
+
+        String command = String.format(
+                "Write-EventLog -LogName '%s' -Source '%s' "
+                        + "-EventId %d -EntryType %s -Message \"%s\"",
+                logName,
+                source,
+                eventId,
+                entryType,
+                escapedMessage);
+
+        Process process = new ProcessBuilder(
+                "powershell.exe",
+                "-ExecutionPolicy", "Bypass",
+                "-Command",
+                command)
+                .redirectErrorStream(true)
+                .start();
+
+        int exitCode = process.waitFor();
+
+        if (exitCode != 0) {
+            throw new RuntimeException(
+                    "Failed to write event log. Exit code: " + exitCode);
         }
     }
 

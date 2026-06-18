@@ -33,7 +33,7 @@ class MonitorServiceTest {
 
 //    @Test
     void testEventLogs() {
-        int i = eventLogClient.generateEventViewerLog(new EventLogQuery("Application", LocalDateTime.now().minusHours(24), LocalDateTime.now(), Path.of("D:/Test" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("_dd_MM_yyyy_hh_mm_ss")) +".evtx")));
+        int i = eventLogClient.getEventViewerLog(new EventLogQuery("Application", LocalDateTime.now().minusHours(24), LocalDateTime.now(), Path.of("D:/Test" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("_dd_MM_yyyy_hh_mm_ss")) +".evtx")));
         System.out.println(i);
     }
 
