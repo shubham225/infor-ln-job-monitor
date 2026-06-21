@@ -20,4 +20,6 @@ public class AppSetting {
     private Integer allowedJobStartDelay;
     private boolean emailAlerts;
     private String errorKeywords;
+    private Integer taskReleaseDelay;
+    private boolean sendMonthlyReports;
 }

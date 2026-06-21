@@ -22,6 +22,8 @@ public class AppSettingsInitializer {
             settings.setAllowedJobStartDelay(10);
             settings.setEmailAlerts(true);
             settings.setErrorKeywords("Error|Failed");
+            settings.setSendMonthlyReports(false);
+            settings.setTaskReleaseDelay(10);
             return repository.save(settings);
         });
     }
