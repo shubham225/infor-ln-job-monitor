@@ -8,7 +8,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ServerMappingDTO {
-    private UUID id;
+    private Long id;
     private String hostname;
     private String apiUrl;
 }

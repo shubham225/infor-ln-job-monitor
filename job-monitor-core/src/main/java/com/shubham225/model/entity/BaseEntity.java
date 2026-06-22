@@ -11,8 +11,8 @@ import java.util.UUID;
 @MappedSuperclass
 public class BaseEntity extends AuditableEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Version
     private Long version;
