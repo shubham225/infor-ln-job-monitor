@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface MonitoringTaskHistoryRepository extends JpaRepository<MonitoringTaskHistory, UUID> {
+public interface MonitoringTaskHistoryRepository extends JpaRepository<MonitoringTaskHistory, Long> {
 }

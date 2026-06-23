@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface InforERPJobRepository extends JpaRepository<InforERPJob, UUID> {
+public interface InforERPJobRepository extends JpaRepository<InforERPJob, Long> {
 }

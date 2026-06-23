@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface WinSchedTaskRepository extends JpaRepository<WinSchedTask, UUID> {
+public interface WinSchedTaskRepository extends JpaRepository<WinSchedTask, Long> {
 }

@@ -37,7 +37,7 @@ public class ServerMappingController {
             value = "/{id}",
             method = RequestMethod.POST
     )
-    public ResponseEntity<AppResult> updateServerMapping(@PathVariable("id") UUID id,
+    public ResponseEntity<AppResult> updateServerMapping(@PathVariable("id") Long id,
                                                          @RequestBody ServerMappingDTO request) {
         return AppResult.created(settingService.updateServerMapping(id, request));
     }
@@ -46,7 +46,7 @@ public class ServerMappingController {
             value = "/{id}",
             method = RequestMethod.DELETE
     )
-    public ResponseEntity<AppResult> deleteServerMapping(@PathVariable("id") UUID id) {
+    public ResponseEntity<AppResult> deleteServerMapping(@PathVariable("id") Long id) {
         return AppResult.created(settingService.deleteServerMapping(id));
     }
 }

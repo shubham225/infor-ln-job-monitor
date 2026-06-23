@@ -5,10 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface WinTaskToJobMappingRepository extends JpaRepository<WinTaskToJobMapping, UUID> {
+public interface WinTaskToJobMappingRepository extends JpaRepository<WinTaskToJobMapping, Long> {
     //TODO : find better alternative
     Optional<WinTaskToJobMapping> findFirstByJobCodeAndCompany(String jobName, String jobCompany);
 }

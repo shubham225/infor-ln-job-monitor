@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ServerMappingRepository extends JpaRepository<ServerMapping, UUID> {
+public interface ServerMappingRepository extends JpaRepository<ServerMapping, Long> {
     Optional<ServerMapping> findFirstByHostName(String hostname);
 }

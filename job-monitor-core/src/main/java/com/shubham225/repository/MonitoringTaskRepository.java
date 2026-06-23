@@ -10,6 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface MonitoringTaskRepository extends JpaRepository<MonitoringTask, UUID> {
+public interface MonitoringTaskRepository extends JpaRepository<MonitoringTask, Long> {
     List<MonitoringTask> findAllByStatusIn(Collection<MonitoringStatus> statuses);
 }
