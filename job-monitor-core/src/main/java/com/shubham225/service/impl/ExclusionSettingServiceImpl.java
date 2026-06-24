@@ -29,48 +29,60 @@ public class ExclusionSettingServiceImpl implements ExclusionSettingService {
     private final ExclusionJobMapper exclusionJobMapper;
 
     @Override
-    public ExclusionErrorMessage addErrorMessageExclusion(ExclusionErrorMessageDTO exclusionErrorMessageDTO) {
+    public ExclusionErrorMessageDTO addErrorMessageExclusion(ExclusionErrorMessageDTO exclusionErrorMessageDTO) {
         ExclusionErrorMessage exclusionErrorMessage = exclusionErrorMessageMapper.toEntity(exclusionErrorMessageDTO);
-        return exclusionErrorMessageRepository.save(exclusionErrorMessage);
+        exclusionErrorMessage = exclusionErrorMessageRepository.save(exclusionErrorMessage);
+        return exclusionErrorMessageMapper.toDto(exclusionErrorMessage);
     }
 
     @Override
-    public ExclusionJob addJobExclusion(ExclusionJobDTO exclusionJobDTO) {
+    public ExclusionJobDTO addJobExclusion(ExclusionJobDTO exclusionJobDTO) {
         ExclusionJob exclusionJob = exclusionJobMapper.toEntity(exclusionJobDTO);
-        return exclusionJobRepository.save(exclusionJob);
+        exclusionJob = exclusionJobRepository.save(exclusionJob);
+        return exclusionJobMapper.toDto(exclusionJob);
     }
 
     @Override
-    public ExclusionJobStatus addJobExclusionStatus(ExclusionJobStatusDTO exclusionJobDTO) {
+    public ExclusionJobStatusDTO addJobExclusionStatus(ExclusionJobStatusDTO exclusionJobDTO) {
         ExclusionJobStatus exclusionJobStatus = exclusionJobStatusMapper.toEntity(exclusionJobDTO);
-        return exclusionJobStatusRepository.save(exclusionJobStatus);
+        exclusionJobStatus = exclusionJobStatusRepository.save(exclusionJobStatus);
+        return exclusionJobStatusMapper.toDto(exclusionJobStatus);
     }
 
     @Override
-    public ExclusionErrorMessage removeErrorMessageExclusion(Long id) {
+    public ExclusionErrorMessageDTO removeErrorMessageExclusion(Long id) {
         ExclusionErrorMessage exclusionErrorMessage = exclusionErrorMessageRepository.findById(id).orElse(null);
 
-        if (exclusionErrorMessage != null) exclusionErrorMessageRepository.delete(exclusionErrorMessage);
+        if (exclusionErrorMessage != null)
+            exclusionErrorMessageRepository.delete(exclusionErrorMessage);
+        else
+            exclusionErrorMessage = new ExclusionErrorMessage();
 
-        return exclusionErrorMessage == null ? new ExclusionErrorMessage() : exclusionErrorMessage;
+        return exclusionErrorMessageMapper.toDto(exclusionErrorMessage);
     }
 
     @Override
-    public ExclusionJob removeJobExclusion(Long id) {
+    public ExclusionJobDTO removeJobExclusion(Long id) {
         ExclusionJob exclusionJob = exclusionJobRepository.findById(id).orElse(null);
 
-        if (exclusionJob != null) exclusionJobRepository.delete(exclusionJob);
+        if (exclusionJob != null)
+            exclusionJobRepository.delete(exclusionJob);
+        else
+            exclusionJob = new ExclusionJob();
 
-        return exclusionJob ==  null ? new ExclusionJob() : exclusionJob;
+        return exclusionJobMapper.toDto(exclusionJob);
     }
 
     @Override
-    public ExclusionJobStatus removeJobExclusionStatus(Long id) {
+    public ExclusionJobStatusDTO removeJobExclusionStatus(Long id) {
         ExclusionJobStatus  exclusionJobStatus = exclusionJobStatusRepository.findById(id).orElse(null);
 
-        if (exclusionJobStatus != null) exclusionJobStatusRepository.delete(exclusionJobStatus);
+        if (exclusionJobStatus != null)
+            exclusionJobStatusRepository.delete(exclusionJobStatus);
+        else
+            exclusionJobStatus = new ExclusionJobStatus();
 
-        return exclusionJobStatus == null ? new ExclusionJobStatus() : exclusionJobStatus;
+        return exclusionJobStatusMapper.toDto(exclusionJobStatus);
     }
 
     @Override
