@@ -39,6 +39,7 @@ public class ExclusionSettingServiceImpl implements ExclusionSettingService {
     public ExclusionJobDTO addJobExclusion(ExclusionJobDTO exclusionJobDTO) {
         ExclusionJob exclusionJob = exclusionJobMapper.toEntity(exclusionJobDTO);
         exclusionJob = exclusionJobRepository.save(exclusionJob);
+
         return exclusionJobMapper.toDto(exclusionJob);
     }
 

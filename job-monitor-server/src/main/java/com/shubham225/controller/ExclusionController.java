@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.shubham225.constant.ApplicationConstants.VERSION;
 
 @RestController
-@RequestMapping(value = VERSION + "/settings/exclusion")
+@RequestMapping(value = VERSION + "/exclusion")
 @RequiredArgsConstructor
 public class ExclusionController {
     private final ExclusionSettingService exclusionSettingService;
