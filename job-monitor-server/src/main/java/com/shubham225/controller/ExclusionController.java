@@ -62,7 +62,7 @@ public class ExclusionController {
             value = "/job/{id}",
             method = RequestMethod.DELETE
     )
-    public ResponseEntity<AppResult> addExclusionJob(@PathVariable Long id) {
+    public ResponseEntity<AppResult> addExclusionJob(@PathVariable("id") Long id) {
         return AppResult.success(exclusionSettingService.removeJobExclusion(id));
     }
 
@@ -86,7 +86,7 @@ public class ExclusionController {
             value = "/jobStatus/{id}",
             method = RequestMethod.DELETE
     )
-    public ResponseEntity<AppResult> removeExclusionJobStatus(@PathVariable Long id) {
+    public ResponseEntity<AppResult> removeExclusionJobStatus(@PathVariable("id") Long id) {
         return AppResult.success(exclusionSettingService.removeJobExclusionStatus(id));
     }
 }

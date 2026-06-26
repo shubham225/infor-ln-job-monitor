@@ -1,17 +1,21 @@
-"use client"
+"use client";
 
-import { useMemo, useState } from "react"
-import { IconPlus, IconTrash } from "@tabler/icons-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Input } from "./ui/input"
+import { useEffect, useMemo, useState } from "react";
+import { IconTrash } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import {
+  AddJobDialog,
+  AddMessageDialog,
+  AddStatusDialog,
+} from "@/components/exclusions/add-exclusion-dialogs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select"
+} from "./ui/select";
 import {
   Table,
   TableBody,
@@ -19,274 +23,327 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table"
+} from "./ui/table";
+import {
+  addExclusionJob,
+  addExclusionJobStatus,
+  addExclusionMessage,
+  deleteExclusionJob,
+  deleteExclusionJobStatus,
+  deleteExclusionMessage,
+  fetchExclusionJobStatuses,
+  fetchExclusionJobs,
+  fetchExclusionMessages,
+} from "@/service/exclusion-service";
+import {
+  ExclusionJob,
+  ExclusionJobStatus,
+  ExclusionMessage,
+} from "@/types/api";
+import { ERPJobStatus } from "@/types/enums";
 
-type ErrorServer = {
-  server: string
-  exclusions: string[]
-}
-
-type JobExclusion = {
-  job: string
-  company: string
-}
-
-type JobServer = {
-  server: string
-  exclusions: JobExclusion[]
-}
-
-type StatusServer = {
-  server: string
-  statuses: string[]
-}
-
-const defaultErrorServers: ErrorServer[] = [
-  {
-    server: "Server A",
-    exclusions: ["Timeout exceeded", "Invalid response format"],
-  },
-  {
-    server: "Server B",
-    exclusions: ["Disk full", "Null pointer error"],
-  },
-]
-
-const defaultJobServers: JobServer[] = [
-  {
-    server: "Server A",
-    exclusions: [
-      { job: "InvoiceSync", company: "Northwind" },
-      { job: "PayrollUpdate", company: "Contoso" },
-    ],
-  },
-  {
-    server: "Server B",
-    exclusions: [{ job: "InventoryRefresh", company: "Fabrikam" }],
-  },
-]
-
-const defaultStatusServers: StatusServer[] = [
-  {
-    server: "Server A",
-    statuses: ["FAILED", "CANCELED"],
-  },
-  {
-    server: "Server B",
-    statuses: ["PENDING", "SKIPPED"],
-  },
-]
-
-const availableStatuses = [
-  "PENDING",
-  "RUNNING",
-  "FAILED",
-  "CANCELED",
-  "SUCCESS",
-  "SKIPPED",
-]
+const availableStatuses = Object.values(ERPJobStatus) as ERPJobStatus[];
 
 export default function ExclusionSettings() {
-  const [errorServers, setErrorServers] = useState(defaultErrorServers)
-  const [jobServers, setJobServers] = useState(defaultJobServers)
-  const [statusServers, setStatusServers] = useState(defaultStatusServers)
-  const [selectedErrorServer, setSelectedErrorServer] = useState(defaultErrorServers[0].server)
-  const [selectedJobServer, setSelectedJobServer] = useState(defaultJobServers[0].server)
-  const [selectedStatusServer, setSelectedStatusServer] = useState(defaultStatusServers[0].server)
-  const [newErrorMessage, setNewErrorMessage] = useState("")
-  const [newJobName, setNewJobName] = useState("")
-  const [newJobCompany, setNewJobCompany] = useState("")
-  const [newStatus, setNewStatus] = useState(availableStatuses[0])
+  const [messageExclusions, setMessageExclusions] = useState<ExclusionMessage[]>([]);
+  const [jobExclusions, setJobExclusions] = useState<ExclusionJob[]>([]);
+  const [statusExclusions, setStatusExclusions] = useState<ExclusionJobStatus[]>([]);
+  const [selectedErrorHostName, setSelectedErrorHostName] = useState("");
+  const [selectedJobHostName, setSelectedJobHostName] = useState("");
+  const [selectedStatusHostName, setSelectedStatusHostName] = useState("");
+  const [newErrorMessage, setNewErrorMessage] = useState("");
+  const [newMessageHostName, setNewMessageHostName] = useState("");
+  const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
+  const [newJobHostName, setNewJobHostName] = useState("");
+  const [newJobName, setNewJobName] = useState("");
+  const [newJobCompany, setNewJobCompany] = useState("");
+  const [isJobDialogOpen, setIsJobDialogOpen] = useState(false);
+  const [newStatusHostName, setNewStatusHostName] = useState("");
+  const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
+  const [newStatus, setNewStatus] = useState<ERPJobStatus>(availableStatuses[0] ?? ERPJobStatus.UNKNOWN,);
 
-  const selectedError = useMemo(
-    () => errorServers.find((item) => item.server === selectedErrorServer),
-    [errorServers, selectedErrorServer]
-  )
+  const errorServers = useMemo(
+    () => Array.from(new Set(messageExclusions.map((item) => item.hostName))),
+    [messageExclusions],
+  );
 
-  const selectedJob = useMemo(
-    () => jobServers.find((item) => item.server === selectedJobServer),
-    [jobServers, selectedJobServer]
-  )
+  const jobServers = useMemo(
+    () => Array.from(new Set(jobExclusions.map((item) => item.hostName))),
+    [jobExclusions],
+  );
 
-  const selectedStatus = useMemo(
-    () => statusServers.find((item) => item.server === selectedStatusServer),
-    [statusServers, selectedStatusServer]
-  )
+  const statusServers = useMemo(
+    () => Array.from(new Set(statusExclusions.map((item) => item.hostName))),
+    [statusExclusions],
+  );
 
-  function addErrorMessage() {
-    const value = newErrorMessage.trim()
-    if (!value) return
+  const selectedErrorMessages = useMemo(
+    () =>
+      messageExclusions.filter((item) => item.hostName === selectedErrorHostName),
+    [messageExclusions, selectedErrorHostName],
+  );
 
-    setErrorServers((current) =>
-      current.map((item) =>
-        item.server === selectedErrorServer
-          ? { ...item, exclusions: [...item.exclusions, value] }
-          : item
-      )
-    )
-    setNewErrorMessage("")
+  const selectedJobItems = useMemo(
+    () => jobExclusions.filter((item) => item.hostName === selectedJobHostName),
+    [jobExclusions, selectedJobHostName],
+  );
+
+  const selectedStatusItems = useMemo(
+    () =>
+      statusExclusions.filter((item) => item.hostName === selectedStatusHostName),
+    [statusExclusions, selectedStatusHostName],
+  );
+
+  useEffect(() => {
+    if (!selectedErrorHostName && errorServers.length) {
+      setSelectedErrorHostName(errorServers[0]);
+    }
+  }, [errorServers, selectedErrorHostName]);
+
+  useEffect(() => {
+    if (!selectedJobHostName && jobServers.length) {
+      setSelectedJobHostName(jobServers[0]);
+    }
+  }, [jobServers, selectedJobHostName]);
+
+  useEffect(() => {
+    if (!selectedStatusHostName && statusServers.length) {
+      setSelectedStatusHostName(statusServers[0]);
+    }
+  }, [statusServers, selectedStatusHostName]);
+
+  useEffect(() => {
+    const loadExclusions = async () => {
+      try {
+        const [messages, jobs, statuses] = await Promise.all([
+          fetchExclusionMessages(),
+          fetchExclusionJobs(),
+          fetchExclusionJobStatuses(),
+        ]);
+
+        setMessageExclusions(messages);
+        setJobExclusions(jobs);
+        setStatusExclusions(statuses);
+
+        setSelectedErrorHostName(
+          (current) => current || messages[0]?.hostName || "",
+        );
+        setSelectedJobHostName((current) => current || jobs[0]?.hostName || "");
+        setSelectedStatusHostName(
+          (current) => current || statuses[0]?.hostName || "",
+        );
+      } catch (error) {
+        console.error("Failed to load exclusion data:", error);
+      }
+    };
+
+    loadExclusions();
+  }, []);
+
+  const handleMessageDialogOpenChange = (open: boolean) => {
+    setIsMessageDialogOpen(open);
+    if (open && selectedErrorHostName) {
+      setNewMessageHostName(selectedErrorHostName);
+    }
+  };
+
+  const handleJobDialogOpenChange = (open: boolean) => {
+    setIsJobDialogOpen(open);
+    if (open && selectedJobHostName) {
+      setNewJobHostName(selectedJobHostName);
+    }
+  };
+
+  const handleStatusDialogOpenChange = (open: boolean) => {
+    setIsStatusDialogOpen(open);
+    if (open && selectedStatusHostName) {
+      setNewStatusHostName(selectedStatusHostName);
+    }
+  };
+
+  async function addErrorMessage() {
+    const value = newErrorMessage.trim();
+    const hostName = newMessageHostName.trim();
+    if (!value || !hostName) return;
+
+    try {
+      const newExclusionMessage: ExclusionMessage = {
+        id: 0,
+        hostName,
+        message: value,
+      };
+
+      const createdMessage = await addExclusionMessage(newExclusionMessage);
+      setMessageExclusions((current) => [...current, createdMessage]);
+      setSelectedErrorHostName(createdMessage.hostName);
+      setNewErrorMessage("");
+      setNewMessageHostName("");
+      setIsMessageDialogOpen(false);
+    } catch (error) {
+      console.error("Failed to add exclusion message:", error);
+    }
   }
 
-  function deleteErrorMessage(index: number) {
-    setErrorServers((current) =>
-      current.map((item) =>
-        item.server === selectedErrorServer
-          ? { ...item, exclusions: item.exclusions.filter((_, idx) => idx !== index) }
-          : item
-      )
-    )
+  async function deleteErrorMessage(id: number) {
+    try {
+      await deleteExclusionMessage(id);
+      setMessageExclusions((current) =>
+        current.filter((item) => item.id !== id),
+      );
+    } catch (error) {
+      console.error("Failed to delete exclusion message:", error);
+    }
   }
 
-  function addJobExclusion() {
-    const job = newJobName.trim()
-    const company = newJobCompany.trim()
-    if (!job || !company) return
+  async function addJobExclusion() {
+    const hostName = newJobHostName.trim();
+    const job = newJobName.trim();
+    const company = newJobCompany.trim();
+    if (!hostName || !job || !company) return;
 
-    setJobServers((current) =>
-      current.map((item) =>
-        item.server === selectedJobServer
-          ? { ...item, exclusions: [...item.exclusions, { job, company }] }
-          : item
-      )
-    )
-    setNewJobName("")
-    setNewJobCompany("")
+    try {
+      const newJobExclusion: ExclusionJob = {
+        id: 0,
+        hostName,
+        jobName: job,
+        company,
+      };
+
+      const createdJob = await addExclusionJob(newJobExclusion);
+      setJobExclusions((current) => [...current, createdJob]);
+      setSelectedJobHostName(createdJob.hostName);
+      setNewJobHostName("");
+      setNewJobName("");
+      setNewJobCompany("");
+      setIsJobDialogOpen(false);
+    } catch (error) {
+      console.error("Failed to add exclusion job:", error);
+    }
   }
 
-  function deleteJobExclusion(index: number) {
-    setJobServers((current) =>
-      current.map((item) =>
-        item.server === selectedJobServer
-          ? { ...item, exclusions: item.exclusions.filter((_, idx) => idx !== index) }
-          : item
-      )
-    )
+  async function deleteJobExclusion(id: number) {
+    try {
+      await deleteExclusionJob(id);
+      setJobExclusions((current) => current.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete exclusion job:", error);
+    }
   }
 
-  function addStatusExclusion() {
-    if (!newStatus) return
+  async function addStatusExclusion() {
+    const hostName = newStatusHostName.trim();
+    if (!newStatus || !hostName) return;
 
-    setStatusServers((current) =>
-      current.map((item) =>
-        item.server === selectedStatusServer
-          ? { ...item, statuses: [...item.statuses, newStatus] }
-          : item
-      )
-    )
+    try {
+      const newStatusExclusion: ExclusionJobStatus = {
+        id: 0,
+        hostName,
+        status: newStatus,
+      };
+
+      const createdStatus = await addExclusionJobStatus(newStatusExclusion);
+      setStatusExclusions((current) => [...current, createdStatus]);
+      setSelectedStatusHostName(createdStatus.hostName);
+      setNewStatusHostName("");
+      setIsStatusDialogOpen(false);
+    } catch (error) {
+      console.error("Failed to add exclusion status:", error);
+    }
   }
 
-  function deleteStatusExclusion(index: number) {
-    setStatusServers((current) =>
-      current.map((item) =>
-        item.server === selectedStatusServer
-          ? { ...item, statuses: item.statuses.filter((_, idx) => idx !== index) }
-          : item
-      )
-    )
+  async function deleteStatusExclusion(id: number) {
+    try {
+      await deleteExclusionJobStatus(id);
+      setStatusExclusions((current) =>
+        current.filter((item) => item.id !== id),
+      );
+    } catch (error) {
+      console.error("Failed to delete exclusion status:", error);
+    }
   }
 
   return (
     <div className="space-y-6">
-
       <div className="grid gap-6 xl:grid-cols-3">
         <ExclusionTablePanel
           title="Error Message Exclusions"
           description="Exclude error phrases produced by a selected server."
-          servers={errorServers.map((item) => item.server)}
-          selectedServer={selectedErrorServer}
-          onSelectServer={setSelectedErrorServer}
+          servers={errorServers}
+          selectedServer={selectedErrorHostName}
+          onSelectServer={setSelectedErrorHostName}
           columns={["Message", "Action"]}
           addRow={
-            <div className="flex flex-col gap-3 sm:flex-col">
-              <Input
-                value={newErrorMessage}
-                onChange={(event) => setNewErrorMessage(event.target.value)}
-                placeholder="Enter error message fragment"
-              />
-              <Button className="min-w-[11rem]" onClick={addErrorMessage}>
-                <IconPlus /> Add message
-              </Button>
-            </div>
+            <AddMessageDialog
+              open={isMessageDialogOpen}
+              onOpenChange={handleMessageDialogOpenChange}
+              hostName={newMessageHostName}
+              onHostNameChange={setNewMessageHostName}
+              message={newErrorMessage}
+              onMessageChange={setNewErrorMessage}
+              onSubmit={addErrorMessage}
+            />
           }
-          rows={
-            selectedError?.exclusions.map((message, index) => ({
-              id: `${selectedErrorServer}-error-${index}`,
-              cells: [message],
-              action: () => deleteErrorMessage(index),
-            })) ?? []
-          }
+          rows={selectedErrorMessages.map((message) => ({
+            id: `error-${message.id}`,
+            cells: [message.message],
+            action: () => deleteErrorMessage(message.id),
+          }))}
         />
 
         <ExclusionTablePanel
           title="Job Exclusions"
           description="Skip specific jobs or companies on a chosen server."
-          servers={jobServers.map((item) => item.server)}
-          selectedServer={selectedJobServer}
-          onSelectServer={setSelectedJobServer}
+          servers={jobServers}
+          selectedServer={selectedJobHostName}
+          onSelectServer={setSelectedJobHostName}
           columns={["Job", "Company", "Action"]}
           addRow={
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Input
-                value={newJobName}
-                onChange={(event) => setNewJobName(event.target.value)}
-                placeholder="Job name"
-              />
-              <Input
-                value={newJobCompany}
-                onChange={(event) => setNewJobCompany(event.target.value)}
-                placeholder="Company name"
-              />
-              <Button className="sm:col-span-2" onClick={addJobExclusion}>
-                <IconPlus /> Add job exclusion
-              </Button>
-            </div>
+            <AddJobDialog
+              open={isJobDialogOpen}
+              onOpenChange={handleJobDialogOpenChange}
+              hostName={newJobHostName}
+              onHostNameChange={setNewJobHostName}
+              jobName={newJobName}
+              onJobNameChange={setNewJobName}
+              company={newJobCompany}
+              onCompanyChange={setNewJobCompany}
+              onSubmit={addJobExclusion}
+            />
           }
-          rows={
-            selectedJob?.exclusions.map((item, index) => ({
-              id: `${selectedJobServer}-job-${index}`,
-              cells: [item.job, item.company],
-              action: () => deleteJobExclusion(index),
-            })) ?? []
-          }
+          rows={selectedJobItems.map((item) => ({
+            id: `job-${item.id}`,
+            cells: [item.jobName, item.company],
+            action: () => deleteJobExclusion(item.id),
+          }))}
         />
 
         <ExclusionTablePanel
           title="Job Status Exclusions"
           description="Ignore alerts for specific status values on the selected server."
-          servers={statusServers.map((item) => item.server)}
-          selectedServer={selectedStatusServer}
-          onSelectServer={setSelectedStatusServer}
+          servers={statusServers}
+          selectedServer={selectedStatusHostName}
+          onSelectServer={setSelectedStatusHostName}
           columns={["Status", "Action"]}
           addRow={
-            <div className="grid gap-3">
-              <Select value={newStatus} onValueChange={setNewStatus}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  {availableStatuses.map((status) => (
-                    <SelectItem key={status} value={status}>
-                      {status}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Button onClick={addStatusExclusion}>
-                <IconPlus /> Add status
-              </Button>
-            </div>
+            <AddStatusDialog
+              open={isStatusDialogOpen}
+              onOpenChange={handleStatusDialogOpenChange}
+              hostName={newStatusHostName}
+              onHostNameChange={setNewStatusHostName}
+              status={newStatus}
+              onStatusChange={setNewStatus}
+              onSubmit={addStatusExclusion}
+            />
           }
-          rows={
-            selectedStatus?.statuses.map((status, index) => ({
-              id: `${selectedStatusServer}-status-${index}`,
-              cells: [status],
-              action: () => deleteStatusExclusion(index),
-            })) ?? []
-          }
+          rows={selectedStatusItems.map((item) => ({
+            id: `status-${item.id}`,
+            cells: [item.status],
+            action: () => deleteStatusExclusion(item.id),
+          }))}
         />
       </div>
     </div>
-  )
+  );
 }
 
 function ExclusionTablePanel({
@@ -299,24 +356,27 @@ function ExclusionTablePanel({
   addRow,
   rows,
 }: {
-  title: string
-  description: string
-  servers: string[]
-  selectedServer: string
-  onSelectServer: (value: string) => void
-  columns: string[]
-  addRow: React.ReactNode
+  title: string;
+  description: string;
+  servers: string[];
+  selectedServer: string;
+  onSelectServer: (value: string) => void;
+  columns: string[];
+  addRow: React.ReactNode;
   rows: {
-    id: string
-    cells: string[]
-    action: () => void
-  }[]
+    id: string;
+    cells: string[];
+    action: () => void;
+  }[];
 }) {
   return (
     <Card className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
       <CardHeader className="space-y-4 border-b border-slate-200 px-6 py-2">
         <div className="space-y-2">
-          <CardTitle className="text-xl font-semibold text-slate-900">{title}</CardTitle>
+          <CardTitle className="text-xl font-semibold text-slate-900 flex justify-between">
+            <div className="">{title}</div>
+            <div className="">{addRow}</div>
+          </CardTitle>
           <p className="text-sm leading-6 text-slate-600">{description}</p>
         </div>
         <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
@@ -336,15 +396,17 @@ function ExclusionTablePanel({
             {rows.length} exclusion{rows.length === 1 ? "" : "s"}
           </div>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">{addRow}</div>
       </CardHeader>
       <CardContent className="space-y-5 px-6">
-        <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto overflow-y-auto max-h-80 rounded-lg border border-slate-200 bg-white shadow-sm">
           <Table className="min-w-full">
             <TableHeader>
               <TableRow className="bg-slate-100">
                 {columns.map((column, index) => (
-                  <TableHead key={index} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <TableHead
+                    key={index}
+                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+                  >
                     {column}
                   </TableHead>
                 ))}
@@ -353,9 +415,15 @@ function ExclusionTablePanel({
             <TableBody>
               {rows.length > 0 ? (
                 rows.map((row) => (
-                  <TableRow key={row.id} className="border-b last:border-b-0 hover:bg-slate-50">
+                  <TableRow
+                    key={row.id}
+                    className="border-b last:border-b-0 hover:bg-slate-50"
+                  >
                     {row.cells.map((cell, index) => (
-                      <TableCell key={index} className="px-4 py-4 text-sm text-slate-700">
+                      <TableCell
+                        key={index}
+                        className="px-4 py-4 text-sm text-slate-700"
+                      >
                         {cell}
                       </TableCell>
                     ))}
@@ -373,7 +441,10 @@ function ExclusionTablePanel({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="px-4 py-10 text-center text-sm text-slate-500">
+                  <TableCell
+                    colSpan={columns.length}
+                    className="px-4 py-10 text-center text-sm text-slate-500"
+                  >
                     No exclusions defined for this server.
                   </TableCell>
                 </TableRow>
@@ -383,5 +454,5 @@ function ExclusionTablePanel({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

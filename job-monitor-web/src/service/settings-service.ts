@@ -26,7 +26,8 @@ export async function updateOrSaveAppSettings(
     
     return response.data.payload;
   } catch (error) {
-    console.error("Failed to fetch all problems:", error);
+    console.error("Failed to update or save app settings:", error);
     throw error;
   }
 }
+

@@ -37,3 +37,22 @@ export interface RunningTask {
   status: MonitoringStatus;
   executedOn: string;
 }
+
+export interface ExclusionMessage {
+  id: number;
+  hostName: string;
+  message: string;
+}
+
+export interface ExclusionJob {
+  id: number;
+  hostName: string;
+  jobName: string;
+  company: string;
+}
+
+export interface ExclusionJobStatus {
+  id: number;
+  hostName: string;
+  status: ERPJobStatus;
+}
