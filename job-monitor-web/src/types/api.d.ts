@@ -33,7 +33,7 @@ export interface RunningTask {
   server: string;
   jobStatus: ERPJobStatus;
   jobUser: string;
-  jobStartedAt: string;  // ISO string from LocalDateTime
+  jobStartedAt: string; // ISO string from LocalDateTime
   status: MonitoringStatus;
   executedOn: string;
 }
@@ -55,4 +55,33 @@ export interface ExclusionJobStatus {
   id: number;
   hostName: string;
   status: ERPJobStatus;
+}
+
+export interface DashboardStats {
+  summery: {
+    totalJobExecutions: number;
+    totalFailedJobs: number;
+    totalSuccessfulJobs: number;
+    totalRunningTasks: number;
+  };
+  failedJobsByReason: [
+    {
+      reason: FailureReason;
+      count: number;
+    },
+  ];
+  quickStats: {
+    averageExecutionTime: number;
+    lastAlertTime: string;
+    activeJobs: number;
+    uptime: string;
+    scheduledTasks: number;
+  };
+  monthlyExecutionTrend: MonthlyExecutionTrend[];
+}
+
+export interface MonthlyExecutionTrend {
+  month: string;
+  successfulExecutions: number;
+  failedExecutions: number;
 }

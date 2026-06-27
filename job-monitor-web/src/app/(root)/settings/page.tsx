@@ -79,7 +79,7 @@ export default function SettingsPage() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex min-h-[72vh] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
+          className="flex min-h-[72vh] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
         >
           <Tabs defaultValue="general" className="flex flex-col flex-1 p-2">
             <TabsList variant="line" className="w-full px-2 py-2 border-b border-slate-200">

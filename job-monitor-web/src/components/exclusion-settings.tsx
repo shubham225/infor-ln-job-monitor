@@ -398,14 +398,14 @@ function ExclusionTablePanel({
         </div>
       </CardHeader>
       <CardContent className="space-y-5 px-6">
-        <div className="overflow-x-auto overflow-y-auto max-h-80 rounded-lg border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-y-auto max-h-80 rounded-lg border border-slate-200 bg-white shadow-sm">
           <Table className="min-w-full">
             <TableHeader>
               <TableRow className="bg-slate-100">
                 {columns.map((column, index) => (
                   <TableHead
                     key={index}
-                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+                    className="sticky top-0 z-10 bg-slate-100 px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
                   >
                     {column}
                   </TableHead>
@@ -422,12 +422,12 @@ function ExclusionTablePanel({
                     {row.cells.map((cell, index) => (
                       <TableCell
                         key={index}
-                        className="px-4 py-4 text-sm text-slate-700"
+                        className="px-2 py-1 text-sm text-slate-700"
                       >
                         {cell}
                       </TableCell>
                     ))}
-                    <TableCell className="px-4 py-4 text-right">
+                    <TableCell className="px-2 py-1 text-right">
                       <Button
                         size="icon"
                         variant="ghost"
