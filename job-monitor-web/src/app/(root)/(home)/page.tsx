@@ -1,159 +1,93 @@
-import { Button } from "@/components/ui/button";
+"use client"
+
+import { useEffect, useState } from "react";
 import {
-  IconArrowsDiagonal,
   IconCircleCheck,
   IconExclamationCircle,
-  IconMenu2,
   IconPlayerPlay,
-  IconReload,
   IconTreadmill,
 } from "@tabler/icons-react";
-import {
-  AlertCircle,
-  Bell,
-  CheckCircle,
-  CircleX,
-  Globe,
-  Hourglass,
-  List,
-  MemoryStick,
-  MonitorCloud,
-  Play,
-} from "lucide-react";
 import { ChartAreaLegend } from "./temp-chart";
-import {
-  FailureData,
-  Metrix,
-  StatItem,
-  StatItemCompact,
-} from "@/types/dashboard";
+import { FailureData } from "@/types/dashboard";
+import type { DashboardStats, MonthlyExecutionTrend } from "@/types/api";
 import { Card, CardContent } from "@/components/ui/card";
 import FailureDashboardTable from "@/components/failure-dash-table";
+import {
+  fetchDashboardStats,
+  fetchMonthlyExecutionTrend,
+} from "@/service/dashboard-service";
+import { formatCompactNumber, formatDuration, formatEnumLabel, formatLastAlert } from "@/lib/utils";
 
-const data: Metrix[] = [
-  {
-    title: "Overall",
-    data: [
-      {
-        label: "Total",
-        value: 1100,
-        icon: List,
-      },
-      {
-        label: "Success",
-        value: 700,
-        icon: CheckCircle,
-      },
-      {
-        label: "Failed",
-        value: 400,
-        icon: AlertCircle,
-        textColor: "text-red-700",
-      },
-    ],
-  },
-  {
-    title: "This Month",
-    data: [
-      {
-        label: "Total",
-        value: 110,
-        icon: List,
-      },
-      {
-        label: "Success",
-        value: 70,
-        icon: CheckCircle,
-      },
-      {
-        label: "Failed",
-        value: 40,
-        icon: AlertCircle,
-        textColor: "text-red-700",
-      },
-    ],
-  },
-  {
-    title: "Top Failure Status",
-    data: [
-      { label: "Time Limit Exceeded", value: "20", icon: Hourglass },
-      { label: "Executed With Runtime", value: "10", icon: CircleX },
-      { label: "Erp Api Down", value: "10", icon: Globe },
-    ],
-  },
-  {
-    title: "Other Stats",
-    data: [
-      {
-        label: "Running",
-        value: "12",
-        icon: Play,
-      },
-      {
-        label: "Last Alert",
-        value: "12m 40s",
-        icon: Bell,
-      },
-      {
-        label: "Memory Usage",
-        value: "300 MB",
-        icon: MemoryStick,
-      },
-    ],
-  },
-];
+export default function Home() {
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [monthlyTrend, setMonthlyTrend] = useState<MonthlyExecutionTrend[]>([]);
+  const [failureData, setFailureData] = useState<FailureData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-const otherStats: StatItem[] = [
-  {
-    label: "Running",
-    value: "12",
-    icon: Play,
-  },
-  {
-    label: "Last Alert",
-    value: "12m 40s",
-    icon: Bell,
-  },
-  {
-    label: "Memory Usage",
-    value: "300 MB",
-    icon: MemoryStick,
-  },
-];
+  useEffect(() => {
+    const loadDashboard = async () => {
+      setLoading(true);
+      try {
+        const [dashboardStats, trendData] = await Promise.all([
+          fetchDashboardStats(),
+          fetchMonthlyExecutionTrend(),
+        ]);
 
-const totalMonitor: StatItemCompact = {
-  value: "5.8K",
-  icon: MonitorCloud,
-};
+        setStats(dashboardStats);
+        setMonthlyTrend(trendData);
+        setFailureData(
+          dashboardStats.failedJobsByReason?.map(({ reason, count }) => ({
+            key: reason,
+            label: formatEnumLabel(reason),
+            count,
+          })) ?? []
+        );
+        
+      } catch (err) {
+        console.error("Failed to load dashboard data:", err);
+        setError("Unable to load dashboard data. Please refresh.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-const failureData: FailureData[] = [
-  { key: "PENDING", label: "Pending", count: 8 },
-  { key: "JOB_DETAILS_MISSING", label: "Job Details Missing", count: 2 },
-  { key: "NOT_FOUND", label: "Job Not Found", count: 1 },
-  { key: "NOT_EXECUTED", label: "Not Executed", count: 4 },
-  { key: "RUNTIME_ERROR", label: "Runtime Error", count: 6 },
-  {
-    key: "EXECUTED_WITH_RUNTIME_ERROR",
-    label: "Executed with Runtime Error",
-    count: 3,
-  },
-  { key: "TIME_LIMIT_EXCEEDED", label: "Time Limit Exceeded", count: 5 },
-  { key: "CANCELED", label: "Canceled", count: 1 },
-  { key: "ERP_API_DOWN", label: "ERP API Down", count: 2 },
-  { key: "EXECUTED", label: "Executed Successfully", count: 42 },
-  {
-    key: "WIN_SCHEDULER_RUNNING",
-    label: "Scheduler Still Running",
-    count: 3,
-  },
-  {
-    key: "EXEC_WITH_ERROR_MESSAGE",
-    label: "Executed with Error Message",
-    count: 2,
-  },
-];
+    loadDashboard();
+  }, []);
 
-export default async function Home() {
+  const totalJobExecutions = stats?.summery?.totalJobExecutions ?? 0;
+  const totalFailedJobs = stats?.summery?.totalFailedJobs ?? 0;
+  const totalSuccessfulJobs = stats?.summery?.totalSuccessfulJobs ?? 0;
+  const totalRunningTasks = stats?.summery?.totalRunningJobs ?? 0;
+
+  const averageExecutionTimeMs = stats?.quickStats?.averageExecutionTimeMs ?? 0;
+  const lastAlertText = formatLastAlert(stats?.quickStats?.lastAlertTime ?? "");
+  const activeJobs = stats?.quickStats?.activeJobs ?? 0;
+  const uptimeMs = stats?.quickStats?.uptimeMs ?? 0;
+  const scheduledTasks = stats?.quickStats?.scheduledTasks ?? 0;
+
+  const successRate = totalJobExecutions
+    ? Math.round((totalSuccessfulJobs / totalJobExecutions) * 100)
+    : 0;
+  const failureRate = totalJobExecutions
+    ? Math.round((totalFailedJobs / totalJobExecutions) * 100)
+    : 0;
+
+  if (loading) {
+    return (
+      <main className="p-4 space-y-4 bg-background">
+        <div className="text-sm text-muted-foreground">Loading dashboard...</div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="p-4 space-y-4 bg-background">
+        <div className="text-sm text-destructive">{error}</div>
+      </main>
+    );
+  }
 
   return (
     <main className="p-4 space-y-4 bg-background">
@@ -201,9 +135,11 @@ export default async function Home() {
                 <p className="text-xs text-muted-foreground font-medium">
                   Total Runs
                 </p>
-                <p className="text-2xl font-bold mt-2">5.8K</p>
+                <p className="text-2xl font-bold mt-2">
+                  {formatCompactNumber(totalJobExecutions)}
+                </p>
                 <p className="text-xs text-blue-600 font-semibold mt-2">
-                  ↑ 12% from last week
+                  {successRate}% success rate
                 </p>
               </div>
               <div className="text-blue-500/20 ml-2">
@@ -220,9 +156,11 @@ export default async function Home() {
                 <p className="text-xs text-muted-foreground font-medium">
                   Total Failures
                 </p>
-                <p className="text-2xl font-bold mt-2">2.3K</p>
+                <p className="text-2xl font-bold mt-2">
+                  {formatCompactNumber(totalFailedJobs)}
+                </p>
                 <p className="text-xs text-red-600 font-semibold mt-2">
-                  ↑ 8% from last week
+                  {failureRate}% of total runs
                 </p>
               </div>
               <div className="text-red-500/20 ml-2">
@@ -239,9 +177,11 @@ export default async function Home() {
                 <p className="text-xs text-muted-foreground font-medium">
                   Total Success
                 </p>
-                <p className="text-2xl font-bold mt-2">3.5K</p>
+                <p className="text-2xl font-bold mt-2">
+                  {formatCompactNumber(totalSuccessfulJobs)}
+                </p>
                 <p className="text-xs text-green-600 font-semibold mt-2">
-                  ↑ 15% from last week
+                  {successRate}% of total runs
                 </p>
               </div>
               <div className="text-green-500/20 ml-2">
@@ -258,7 +198,9 @@ export default async function Home() {
                 <p className="text-xs text-muted-foreground font-medium">
                   Running Tasks
                 </p>
-                <p className="text-2xl font-bold mt-2">4</p>
+                <p className="text-2xl font-bold mt-2">
+                  {formatCompactNumber(totalRunningTasks)}
+                </p>
                 <p className="text-xs text-amber-600 font-semibold mt-2">
                   Currently active
                 </p>
@@ -281,7 +223,7 @@ export default async function Home() {
               Graph showing the trend of job executions over the past month.
             </p>
             <div className="w-full h-96 mt-10">
-              <ChartAreaLegend />
+              <ChartAreaLegend data={monthlyTrend} />
             </div>
           </CardContent>
         </Card>
@@ -325,7 +267,7 @@ export default async function Home() {
                           {item.label}
                         </span>
                         <span className="text-sm font-semibold">
-                          {item.count}
+                          {formatCompactNumber(item.count)}
                         </span>
                       </div>
                       <div className="h-1.5 bg-muted rounded-full overflow-hidden">
@@ -351,31 +293,33 @@ export default async function Home() {
                 <span className="text-sm text-muted-foreground">
                   Avg Execution Time
                 </span>
-                <span className="text-sm font-semibold">2m 34s</span>
+                <span className="text-sm font-semibold">
+                  {formatDuration(averageExecutionTimeMs)}
+                </span>
               </div>
               <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                 <span className="text-sm text-muted-foreground">
                   Last Alert
                 </span>
-                <span className="text-sm font-semibold">12m ago</span>
+                <span className="text-sm font-semibold">{lastAlertText}</span>
               </div>
               <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                 <span className="text-sm text-muted-foreground">
                   Active Jobs
                 </span>
-                <span className="text-sm font-semibold">4 / 25</span>
+                <span className="text-sm font-semibold">{activeJobs}</span>
               </div>
               <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                 <span className="text-sm text-muted-foreground">Uptime</span>
                 <span className="text-sm font-semibold text-green-600">
-                  99.8%
+                  {formatDuration(uptimeMs)}
                 </span>
               </div>
               <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                 <span className="text-sm text-muted-foreground">
                   Scheduled Today
                 </span>
-                <span className="text-sm font-semibold">156</span>
+                <span className="text-sm font-semibold">{scheduledTasks}</span>
               </div>
             </div>
           </CardContent>

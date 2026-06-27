@@ -1,16 +1,7 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   ChartContainer,
   ChartLegend,
@@ -22,27 +13,21 @@ import {
 
 export const description = "An area chart with a legend"
 
-const chartData = [
-  { month: "January", completed: 186, failed: 80 },
-  { month: "February", completed: 305, failed: 200 },
-  { month: "March", completed: 237, failed: 120 },
-  { month: "April", completed: 73, failed: 190 },
-  { month: "May", completed: 209, failed: 130 },
-  { month: "June", completed: 214, failed: 140 },
-]
-
 export const chartConfig = {
-  completed: { label: "Completed", color: "var(--chart-1)" },
-  failed: { label: "Failed", color: "var(--chart-2)" },
+  successfulExecutions: { label: "Successful", color: "var(--chart-1)" },
+  failedExecutions: { label: "Failed", color: "var(--chart-2)" },
 } satisfies ChartConfig;
 
-
-export function ChartAreaLegend() {
+export function ChartAreaLegend({
+  data,
+}: {
+  data: { month: string; successfulExecutions: number; failedExecutions: number }[];
+}) {
   return (
     <div className="w-full h-full flex flex-col">
       <ChartContainer config={chartConfig} className="flex-1 w-full min-h-0">
         <AreaChart
-          data={chartData}
+          data={data}
           margin={{ left: 0, right: 0, top: 10, bottom: 10 }}
         >
           <CartesianGrid vertical={false} stroke="var(--border)" />
@@ -52,7 +37,7 @@ export function ChartAreaLegend() {
             tickLine={false}
             axisLine={false}
             tickMargin={8}
-            tickFormatter={(value) => value.slice(0, 3)}
+            tickFormatter={(value) => String(value).slice(0, 3)}
             style={{ fontSize: "0.75rem" }}
           />
 
@@ -61,22 +46,22 @@ export function ChartAreaLegend() {
             content={<ChartTooltipContent indicator="line" />}
           />
 
-          {/* Completed */}
+          {/* Successful */}
           <Area
-            dataKey="completed"
+            dataKey="successfulExecutions"
             type="natural"
-            fill="var(--color-completed)"
-            stroke="var(--color-completed)"
+            fill="var(--color-successfulExecutions)"
+            stroke="var(--color-successfulExecutions)"
             fillOpacity={0.5}
             stackId="a"
           />
 
           {/* Failed */}
           <Area
-            dataKey="failed"
+            dataKey="failedExecutions"
             type="natural"
-            fill="var(--color-failed)"
-            stroke="var(--color-failed)"
+            fill="var(--color-failedExecutions)"
+            stroke="var(--color-failedExecutions)"
             fillOpacity={0.5}
             stackId="a"
           />

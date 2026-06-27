@@ -62,22 +62,21 @@ export interface DashboardStats {
     totalJobExecutions: number;
     totalFailedJobs: number;
     totalSuccessfulJobs: number;
-    totalRunningTasks: number;
+    totalRunningJobs: number;
   };
-  failedJobsByReason: [
-    {
-      reason: FailureReason;
-      count: number;
-    },
-  ];
+  failedJobsByReason: FailedJobsByReason[];
   quickStats: {
-    averageExecutionTime: number;
+    averageExecutionTimeMs: number;
     lastAlertTime: string;
     activeJobs: number;
-    uptime: string;
+    uptimeMs: number;
     scheduledTasks: number;
   };
-  monthlyExecutionTrend: MonthlyExecutionTrend[];
+}
+
+export interface FailedJobsByReason {
+  reason: FailureReason;
+  count: number;
 }
 
 export interface MonthlyExecutionTrend {

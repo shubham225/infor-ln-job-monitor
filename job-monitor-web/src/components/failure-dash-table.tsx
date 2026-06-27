@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { formatCompactNumber } from "@/lib/utils";
 import { FailureData } from "@/types/dashboard";
 
 const getFailureColor = (key: string): string => {
@@ -25,7 +26,7 @@ export default function FailureDashboardTable({
                 {item.key}
               </Badge>
               <Badge variant="outline" className="font-bold rounded">
-                {item.count}
+                {formatCompactNumber(item.count)}
               </Badge>
             </div>
           ))}
