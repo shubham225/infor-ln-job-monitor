@@ -5,6 +5,7 @@ import com.shubham225.model.enums.MonitoringStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -44,6 +45,10 @@ public class MonitoringTask extends BaseEntity {
 
     public Boolean isCompleted() {
         return status == MonitoringStatus.FAILED || status == MonitoringStatus.COMPLETED;
+    }
+
+    public Boolean wasJobStartedInERP(Duration tolerance) {
+        return Math.abs(Duration.between(this.executedOn, job.getJobStartedAt()).toSeconds()) <= tolerance.toSeconds();
     }
 
     public void setStatus(MonitoringStatus status) {

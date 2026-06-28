@@ -1,5 +1,6 @@
 package com.shubham225.service.impl;
 
+import com.shubham225.model.entity.AppSetting;
 import com.shubham225.model.entity.InforERPJob;
 import com.shubham225.model.entity.MonitoringTask;
 import com.shubham225.model.entity.MonitoringTaskHistory;
@@ -7,10 +8,7 @@ import com.shubham225.model.enums.FailureReason;
 import com.shubham225.model.enums.MonitoringStatus;
 import com.shubham225.model.mapper.MonitorHistoryMapper;
 import com.shubham225.repository.MonitoringTaskRepository;
-import com.shubham225.service.JobService;
-import com.shubham225.service.JobValidationService;
-import com.shubham225.service.MonitoringTaskHistoryService;
-import com.shubham225.service.MonitoringTaskService;
+import com.shubham225.service.*;
 import com.shubham225.service.jobfailure.JobFailureStrategy;
 import com.shubham225.service.jobfailure.JobFailureStrategyFactory;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +29,8 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
     private final MonitoringTaskRepository monitoringTaskRepository;
     private final MonitorHistoryMapper monitorHistoryMapper;
     private final MonitoringTaskHistoryService monitoringTaskHistoryService;
+    private final AppSettingService appSettingService;
+    private final ExclusionService exclusionService;
 
     @Override
     public MonitoringTask createMonitorTask(InforERPJob job) {
@@ -71,6 +71,16 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
 
     @Override
     public void validateAndNotifyTaskExecution(MonitoringTask monitoringTask) {
+        // Check if job is excluded from monitoring alerts
+        if (exclusionService.isJobExcludedFromMonitoringAlert(
+                                monitoringTask.getJob().getHostName(),
+                                monitoringTask.getJob().getJobCode(),
+                                monitoringTask.getJob().getCompany())) {
+            log.warn("Job {} is added in job exclusion. skipping job monitoring",  monitoringTask.getJob());
+            monitoringTask.setReason(FailureReason.SKIPPED);
+            monitoringTask.setStatus(MonitoringStatus.COMPLETED);
+        }
+
         if (monitoringTask.isPending()) {
             if (jobValidationService.jobDetailsAreValid(monitoringTask)) {
                 monitoringTask.setStatus(MonitoringStatus.RUNNING);
@@ -84,10 +94,11 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
         if (monitoringTask.isRunning()) {
             // Send Request to ERP to fetch job details
             jobService.refreshERPJobDetails(monitoringTask);
+            AppSetting configurations = appSettingService.findAppSettings();
 
             // Calculate lapsedTime to determine if job is started in ERP
             long lapsedTimeInSeconds = Duration.between(monitoringTask.getExecutedOn(), LocalDateTime.now()).getSeconds();
-            long maxWaitTimeInSeconds = 30;
+            long maxWaitTimeInSeconds = configurations.getAllowedJobStartDelay();
 
             // If API is down then monitoring task will not be running
             if (monitoringTask.isRunning()) {
@@ -100,7 +111,8 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
                         return;
                     }
                 } else {
-                    if (!monitoringTask.getJob().isRunning()) {
+                    if (!monitoringTask.getJob().isRunning() &&
+                        !monitoringTask.wasJobStartedInERP(Duration.ofSeconds(maxWaitTimeInSeconds))) {
                         log.info("Waited for job to start in ERP for {} seconds, but job is not started", maxWaitTimeInSeconds);
                         monitoringTask.setReason(FailureReason.NOT_EXECUTED);
                         monitoringTask.setStatus(MonitoringStatus.COMPLETED);
@@ -109,8 +121,7 @@ public class MonitoringTaskServiceImpl implements MonitoringTaskService {
             }
 
             if (monitoringTask.getJob().isRunning() && !monitoringTask.isCompleted()) {
-                // TODO: add this delay in frontend settings
-                long bufferTimeInSeconds = 100;
+                long bufferTimeInSeconds = 60;
                 long averageJobRuntimeInSeconds = monitoringTask.getJob().getJobAverageRuntimeInSec() + bufferTimeInSeconds;
 
                 if (lapsedTimeInSeconds > averageJobRuntimeInSeconds) {

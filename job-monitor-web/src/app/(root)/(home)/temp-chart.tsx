@@ -14,8 +14,8 @@ import {
 export const description = "An area chart with a legend"
 
 export const chartConfig = {
-  successfulExecutions: { label: "Successful", color: "var(--chart-1)" },
-  failedExecutions: { label: "Failed", color: "var(--chart-2)" },
+  successfulExecutions: { label: "Successful", color: "var(--chart-2)" },
+  failedExecutions: { label: "Failed", color: "var(--chart-1)" },
 } satisfies ChartConfig;
 
 export function ChartAreaLegend({
@@ -49,7 +49,7 @@ export function ChartAreaLegend({
           {/* Successful */}
           <Area
             dataKey="successfulExecutions"
-            type="natural"
+            type="monotone"
             fill="var(--color-successfulExecutions)"
             stroke="var(--color-successfulExecutions)"
             fillOpacity={0.5}
@@ -59,7 +59,7 @@ export function ChartAreaLegend({
           {/* Failed */}
           <Area
             dataKey="failedExecutions"
-            type="natural"
+            type="monotone"
             fill="var(--color-failedExecutions)"
             stroke="var(--color-failedExecutions)"
             fillOpacity={0.5}

@@ -1,47 +1,80 @@
 package com.shubham225.service.impl;
 
 import com.shubham225.model.dto.*;
+import com.shubham225.model.entity.MonitoringTaskHistory;
 import com.shubham225.model.enums.FailureReason;
+import com.shubham225.repository.MonitoringTaskHistoryRepository;
+import com.shubham225.repository.MonitoringTaskRepository;
 import com.shubham225.service.DashboardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.format.TextStyle;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DashboardServiceImpl implements DashboardService {
+    private final MonitoringTaskHistoryRepository monitoringTaskHistoryRepository;
+    private final MonitoringTaskRepository monitoringTaskRepository;
+    private final ApplicationUptime applicationUptime;
+
     @Override
     public DashboardStatsDTO getDashboardStats() {
+        // Summery
+        long totalTaskExecutions = monitoringTaskHistoryRepository.count();
+        long totalSuccessfulExecutions = monitoringTaskHistoryRepository.countByCause(FailureReason.EXECUTED);
+        long totalFailedExecutions = totalTaskExecutions -  totalSuccessfulExecutions;
+        long totalRunningExecutions = monitoringTaskRepository.count();
+
         DashboardSummeryDTO dashboardSummery =
                                 DashboardSummeryDTO.builder()
-                                        .totalJobExecutions(10300L)
-                                        .totalFailedJobs(5000L)
-                                        .totalRunningJobs(5L)
-                                        .totalSuccessfulJobs(5300L)
+                                        .totalJobExecutions(totalTaskExecutions)
+                                        .totalFailedJobs(totalFailedExecutions)
+                                        .totalRunningJobs(totalRunningExecutions)
+                                        .totalSuccessfulJobs(totalSuccessfulExecutions)
                                         .build();
+
+        // Quick Stats
+        MonitoringTaskHistory latest = monitoringTaskHistoryRepository.findTopByOrderByTerminatedOnDesc().orElse(null);
+        LocalDateTime lastAlertTime = (latest != null) ? latest.getTerminatedOn() : LocalDateTime.MIN;
+        List<MonitoringTaskHistory> latestTasks = monitoringTaskHistoryRepository.findTop100ByOrderByExecutedOnDesc();
+        long averageExecutionTimeMs = (long) latestTasks.stream()
+                    .filter(task -> task.getJobStartedAt() != null && task.getJobEndedAt() != null)
+                    .mapToLong(task ->
+                            Duration.between(task.getJobStartedAt(), task.getJobEndedAt()).toMillis())
+                    .average()
+                    .orElse(0);
 
         DashboardQuickStatsDTO quickStats =
                                 DashboardQuickStatsDTO.builder()
-                                        .activeJobs(5L)
-                                        .averageExecutionTimeMs(14000L)
-                                        .lastAlertTime(LocalDateTime.now().minusMinutes(2).minusSeconds(32))
-                                        .uptimeMs(14000000L)
+                                        .activeJobs(totalRunningExecutions)
+                                        .averageExecutionTimeMs(averageExecutionTimeMs)
+                                        .lastAlertTime(lastAlertTime)
+                                        .uptimeMs(applicationUptime.getUptimeMs())
                                         .scheduledTasks(45L)
                                         .build();
 
-        FailedJobsByReasonDTO[] failedJobsByReason = {
-                new FailedJobsByReasonDTO(FailureReason.PENDING, 8L),
-                new FailedJobsByReasonDTO(FailureReason.JOB_DETAILS_MISSING, 2L),
-                new FailedJobsByReasonDTO(FailureReason.NOT_FOUND, 1L),
-                new FailedJobsByReasonDTO(FailureReason.NOT_EXECUTED, 4L),
-                new FailedJobsByReasonDTO(FailureReason.RUNTIME_ERROR, 6L),
-                new FailedJobsByReasonDTO(FailureReason.EXECUTED_WITH_RUNTIME_ERROR, 3L),
-                new FailedJobsByReasonDTO(FailureReason.TIME_LIMIT_EXCEEDED, 5L),
-                new FailedJobsByReasonDTO(FailureReason.CANCELED, 1L),
-                new FailedJobsByReasonDTO(FailureReason.ERP_API_DOWN, 2L),
-                new FailedJobsByReasonDTO(FailureReason.EXECUTED, 42L),
-                new FailedJobsByReasonDTO(FailureReason.WIN_SCHEDULER_RUNNING, 3L),
-                new FailedJobsByReasonDTO(FailureReason.EXEC_WITH_ERROR_MESSAGE, 2L)
-        };
+        // Failed Jobs by Reason
+        Map<FailureReason, Long> counts = Arrays.stream(FailureReason.values())
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        reason -> 0L
+                ));
+
+        monitoringTaskHistoryRepository.countByFailureReason().forEach(record -> {
+            FailureReason reason = (FailureReason) record[0];
+            Long count = (Long) record[1];
+            counts.put(reason, count);
+        });
+
+        FailedJobsByReasonDTO[] failedJobsByReason = counts.entrySet()
+                .stream()
+                .map(entry -> new FailedJobsByReasonDTO(entry.getKey(), entry.getValue()))
+                .toArray(FailedJobsByReasonDTO[]::new);;
 
         return DashboardStatsDTO.builder()
                 .quickStats(quickStats)
@@ -50,15 +83,41 @@ public class DashboardServiceImpl implements DashboardService {
                 .build();
     }
 
+    // TODO: Modify logic for large dataset this will have performance issues
     @Override
     public MonthlyExecutionTrendDTO[] getMonthlyExecutionTrend() {
-        return new MonthlyExecutionTrendDTO[]{
-                new MonthlyExecutionTrendDTO("January", 186L, 80L),
-                new MonthlyExecutionTrendDTO("February", 305L, 200L),
-                new MonthlyExecutionTrendDTO("March", 237L, 120L),
-                new MonthlyExecutionTrendDTO("April", 73L, 190L),
-                new MonthlyExecutionTrendDTO("May", 209L, 130L),
-                new MonthlyExecutionTrendDTO("June", 214L, 140L)
-        };
+        LocalDateTime start = LocalDate.now()
+                .withDayOfYear(1)
+                .atStartOfDay();
+
+        LocalDateTime end = LocalDateTime.now();
+
+        List<MonitoringTaskHistory> histories =
+                monitoringTaskHistoryRepository.findByExecutedOnBetween(start, end);
+
+        Map<Month, MonthlyExecutionTrendDTO> trend = Arrays.stream(Month.values())
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        month -> new MonthlyExecutionTrendDTO(
+                                month.getDisplayName(TextStyle.FULL, Locale.ENGLISH),
+                                0L,
+                                0L
+                        ),
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
+
+        for (MonitoringTaskHistory history : histories) {
+            Month month = history.getExecutedOn().getMonth();
+            MonthlyExecutionTrendDTO dto = trend.get(month);
+
+            if (history.getCause() == FailureReason.EXECUTED) {
+                dto.setSuccessfulExecutions(dto.getSuccessfulExecutions() + 1);
+            } else {
+                dto.setFailedExecutions(dto.getFailedExecutions() + 1);
+            }
+        }
+
+        return trend.values().toArray(MonthlyExecutionTrendDTO[]::new);
     }
 }

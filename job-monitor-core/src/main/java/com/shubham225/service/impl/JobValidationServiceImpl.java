@@ -3,13 +3,19 @@ package com.shubham225.service.impl;
 import com.shubham225.model.entity.MonitoringTask;
 import com.shubham225.model.enums.FailureReason;
 import com.shubham225.model.enums.MonitoringStatus;
+import com.shubham225.repository.MonitoringTaskRepository;
+import com.shubham225.service.ExclusionService;
 import com.shubham225.service.JobValidationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class JobValidationServiceImpl implements JobValidationService {
+    private final ExclusionService exclusionService;
+
     @Override
     public void validateJobExecutionInERP(MonitoringTask monitoringTask) {
         // This function will run after job execution has been completed in the ERP
@@ -35,6 +41,15 @@ public class JobValidationServiceImpl implements JobValidationService {
     private FailureReason evaluateFailureReason(MonitoringTask monitoringTask) {
         // Evaluate failure reason based on job history status and job status
         FailureReason reason = FailureReason.PENDING;
+
+        if (exclusionService.isJobStatusExcludedFromMonitoringAlert(
+                                                monitoringTask.getJob().getHostName(),
+                                                monitoringTask.getJob().getStatus())) {
+            log.warn("Job {} is excluded from monitoring alert due to job status exclusion {}",
+                                monitoringTask.getJob(), monitoringTask.getJob().getStatus());
+            reason = FailureReason.SKIPPED;
+            return reason;
+        }
 
         reason = switch (monitoringTask.getJob().getStatus()) {
             case CANCELED, BLOCKED -> FailureReason.NOT_EXECUTED;

@@ -11,8 +11,4 @@ public class IndexController {
         return "redirect:/index.html";
     }
 
-    @GetMapping("/tasks")
-    public String tasks() {
-        return "forward:/tasks.html";
-    }
 }

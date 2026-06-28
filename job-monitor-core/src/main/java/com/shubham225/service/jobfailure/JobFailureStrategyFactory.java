@@ -37,6 +37,7 @@ public class JobFailureStrategyFactory {
             case CANCELED -> "CanceledStrategy";
             case ERP_API_DOWN -> "ErpApiNotRespondingStrategy";
             case EXECUTED, EXEC_WITH_ERROR_MESSAGE, WIN_SCHEDULER_RUNNING -> "ExecutedStrategy";
+            case SKIPPED -> "SkippedMonitoringAlertStrategy";
         };
     }
 }
