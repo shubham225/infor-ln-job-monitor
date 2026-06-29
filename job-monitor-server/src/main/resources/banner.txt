@@ -10,7 +10,7 @@ ${AnsiColor.DEFAULT}
 | Version:            ${AnsiColor.BRIGHT_WHITE}${info.application.version}${AnsiColor.DEFAULT}                        |
 | SpringBoot Version: ${spring-boot.version}                         |
 | Port:               ${server.port}                          |
-| Profile:            ${spring.profiles.active}                       |
+| Profile:            ${spring.profiles.active}                        |
 +---------------------------------------------------+
 ${AnsiColor.DEFAULT}
 

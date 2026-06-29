@@ -4,9 +4,8 @@ import com.shubham225.erp.ERPClient;
 import com.shubham225.erp.domain.FetchERPJobResponseDTO;
 import com.shubham225.exception.ERPJobNotFoundException;
 import com.shubham225.exception.ErpApiException;
-import com.shubham225.model.entity.InforERPJob;
-import com.shubham225.model.entity.MonitoringTask;
-import com.shubham225.model.entity.WinSchedTask;
+import com.shubham225.model.dto.ErrorMessageDTO;
+import com.shubham225.model.entity.*;
 import com.shubham225.model.enums.*;
 import com.shubham225.model.mapper.InforERPJobMapper;
 import com.shubham225.repository.InforERPJobRepository;
@@ -19,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -102,6 +102,17 @@ public class JobServiceImpl implements JobService {
                 break;
             }
         }
+    }
+
+    @Override
+    public List<ErrorMessageDTO> getJobHistoryErrorMessages(InforERPJob job) {
+        ServerMapping mapping= appSettingService.findFirstServerMappingByServer(job.getHostName());
+        AppSetting configuration = appSettingService.findAppSettings();
+
+        String apiURL = mapping.getApiUrl();
+        String keywords = configuration.getErrorKeywords();
+
+        return erpClient.getJobHistoryErrorMessages(apiURL, job.getJobCode(), job.getCompany(), keywords);
     }
 
     private void sleep() {
