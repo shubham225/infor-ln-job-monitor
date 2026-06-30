@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AppSettingsInitializer {
-
     private final AppSettingRepository repository;
 
     @PostConstruct

@@ -27,7 +27,6 @@ export const columns = (onDelete : (e: React.MouseEvent<HTMLButtonElement, Mouse
               variant="ghost"
               size="icon"
               onClick={(e) => {
-                console.log(`deleting: ${row.original.id}`);
                 onDelete(e, row.original.id);
               }}
             >

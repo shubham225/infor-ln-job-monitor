@@ -43,18 +43,19 @@ public class AppSettingServiceImpl implements AppSettingService {
     }
 
     @Override
-    public ServerMapping addServerMapping(ServerMappingDTO mappingDTO) {
+    public ServerMappingDTO addServerMapping(ServerMappingDTO mappingDTO) {
         ServerMapping mapping = mappingMapper.toEntity(mappingDTO);
-        return serverMappingRepository.save(mapping);
+        mapping = serverMappingRepository.save(mapping);
+        return mappingMapper.toDTO(mapping);
     }
 
     @Override
-    public ServerMapping updateServerMapping(Long id, ServerMappingDTO mappingDTO) {
+    public ServerMappingDTO updateServerMapping(Long id, ServerMappingDTO mappingDTO) {
         ServerMapping mapping = findServerMappingByID(id);
         mapping.setHostName(mappingDTO.getHostname());
         mapping.setApiUrl(mappingDTO.getApiUrl());
         mapping = serverMappingRepository.save(mapping);
-        return mapping;
+        return mappingMapper.toDTO(mapping);
     }
 
     @Override
@@ -64,13 +65,13 @@ public class AppSettingServiceImpl implements AppSettingService {
     }
 
     @Override
-    public ServerMapping deleteServerMapping(Long id) {
+    public ServerMappingDTO deleteServerMapping(Long id) {
         ServerMapping mapping = serverMappingRepository.findById(id).orElse(null);
 
         if (mapping != null)
             serverMappingRepository.delete(mapping);
 
-        return mapping == null ? new ServerMapping() : mapping;
+        return mapping == null ? new ServerMappingDTO() : mappingMapper.toDTO(mapping);
     }
 
     private ServerMapping findServerMappingByID(Long id) {

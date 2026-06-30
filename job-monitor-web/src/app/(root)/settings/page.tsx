@@ -22,29 +22,17 @@ import {
 } from "@tabler/icons-react";
 import { useMounted } from "@/hooks/use-mounted";
 
-const defaultSettings: AppSetting = {
-  mailTo: "",
-  mailCc: "",
-  emailAlerts: true,
-  sendMonthlyReports: false,
-  allowedJobStartDelay: 15,
-  taskReleaseDelay: 120,
-  errorKeywords: "",
-};
-
 export default function SettingsPage() {
   const mounted = useMounted();
 
   const form = useForm<AppSetting>({
-    resolver: zodResolver(settingsSchema),
-    defaultValues: defaultSettings,
+    resolver: zodResolver(settingsSchema)
   });
 
   useEffect(() => {
     const fetchAppSettingsAsync = async () => {
       const response = await fetchAppSettings();
       form.reset({
-        ...defaultSettings,
         ...response,
       });
     };
@@ -59,11 +47,9 @@ export default function SettingsPage() {
   async function onSubmit(values: AppSetting) {
     try {
       const response = await updateOrSaveAppSettings(values);
-      console.log("Response: ", response);
     } catch (error) {
       console.error("Error: ", error);
     }
-    console.log("Saved settings:", values);
   }
 
   return (

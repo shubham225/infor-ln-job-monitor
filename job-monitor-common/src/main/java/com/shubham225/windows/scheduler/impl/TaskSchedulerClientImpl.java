@@ -90,7 +90,6 @@ public class TaskSchedulerClientImpl implements TaskSchedulerClient {
             process.waitFor();
         } catch (Exception e) {
             log.error("Failed to list all tasks from win scheduler folder '{}'", folder);
-//            throw new RuntimeException("Failed to list tasks", e);
         }
 
         return result;

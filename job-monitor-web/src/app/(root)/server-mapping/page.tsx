@@ -42,11 +42,9 @@ export default function ServerMapping() {
       try {
         const response = await fetchServerMappings();
         setServerMappings(response);
-        console.log("response mapping", response);
       } catch (error) {
         const message = getErrorMessage(error);
         toast.error(message);
-        console.error("Failed to fetch server mappings:", error);
       }
     };
 
@@ -66,12 +64,11 @@ export default function ServerMapping() {
       const response = await addServerMappings(serverMapping);
       setServerMappings((prev) => [...prev, response]);
       setServerMapping(initServerMapping);
+      console.log(serverMappings);
       setOpen(false);
-      console.log("response mapping added", response);
     } catch (error) {
       const message = getErrorMessage(error);
       toast.error(message);
-      console.error("Error adding server mapping:", error);
     }
   };
 
@@ -84,7 +81,6 @@ export default function ServerMapping() {
     try {
       const response = await deleteServerMappings(id);
       setServerMappings((prev) => prev.filter((item) => item.id !== id));
-      console.log("response mapping deleted", response);
     } catch (error) {
       const message = getErrorMessage(error);
       toast.error(message);
@@ -150,7 +146,7 @@ export default function ServerMapping() {
                         apiUrl: e.target.value,
                       }));
                     }}
-                    placeholder="http://localhost:3000/getJobDetails"
+                    placeholder="http://localhost:3000"
                   />
                 </Field>
               </FieldGroup>

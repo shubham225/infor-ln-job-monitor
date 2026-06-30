@@ -11,8 +11,8 @@ public interface AppSettingService {
     AppSetting findAppSettings();
     AppSetting saveOrUpdateAppSettings(AppSettingDTO settingsDTO);
     ServerMapping findFirstServerMappingByServer(String server);
-    ServerMapping addServerMapping(ServerMappingDTO mapping);
-    ServerMapping updateServerMapping(Long id, ServerMappingDTO mappingDTO);
+    ServerMappingDTO addServerMapping(ServerMappingDTO mapping);
+    ServerMappingDTO updateServerMapping(Long id, ServerMappingDTO mappingDTO);
     List<ServerMappingDTO> getAllServerMappings();
-    ServerMapping deleteServerMapping(Long id);
+    ServerMappingDTO deleteServerMapping(Long id);
 }

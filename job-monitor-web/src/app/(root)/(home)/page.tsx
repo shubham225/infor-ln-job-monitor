@@ -91,40 +91,6 @@ export default function Home() {
 
   return (
     <main className="p-4 space-y-4 bg-background">
-      {/* Header */}
-      {/* <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Job Monitor Dashboard</h1>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-1 rounded-lg bg-muted p-1">
-            <Button variant="ghost" size="sm" className="text-xs">
-              1D
-            </Button>
-            <Button variant="default" size="sm" className="text-xs">
-              7D
-            </Button>
-            <Button variant="ghost" size="sm" className="text-xs">
-              30D
-            </Button>
-            <Button variant="ghost" size="sm" className="text-xs">
-              Custom
-            </Button>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="icon" aria-label="Refresh">
-              <IconReload size={18} />
-            </Button>
-            <Button variant="outline" size="icon" aria-label="Export">
-              <IconArrowsDiagonal size={18} />
-            </Button>
-            <Button variant="outline" size="icon" aria-label="Menu">
-              <IconMenu2 size={18} />
-            </Button>
-          </div>
-        </div>
-      </div> */}
 
       {/* Key Stats - Full Width */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -238,7 +204,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex-1 overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-muted [&::-webkit-scrollbar-thumb]:rounded-full">
-              <FailureDashboardTable data={failureData.slice(0, 10)} />
+              <FailureDashboardTable data={failureData.filter((f) => f.key !== "EXECUTED" && f.key !== "PENDING" && f.key !== "SKIPPED").sort((a, b) => (b.count || 0) - (a.count || 0)).slice(0, 9)} />
             </div>
           </CardContent>
         </Card>
@@ -253,7 +219,7 @@ export default function Home() {
             </h3>
             <div className="space-y-3">
               {failureData
-                .filter((f) => f.count && f.count > 0)
+                .filter((f) => f.count && f.count > 0 && f.key !== "EXECUTED" && f.key !== "PENDING" && f.key !== "SKIPPED")
                 .sort((a, b) => (b.count || 0) - (a.count || 0))
                 .slice(0, 6)
                 .map((item, idx) => (

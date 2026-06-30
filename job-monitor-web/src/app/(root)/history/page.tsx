@@ -16,7 +16,6 @@ export default function History() {
   const fetchAllMonitorHistoryAsync = async () => {
     const response = await fetchAllMonitorHistory();
     setExecutionHistory(response);
-    console.log("response mapping", response);
   };
 
   useEffect(() => {

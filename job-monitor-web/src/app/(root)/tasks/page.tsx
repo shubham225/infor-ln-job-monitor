@@ -13,10 +13,8 @@ export default function Tasks() {
   const [runningTasks, setRunningTasks] = useState<RunningTask[] | []>([]);
 
   const refreshTable = async () => {
-    console.log("Refreshing...");
     const response = await fetchAllRunningTasks();
     setRunningTasks(response);
-    console.log("response runningtask", response);
   };
 
   useEffect(() => {
