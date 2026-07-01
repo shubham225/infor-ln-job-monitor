@@ -11,14 +11,14 @@ export const initAppSettings: AppSetting = {
 
 export const initServerMapping: ServerMapping = {
   id: "",
-  hostName: "",
+  hostname: "",
   apiUrl: "",
 };
 
 export const initServerMappings: ServerMapping[] = [
   {
     id: "",
-    hostName: "",
+    hostname: "",
     apiUrl: "",
   },
 ];
