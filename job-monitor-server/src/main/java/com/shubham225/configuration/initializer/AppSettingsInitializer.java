@@ -16,10 +16,10 @@ public class AppSettingsInitializer {
         repository.findById(1L).orElseGet(() -> {
             AppSetting settings = new AppSetting();
             settings.setId(1L);
-            settings.setMailTo("shubhamshinde225@gmail.com");
+            settings.setMailTo("");
             settings.setMailCc("");
             settings.setAllowedJobStartDelay(10);
-            settings.setEmailAlerts(true);
+            settings.setEmailAlerts(false);
             settings.setErrorKeywords("Error|Failed");
             settings.setSendMonthlyReports(false);
             settings.setTaskReleaseDelay(10);

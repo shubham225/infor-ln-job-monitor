@@ -35,6 +35,11 @@ public class NotificationServiceImpl implements NotificationService {
         String mailCc = configurations.getMailCc();
         boolean sendAlert = configurations.isEmailAlerts();
 
+        if (mailTo.isBlank()) {
+            log.error("Email Recipients are not defined in setting mail not sent");
+            return false;
+        }
+
         if (!sendAlert) {
             log.warn("Email Alerts are disabled in application settings");
             return false;

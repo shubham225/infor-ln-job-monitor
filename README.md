@@ -112,6 +112,71 @@ Check the individual module README's and configuration files for full details.
 ![alert-template](./docs/readme/alert-email-template.png)
 
 ---
+## ERP Integration Contract
+
+The ERP Monitor application expects the following request and response formats. A middleware can be used to transform these requests/responses to the ERP-specific API.
+
+### 1. Fetch Job Details
+
+**Request**
+
+```json
+{
+  "jobCode": "JOB001",
+  "company": "COMP01"
+}
+```
+
+**Response**
+
+```json
+{
+  "jobCode": "JOB001",
+  "company": "COMP01",
+  "hostDisplayName": "ERP-SERVER-01",
+  "description": "Daily Invoice Processing",
+  "status": "RUNNING",
+  "historyStatus": "SUCCESS",
+  "userId": "SYSTEM",
+  "jobStartedAt": "2026-07-02T10:15:00",
+  "jobEndedAt": "2026-07-02T10:18:30",
+  "nextJobExecutionAt": "2026-07-03T10:15:00",
+  "jobAverageRuntimeInSec": 210,
+  "jobNotFound": false
+}
+```
+
+### 2. Fetch Job History Error Messages
+
+**Request**
+
+```json
+{
+  "jobCode": "JOB001",
+  "company": "COMP01"
+}
+```
+
+**Response**
+
+```json
+[
+  {
+    "jobCode": "JOB001",
+    "company": "COMP01",
+    "message": "Unable to connect to database."
+  },
+  {
+    "jobCode": "JOB001",
+    "company": "COMP01",
+    "message": "Retry completed successfully."
+  }
+]
+```
+
+> **Note:** The middleware may expose any ERP-specific endpoints internally, but it must accept and return data in the formats shown above so that the ERP Monitor application can interact with it without modification.
+
+---
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
