@@ -26,7 +26,8 @@ export enum TaskSchedulerStatus {
   MISSED = "MISSED",
   NO_MORE_RUNS = "NO_MORE_RUNS",
   NOT_SCHEDULED = "NOT_SCHEDULED",
-  TRANSITION = "TRANSITION"
+  TRANSITION = "TRANSITION",
+  PENDING = "PENDING"
 }
 
 export enum FailureReason {
@@ -41,5 +42,6 @@ export enum FailureReason {
   CANCELED = "CANCELED",
   SCHEDULER_RUNNING = "SCHEDULER_RUNNING",
   EXECUTED = "EXECUTED",
-  SKIPPED = "SKIPPED"
+  SKIPPED = "SKIPPED",
+  ERP_API_DOWN = "ERP_API_DOWN",
 }

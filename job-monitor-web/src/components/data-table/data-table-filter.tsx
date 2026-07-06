@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DataTableFilter } from "@/lib/types";
+import { DataTableFilter } from "@/types";
 import { cn } from "@/lib/utils";
 
 interface DataTableFilterMenuProps<TData> {

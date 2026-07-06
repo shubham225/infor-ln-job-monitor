@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { columns } from "./columns";
-import { DataTable } from "@/components/data-table-custom";
 import { ExecutionHistory } from "@/types/api";
 import { fetchAllMonitorHistory } from "@/service/monitor-service";
-import { Button } from "@/components/ui/button";
-import { IconArrowsDiagonal, IconReload } from "@tabler/icons-react";
+import { DataTable } from "@/components/data-table/data-table";
+import { DataTableProvider } from "@/components/data-table/data-table-context";
+import { TableFilter } from "@/components/data-table/table-filter";
+import { DataTableView } from "@/components/data-table/data-table-view";
+import { TablePagination } from "@/components/data-table/data-table-pagination";
+import { TableActions } from "@/components/data-table/table-actions";
+import { DataTableCardGrid } from "@/components/data-table/data-table-card-grid";
 
 export default function History() {
   const [executionHistory, setExecutionHistory] = useState<
@@ -23,37 +27,35 @@ export default function History() {
   }, []);
 
   return (
-    <div className="p-4 space-y-4 bg-background">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Execution History</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            View historical records of all job executions with detailed status
-            and performance metrics.
-          </p>
-        </div>
+    <div className="bg-background">
+      {/* Table / Card */}
+      <DataTableProvider
+        columns={columns}
+        data={executionHistory}
+        pageSize={14}
+      >
+        <div className="flex flex-col overflow-hidden bg-muted/20">
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 bg-background px-4 py-2.5">
+              <TableFilter showAskAI={false} showViewToggle={false} />
+              <TableActions showAddNew={false} showViewSettings={true} />
+            </div>
 
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={(e) => {
-              e.preventDefault();
-              fetchAllMonitorHistoryAsync();
-            }}
-            aria-label="Refresh"
-          >
-            <IconReload size={18} />
-          </Button>
-          <Button variant="outline" size="icon" aria-label="Export">
-            <IconArrowsDiagonal size={18} />
-          </Button>
-        </div>
-      </div>
+            <DataTableView
+              table={<DataTable className="flex-1" />}
+              card={
+                <DataTableCardGrid className="" renderCard={() => <div />} />
+              }
+            />
 
-      {/* Table Card */}
-      <DataTable columns={columns} data={executionHistory} />
+            {executionHistory.length > 9 && (
+              <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 bg-background py-2">
+                <TablePagination />
+              </div>
+            )}
+          </div>
+        </div>
+      </DataTableProvider>
     </div>
   );
 }

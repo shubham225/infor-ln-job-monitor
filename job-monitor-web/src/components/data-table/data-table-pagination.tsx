@@ -1,14 +1,13 @@
 "use client";
 
-import { Table } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useDataTable } from "./data-table-context";
 
-interface DataTablePaginationProps<TData> {
-  table: Table<TData>;
-  totalRows: number;
+interface TablePaginationProps {
+  className?: string;
 }
 
 function getPageList(current: number, total: number): (number | "ellipsis")[] {
@@ -31,64 +30,66 @@ function getPageList(current: number, total: number): (number | "ellipsis")[] {
   return pages;
 }
 
-export function DataTablePagination<TData>({
-  table,
-  totalRows,
-}: DataTablePaginationProps<TData>) {
+export function TablePagination({ className }: TablePaginationProps) {
+  const { table } = useDataTable();
+
   const pageIndex = table.getState().pagination.pageIndex;
   const pageSize = table.getState().pagination.pageSize;
   const pageCount = table.getPageCount();
   const currentPage = pageIndex + 1;
+  const totalRows = table.getFilteredRowModel().rows.length;
 
-  const rangeStart = pageIndex * pageSize + 1;
+  const rangeStart = totalRows === 0 ? 0 : pageIndex * pageSize + 1;
   const rangeEnd = Math.min(rangeStart + pageSize - 1, totalRows);
 
-  const pages = getPageList(currentPage, pageCount);
+  const pages = getPageList(currentPage, Math.max(pageCount, 1));
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border bg-background px-4 py-3">
+    <div
+      className={cn(
+        "flex shrink-0 flex-wrap items-center justify-between gap-3 bg-background px-4 py-3",
+        className,
+      )}
+    >
       <div className="flex gap-4">
-        
-      <Button
-        variant="outline"
-        size="sm"
-        className="h-8 gap-1 text-xs"
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-        <ChevronLeft className="h-3.5 w-3.5" />
-        Previous
-      </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-8 gap-1 text-xs"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ChevronLeft className="h-3.5 w-3.5" />
+          Previous
+        </Button>
 
-      <div className="flex items-center gap-1">
-        {pages.map((p, idx) =>
-          p === "ellipsis" ? (
-            <span
-              key={`ellipsis-${idx}`}
-              className="px-2 text-sm text-muted-foreground"
-            >
-              …
-            </span>
-          ) : (
-            <Button
-              key={p}
-              variant={p === currentPage ? "default" : "ghost"}
-              size="icon"
-              className={cn(
-                "h-8 w-8 text-xs font-medium",
-                p === currentPage
-                  ? ""
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-              onClick={() => table.setPageIndex(p - 1)}
-            >
-              {p}
-            </Button>
-          )
-        )}
-      </div>
-
-      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          {pages.map((p, idx) =>
+            p === "ellipsis" ? (
+              <span
+                key={`ellipsis-${idx}`}
+                className="px-2 text-sm text-muted-foreground"
+              >
+                …
+              </span>
+            ) : (
+              <Button
+                key={p}
+                variant={p === currentPage ? "default" : "ghost"}
+                size="icon"
+                className={cn(
+                  "h-8 w-8 text-xs font-medium",
+                  p === currentPage
+                    ? ""
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+                onClick={() => table.setPageIndex(p - 1)}
+              >
+                {p}
+              </Button>
+            ),
+          )}
+        </div>
         <Button
           variant="outline"
           size="sm"
@@ -100,11 +101,12 @@ export function DataTablePagination<TData>({
           <ChevronRight className="h-3.5 w-3.5" />
         </Button>
       </div>
-      </div>
 
+      <div className="flex items-center gap-4">
         <span className="hidden text-xs text-muted-foreground sm:inline">
           Showing {rangeStart}-{rangeEnd} of {totalRows} entries
         </span>
+      </div>
     </div>
   );
 }

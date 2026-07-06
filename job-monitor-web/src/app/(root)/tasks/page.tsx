@@ -1,12 +1,18 @@
 "use client";
 
-import { DataTable } from "@/components/data-table-custom";
 import { useEffect, useState } from "react";
 import { columns } from "./columns";
 import { RunningTask } from "@/types/api";
 import { fetchAllRunningTasks } from "@/service/monitor-service";
 import { Button } from "@/components/ui/button";
 import { IconArrowsDiagonal, IconReload } from "@tabler/icons-react";
+import { DataTableProvider } from "@/components/data-table/data-table-context";
+import { TablePagination } from "@/components/data-table/data-table-pagination";
+import { TableFilter } from "@/components/data-table/table-filter";
+import { TableActions } from "@/components/data-table/table-actions";
+import { DataTableView } from "@/components/data-table/data-table-view";
+import { DataTableCardGrid } from "@/components/data-table/data-table-card-grid";
+import { DataTable } from "@/components/data-table/data-table";
 
 
 export default function Tasks() {
@@ -31,40 +37,33 @@ export default function Tasks() {
   }, []);
 
   return (
-    <div className="p-4 space-y-4 bg-background">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Running Tasks</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Monitor all currently running job execution tasks in real-time.
-          </p>
-        </div>
-
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={(e) => {
-              e.preventDefault();
-              refreshTable();
-            }}
-            aria-label="Refresh"
-          >
-            <IconReload size={18} />
-          </Button>
-          <Button variant="outline" size="icon" aria-label="Export">
-            <IconArrowsDiagonal size={18} />
-          </Button>
-        </div>
-      </div>
-
+    <div className="space-y-4 bg-background">
       {/* Table Card */}
-      <DataTable
+      <DataTableProvider
         columns={columns}
         data={runningTasks}
-        refreshTable={refreshTable}
-      />
+        pageSize={15}
+      >
+        <div className="flex flex-col overflow-hidden bg-muted/20">
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 bg-background px-4 py-2.5">
+              <TableFilter showAskAI={false} showViewToggle={false} />
+              <TableActions showAddNew={false} showViewSettings={true} />
+            </div>
+
+            <DataTableView
+              table={<DataTable className="flex-1" />}
+              card={
+                <DataTableCardGrid
+                  className=""
+                  renderCard={(row) => (<div/>)}
+                />
+              }
+            />
+            {runningTasks.length > 9 && <TablePagination />}
+          </div>
+        </div>
+      </DataTableProvider>
     </div>
   );
 }
