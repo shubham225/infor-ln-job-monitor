@@ -19,18 +19,14 @@ type Props = {
 
 export default function AlertSettings({ form }: Props) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Email & Alerts Configuration</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
+    <div className="space-y-6 p-4">
         {/* Email Alerts Toggle */}
         <div className="space-y-3">
           <FormField
             control={form.control}
             name="emailAlerts"
             render={({ field }) => (
-              <FormItem className="flex items-center justify-between p-4 rounded-lg bg-gray-50 border border-gray-200">
+              <FormItem className="flex items-center justify-between p-4 rounded-lg border bg-muted/40">
                 <div className="space-y-1">
                   <FormLabel className="text-base font-semibold cursor-pointer">
                     Email Alerts
@@ -67,7 +63,7 @@ export default function AlertSettings({ form }: Props) {
         </div>
 
         {/* Monthly Report Toggle */}
-        <div className="space-y-3">
+        {/* <div className="space-y-3">
           <FormField
             control={form.control}
             name="sendMonthlyReports"
@@ -91,9 +87,9 @@ export default function AlertSettings({ form }: Props) {
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
 
-        <div className="space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-5">
+        <div className="space-y-4 rounded-lg border bg-muted/40 p-5">
           {/* Mail To */}
           <div className="space-y-3">
             <FormField
@@ -147,7 +143,6 @@ export default function AlertSettings({ form }: Props) {
             />
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
   );
 }

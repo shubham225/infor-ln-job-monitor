@@ -87,6 +87,7 @@ export function TableActions({
         <Button
           variant="outline"
           size="sm"
+          type="button"
           className="h-8 gap-1.5"
           onClick={handleExport}
         >
@@ -96,7 +97,7 @@ export function TableActions({
       )}
 
       {showAddNew && (
-        <Button size="sm" className="h-8 gap-1.5" onClick={onAddNew}>
+        <Button size="sm" type="button" className="h-8 gap-1.5" onClick={onAddNew}>
           <Plus className="h-3.5 w-3.5" />
           {addNewLabel}
         </Button>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 import { DataTableProvider } from "@/components/data-table/data-table-context";
 import { DataTable } from "@/components/data-table/data-table";
@@ -25,6 +24,7 @@ import { Row } from "@tanstack/react-table";
 import ServerMappingDialog from "./server-mapping-dialog";
 import { getServerMappingRowActions } from "./row-actions";
 import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
+import { toast } from "@/hooks/use-toast"
 
 export default function ServerMappingPage() {
   const [open, setOpen] = useState(false);
@@ -43,7 +43,7 @@ export default function ServerMappingPage() {
         setServerMappings(response);
       } catch (error) {
         const message = getErrorMessage(error);
-        toast.error(message);
+        toast.error({ title: "Uh oh, something went wrong", description: message });
       }
     };
 
@@ -71,9 +71,10 @@ export default function ServerMappingPage() {
       setServerMappings((prev) => [...prev, response]);
       setServerMapping(initServerMapping);
       setOpen(false);
+      toast.success({ title: "Server Mapping Added", description: "The server mapping has been added successfully." });
     } catch (error) {
       const message = getErrorMessage(error);
-      toast.error(message);
+      toast.error({ title: "Uh oh, something went wrong", description: message });
     }
   };
 
@@ -83,10 +84,10 @@ export default function ServerMappingPage() {
     try {
       await deleteServerMappings(id);
       setServerMappings((prev) => prev.filter((item) => item.id !== id));
+      toast.warning({ title: "Server Mapping Deleted", description: "The server mapping has been deleted successfully." });
     } catch (error) {
       const message = getErrorMessage(error);
-      toast.error(message);
-      console.error("Error deleting server mapping:", error);
+      toast.error({ title: "Uh oh, something went wrong", description: message });
     }
   };
   

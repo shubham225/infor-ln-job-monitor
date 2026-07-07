@@ -4,6 +4,7 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { JOB_STATUS_STYLE, MONITOR_STATUS_STYLE } from "@/constants/styles";
 import { cn } from "@/lib/utils";
 import { RunningTask } from "@/types/api";
 import { ERPJobStatus, TaskSchedulerStatus } from "@/types/enums";
@@ -17,44 +18,6 @@ import {
   Server,
   UserCog,
 } from "lucide-react";
-
-const JOB_STATUS_STYLE: Record<ERPJobStatus, string> = {
-  [ERPJobStatus.FREE]: "bg-green-50 text-green-700 border-green-200",
-  [ERPJobStatus.WAITING]: "bg-yellow-50 text-yellow-700 border-yellow-200",
-  [ERPJobStatus.RUNNING]: "bg-blue-50 text-blue-700 border-blue-200",
-  [ERPJobStatus.CANCELED]: "bg-gray-50 text-gray-700 border-gray-200",
-  [ERPJobStatus.RUNTIME_ERROR]: "bg-red-50 text-red-700 border-red-200",
-  [ERPJobStatus.IN_QUEUE]: "bg-purple-50 text-purple-700 border-purple-200",
-  [ERPJobStatus.BLOCKED]: "border-orange-500 text-orange-500",
-  [ERPJobStatus.UNKNOWN]: "border-gray-500 text-gray-500",
-};
-
-const MONITOR_STATUS_STYLE: Record<TaskSchedulerStatus, string> = {
-  [TaskSchedulerStatus.READY]: "bg-sky-50 text-sky-700 border-sky-200",
-  [TaskSchedulerStatus.RUNNING]: "bg-green-50 text-green-700 border-green-200",
-  [TaskSchedulerStatus.PAUSED]:
-    "bg-yellow-50 text-yellow-700 border-yellow-200",
-  [TaskSchedulerStatus.DISABLED]: "bg-gray-50 text-gray-700 border-gray-200",
-  [TaskSchedulerStatus.QUEUED]:
-    "bg-purple-50 text-purple-700 border-purple-200",
-  [TaskSchedulerStatus.WAITING]: "bg-blue-50 text-blue-700 border-blue-200",
-  [TaskSchedulerStatus.IDLE]: "bg-gray-50 text-gray-700 border-gray-200",
-  [TaskSchedulerStatus.TERMINATED]: "bg-red-50 text-red-700 border-red-200",
-  [TaskSchedulerStatus.MISSED]:
-    "bg-orange-50 text-orange-700 border-orange-200",
-  [TaskSchedulerStatus.NO_MORE_RUNS]:
-    "bg-gray-50 text-gray-700 border-gray-200",
-  [TaskSchedulerStatus.NOT_SCHEDULED]:
-    "bg-gray-50 text-gray-700 border-gray-200",
-  [TaskSchedulerStatus.TRANSITION]:
-    "bg-yellow-50 text-yellow-700 border-yellow-200",
-  [TaskSchedulerStatus.COULD_NOT_START]:
-    "bg-red-50 text-red-700 border-red-200",
-  [TaskSchedulerStatus.HAS_NOT_RUN]: "bg-gray-50 text-gray-700 border-gray-200",
-  [TaskSchedulerStatus.UNKNOWN]: "bg-gray-50 text-gray-700 border-gray-200",
-  [TaskSchedulerStatus.PENDING]:
-    "bg-yellow-50 text-yellow-700 border-yellow-200",
-};
 
 export const columns: ColumnDef<RunningTask>[] = [
   {

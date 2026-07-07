@@ -18,37 +18,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { FAILURE_REASON_STYLES, YES_NO_STYLES } from "@/constants/styles";
 
 const formatFailure = (value?: string) =>
   value
     ?.replace(/_/g, " ")
     .toLowerCase()
     .replace(/\b\w/g, (c) => c.toUpperCase()) ?? "—";
-
-const CATEGORY_STYLES: Record<FailureReason, string> = {
-  PENDING: "bg-sky-50 text-sky-700 border-sky-200",
-  SCHEDULER_RUNNING: "bg-sky-50 text-sky-700 border-sky-200",
-  SKIPPED: "bg-slate-50 text-slate-700 border-slate-200",
-
-  PARENT_EXIT: "bg-indigo-50 text-indigo-700 border-indigo-200",
-  BW_CONFIG_MISSING: "bg-indigo-50 text-indigo-700 border-indigo-200",
-  ERP_API_DOWN: "bg-indigo-50 text-indigo-700 border-indigo-200",
-
-  NOT_FOUND: "bg-amber-50 text-amber-700 border-amber-200",
-  NOT_EXECUTED: "bg-amber-50 text-amber-700 border-amber-200",
-  CANCELED: "bg-amber-50 text-amber-700 border-amber-200",
-
-  RUNTIME_ERROR: "bg-red-50 text-red-700 border-red-200",
-  EXECUTED_WITH_RUNTIME_ERROR: "bg-red-50 text-red-700 border-red-200",
-  TIME_LIMIT_EXCEEDED: "bg-red-50 text-red-700 border-red-200",
-
-  EXECUTED: "bg-green-50 text-green-700 border-green-200",
-};
-
-const YES_NO_STYLES: Record<string, string> = {
-  Yes: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  No: "bg-rose-50 text-rose-700 border-rose-200",
-};
 
 export const columns: ColumnDef<ExecutionHistory>[] = [
   {
@@ -209,7 +185,7 @@ export const columns: ColumnDef<ExecutionHistory>[] = [
               variant="outline"
               className={cn(
                 "rounded-sm border px-2 py-0.5 text-[10px] font-medium inline-flex items-center gap-1.5",
-                CATEGORY_STYLES[failureReason],
+                FAILURE_REASON_STYLES[failureReason],
               )}
             >
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-current" />

@@ -17,25 +17,14 @@ type Props = {
 
 export default function GeneralSettings({ form }: Props) {
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <div className="space-y-2">
-            <CardTitle>General Settings</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Core monitoring thresholds and filtering rules for scheduled ERP jobs.
-            </p>
-          </div>
-        </CardHeader>
-
-        <CardContent className="space-y-6">
+    <div className="space-y-6 p-4">
           <div className="grid gap-6 xl:grid-cols-2">
             <div className="space-y-3">
               <FormField
                 control={form.control}
                 name="allowedJobStartDelay"
                 render={({ field }) => (
-                  <FormItem className="space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-5">
+                  <FormItem className="space-y-4 rounded-lg border bg-muted/40 p-5">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <FormLabel className="text-base font-semibold">
@@ -72,7 +61,7 @@ export default function GeneralSettings({ form }: Props) {
                 control={form.control}
                 name="taskReleaseDelay"
                 render={({ field }) => (
-                  <FormItem className="space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-5">
+                  <FormItem className="space-y-4 rounded-lg border bg-muted/40 p-5">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <FormLabel className="text-base font-semibold">
@@ -110,7 +99,7 @@ export default function GeneralSettings({ form }: Props) {
               control={form.control}
               name="errorKeywords"
               render={({ field }) => (
-                <FormItem className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <FormItem className="rounded-lg border bg-muted/40 p-5">
                   <div className="space-y-2">
                     <FormLabel className="text-base font-semibold">
                       Error Message Keywords
@@ -132,8 +121,6 @@ export default function GeneralSettings({ form }: Props) {
               )}
             />
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
   );
 }

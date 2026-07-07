@@ -7,7 +7,7 @@ import {
   IconPlayerPlay,
   IconTreadmill,
 } from "@tabler/icons-react";
-import { ChartAreaLegend } from "./temp-chart";
+import { ChartAreaLegend } from "./line-chart";
 import { FailureData } from "@/types/dashboard";
 import type { DashboardStats, MonthlyExecutionTrend } from "@/types/api";
 import { Card, CardContent } from "@/components/ui/card";
@@ -94,14 +94,14 @@ export default function Home() {
 
       {/* Key Stats - Full Width */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="border-l-4 border-l-blue-500 p-4">
+        <Card className="border-l-4 border-l-blue-500 p-4 rounded-lg">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground font-medium">
                   Total Runs
                 </p>
-                <p className="text-2xl font-bold mt-2">
+                <p className="text-3xl font-bold mt-2">
                   {formatCompactNumber(totalJobExecutions)}
                 </p>
                 <p className="text-xs text-blue-600 font-semibold mt-2">
@@ -109,20 +109,20 @@ export default function Home() {
                 </p>
               </div>
               <div className="text-blue-500/20 ml-2">
-                <IconPlayerPlay size={40} />
+                <IconPlayerPlay size={50} />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-red-500 p-4">
+        <Card className="border-l-4 border-l-red-500 p-4 rounded-lg">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground font-medium">
                   Total Failures
                 </p>
-                <p className="text-2xl font-bold mt-2">
+                <p className="text-3xl font-bold mt-2">
                   {formatCompactNumber(totalFailedJobs)}
                 </p>
                 <p className="text-xs text-red-600 font-semibold mt-2">
@@ -130,20 +130,20 @@ export default function Home() {
                 </p>
               </div>
               <div className="text-red-500/20 ml-2">
-                <IconExclamationCircle size={40} />
+                <IconExclamationCircle size={50} />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-green-500 p-4">
+        <Card className="border-l-4 border-l-green-500 p-4 rounded-lg">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground font-medium">
                   Total Success
                 </p>
-                <p className="text-2xl font-bold mt-2">
+                <p className="text-3xl font-bold mt-2">
                   {formatCompactNumber(totalSuccessfulJobs)}
                 </p>
                 <p className="text-xs text-green-600 font-semibold mt-2">
@@ -151,20 +151,20 @@ export default function Home() {
                 </p>
               </div>
               <div className="text-green-500/20 ml-2">
-                <IconCircleCheck size={40} />
+                <IconCircleCheck size={50} />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-amber-500 p-4">
+        <Card className="border-l-4 border-l-amber-500 p-4 rounded-lg">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground font-medium">
                   Running Tasks
                 </p>
-                <p className="text-2xl font-bold mt-2">
+                <p className="text-3xl font-bold mt-2">
                   {formatCompactNumber(totalRunningTasks)}
                 </p>
                 <p className="text-xs text-amber-600 font-semibold mt-2">
@@ -172,7 +172,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="text-amber-500/20 ml-2">
-                <IconTreadmill size={40} />
+                <IconTreadmill size={50} />
               </div>
             </div>
           </CardContent>
@@ -182,7 +182,7 @@ export default function Home() {
       {/* Charts and Tables - Full Width */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Execution Trend Chart - Wider */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 rounded-lg">
           <CardContent className="p-4">
             <h3 className="text-xl font-semibold">Monthly Execution Trend</h3>
             <p className="text-xs text-muted-foreground mt-1">
@@ -195,7 +195,7 @@ export default function Home() {
         </Card>
 
         {/* Failure Summary - Compact List */}
-        <Card>
+        <Card className="rounded-lg">
           <CardContent className="p-4 h-full flex flex-col">
             <div className="flex flex-col mb-3">
               <h3 className="text-xl font-semibold">Failures by Reason Code</h3>
@@ -251,7 +251,7 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="rounded-lg">
           <CardContent className="p-4">
             <h3 className="text-sm font-semibold mb-4">Quick Stats</h3>
             <div className="space-y-4">

@@ -25,6 +25,7 @@ export interface RowAction<TData> {
   /** Hide this action for a given row */
   hidden?: (row: TData) => boolean;
   /** Disable (but still show) this action for a given row */
+  type?: "button" | "submit" | "reset";
   disabled?: (row: TData) => boolean;
   /** Render a separator above this item in the dropdown (ignored for single-action mode) */
   separatorBefore?: boolean;
@@ -67,6 +68,7 @@ export function DataTableRowActions<TData>({
       <Button
         variant="ghost"
         size="icon"
+        type={action.type || "button"}
         aria-label={action.label}
         disabled={action.disabled?.(row)}
         onClick={() => action.onClick(row)}

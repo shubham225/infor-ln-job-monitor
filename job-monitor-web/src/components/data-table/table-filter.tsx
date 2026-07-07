@@ -27,7 +27,7 @@ interface TableFilterProps {
 
 export function TableFilter({
   onAskAI,
-  showAskAI = true,
+  showAskAI = false,
   showViewToggle = true,
   showSort = true,
   className,

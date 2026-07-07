@@ -22,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ERPJobStatus } from "@/types/enums";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const availableStatuses = Object.values(ERPJobStatus) as ERPJobStatus[];
 
@@ -44,22 +43,11 @@ function AddExclusionDialog({
   submitLabel = "Add",
   title,
   description,
-  triggerLabel,
   submitDisabled,
   children,
 }: React.PropsWithChildren<DialogBaseProps>) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="icon">
-              <IconPlus />
-            </Button>
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent>{triggerLabel}</TooltipContent>
-      </Tooltip>
       <DialogContent className="sm:max-w-[425px] m-2">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -68,9 +56,15 @@ function AddExclusionDialog({
         <div className="grid gap-3 py-2">{children}</div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="secondary">Cancel</Button>
+            <Button variant="secondary" className="cursor-pointer">
+              Cancel
+            </Button>
           </DialogClose>
-          <Button onClick={onSubmit} disabled={submitDisabled}>
+          <Button
+            onClick={onSubmit}
+            disabled={submitDisabled}
+            className="cursor-pointer"
+          >
             {submitLabel}
           </Button>
         </DialogFooter>
