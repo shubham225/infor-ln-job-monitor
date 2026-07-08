@@ -102,7 +102,7 @@ export default function ServerMappingPage() {
   );
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background">
+    <div className="flex flex-col overflow-hidden bg-background">
       {/* Confirm Delete Dialog */}
       {dialog}
       {/* Dialog */}

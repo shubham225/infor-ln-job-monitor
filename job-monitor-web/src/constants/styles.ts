@@ -1,23 +1,23 @@
 import { ERPJobStatus, FailureReason, TaskSchedulerStatus } from "@/types/enums";
 
 export const FAILURE_REASON_STYLES: Record<FailureReason, string> = {
-  PENDING: "bg-sky-50 text-sky-700 border-sky-200",
-  SCHEDULER_RUNNING: "bg-sky-50 text-sky-700 border-sky-200",
-  SKIPPED: "bg-slate-50 text-slate-700 border-slate-200",
+  PENDING: "border-0 bg-sky-50 text-sky-700 border-sky-200",
+  SCHEDULER_RUNNING: "border-0 bg-sky-50 text-sky-700 border-sky-200",
+  SKIPPED: "border-0 bg-slate-50 text-slate-700 border-slate-200",
 
-  PARENT_EXIT: "bg-indigo-50 text-indigo-700 border-indigo-200",
-  BW_CONFIG_MISSING: "bg-indigo-50 text-indigo-700 border-indigo-200",
-  ERP_API_DOWN: "bg-indigo-50 text-indigo-700 border-indigo-200",
+  PARENT_EXIT: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
+  BW_CONFIG_MISSING: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
+  ERP_API_DOWN: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
 
-  NOT_FOUND: "bg-amber-50 text-amber-700 border-amber-200",
-  NOT_EXECUTED: "bg-amber-50 text-amber-700 border-amber-200",
-  CANCELED: "bg-amber-50 text-amber-700 border-amber-200",
+  NOT_FOUND: "border-0 bg-amber-50 text-amber-700 border-amber-200",
+  NOT_EXECUTED: "border-0 bg-amber-50 text-amber-700 border-amber-200",
+  CANCELED: "border-0 bg-amber-50 text-amber-700 border-amber-200",
 
-  RUNTIME_ERROR: "bg-red-50 text-red-700 border-red-200",
-  EXECUTED_WITH_RUNTIME_ERROR: "bg-red-50 text-red-700 border-red-200",
-  TIME_LIMIT_EXCEEDED: "bg-red-50 text-red-700 border-red-200",
+  RUNTIME_ERROR: "border-0 bg-red-50 text-red-700 border-red-200",
+  EXECUTED_WITH_RUNTIME_ERROR: "border-0 bg-red-50 text-red-700 border-red-200",
+  TIME_LIMIT_EXCEEDED: "border-0 bg-red-50 text-red-700 border-red-200",
 
-  EXECUTED: "bg-green-50 text-green-700 border-green-200",
+  EXECUTED: "border-0 bg-green-50 text-green-700 border-green-200",
 };
 
 export const YES_NO_STYLES: Record<string, string> = {

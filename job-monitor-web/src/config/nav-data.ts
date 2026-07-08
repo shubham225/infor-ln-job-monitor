@@ -2,11 +2,13 @@ import {
   IconDashboard,
   IconHelp,
   IconHistory,
+  IconLayoutDashboard,
   IconList,
   IconReport,
   IconSettings,
   IconWorldWww,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
+import { Calendar, Calendar1Icon, CircleQuestionMark, Globe, History, LayoutDashboard, Settings } from "lucide-react";
 
 export const navData = {
   user: {
@@ -18,34 +20,34 @@ export const navData = {
     {
       title: "Dashboard",
       url: "/",
-      icon: IconDashboard,
+      icon: LayoutDashboard,
     },
     {
       title: "Server API Mappings",
       url: "/server-mapping",
-      icon: IconWorldWww,
+      icon: Globe,
     },
     {
       title: "Execution History",
       url: "/history",
-      icon: IconHistory,
+      icon: History,
     },
     {
       title: "Running Tasks",
       url: "/tasks",
-      icon: IconList,
+      icon: Calendar,
     },
   ],
   navSecondary: [
     {
       title: "Settings",
       url: "/settings",
-      icon: IconSettings,
+      icon: Settings,
     },
     {
       title: "About",
       url: "/help",
-      icon: IconHelp,
+      icon: CircleQuestionMark,
     },
   ],
   documents: [

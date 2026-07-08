@@ -77,6 +77,7 @@ export function TablePagination({ className }: TablePaginationProps) {
                 key={p}
                 variant={p === currentPage ? "default" : "ghost"}
                 size="icon"
+                type="button"
                 className={cn(
                   "h-8 w-8 text-xs font-medium",
                   p === currentPage
