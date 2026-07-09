@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import {
@@ -10,13 +10,24 @@ import {
 import { ChartAreaLegend } from "./line-chart";
 import { FailureData } from "@/types/dashboard";
 import type { DashboardStats, MonthlyExecutionTrend } from "@/types/api";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import FailureDashboardTable from "@/components/failure-dash-table";
 import {
   fetchDashboardStats,
   fetchMonthlyExecutionTrend,
 } from "@/service/dashboard-service";
-import { formatCompactNumber, formatDuration, formatEnumLabel, formatLastAlert } from "@/lib/utils";
+import {
+  formatCompactNumber,
+  formatDuration,
+  formatEnumLabel,
+  formatLastAlert,
+} from "@/lib/utils";
 
 export default function Home() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -41,9 +52,8 @@ export default function Home() {
             key: reason,
             label: formatEnumLabel(reason),
             count,
-          })) ?? []
+          })) ?? [],
         );
-        
       } catch (err) {
         console.error("Failed to load dashboard data:", err);
         setError("Unable to load dashboard data. Please refresh.");
@@ -76,7 +86,9 @@ export default function Home() {
   if (loading) {
     return (
       <main className="p-4 space-y-4 bg-background">
-        <div className="text-sm text-muted-foreground">Loading dashboard...</div>
+        <div className="text-sm text-muted-foreground">
+          Loading dashboard...
+        </div>
       </main>
     );
   }
@@ -90,15 +102,14 @@ export default function Home() {
   }
 
   return (
-    <main className="p-4 space-y-4 bg-background">
-
+    <main className="p-4 space-y-5 bg-background">
       {/* Key Stats - Full Width */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <Card className="border-l-4 border-l-blue-500 p-4 rounded-lg">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-xs text-muted-foreground font-medium">
+                <p className="text-sm text-muted-foreground font-medium">
                   Total Runs
                 </p>
                 <p className="text-3xl font-bold mt-2">
@@ -180,14 +191,16 @@ export default function Home() {
       </div>
 
       {/* Charts and Tables - Full Width */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Execution Trend Chart - Wider */}
         <Card className="lg:col-span-2 rounded-lg">
-          <CardContent className="p-4">
-            <h3 className="text-xl font-semibold">Monthly Execution Trend</h3>
-            <p className="text-xs text-muted-foreground mt-1">
+          <CardHeader>
+            <CardTitle>Monthly Execution Trend</CardTitle>
+            <CardDescription>
               Graph showing the trend of job executions over the past month.
-            </p>
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <div className="w-full h-96 mt-10">
               <ChartAreaLegend data={monthlyTrend} />
             </div>
@@ -196,15 +209,25 @@ export default function Home() {
 
         {/* Failure Summary - Compact List */}
         <Card className="rounded-lg">
-          <CardContent className="p-4 h-full flex flex-col">
-            <div className="flex flex-col mb-3">
-              <h3 className="text-xl font-semibold">Failures by Reason Code</h3>
-              <p className="text-xs text-muted-foreground mt-1">
-                Job failures categorized by reason codes with counts.
-              </p>
-            </div>
+          <CardHeader>
+            <CardTitle>Failures by Reason Code</CardTitle>
+            <CardDescription>
+              Job failures categorized by reason codes with counts.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="h-full flex flex-col">
             <div className="flex-1 overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-muted [&::-webkit-scrollbar-thumb]:rounded-full">
-              <FailureDashboardTable data={failureData.filter((f) => f.key !== "EXECUTED" && f.key !== "PENDING" && f.key !== "SKIPPED").sort((a, b) => (b.count || 0) - (a.count || 0)).slice(0, 9)} />
+              <FailureDashboardTable
+                data={failureData
+                  .filter(
+                    (f) =>
+                      f.key !== "EXECUTED" &&
+                      f.key !== "PENDING" &&
+                      f.key !== "SKIPPED",
+                  )
+                  .sort((a, b) => (b.count || 0) - (a.count || 0))
+                  .slice(0, 9)}
+              />
             </div>
           </CardContent>
         </Card>
@@ -213,13 +236,23 @@ export default function Home() {
       {/* Bottom Section - Job Queue & Top Failures */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="lg:col-span-2">
-          <CardContent className="p-4">
-            <h3 className="text-sm font-semibold mb-4">
-              Top Failure Categories
-            </h3>
-            <div className="space-y-3">
+          <CardHeader>
+            <CardTitle>Top Failure Categories</CardTitle>
+            <CardDescription>
+              Top job failures categorized by reason codes with counts.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
               {failureData
-                .filter((f) => f.count && f.count > 0 && f.key !== "EXECUTED" && f.key !== "PENDING" && f.key !== "SKIPPED")
+                .filter(
+                  (f) =>
+                    f.count &&
+                    f.count > 0 &&
+                    f.key !== "EXECUTED" &&
+                    f.key !== "PENDING" &&
+                    f.key !== "SKIPPED",
+                )
                 .sort((a, b) => (b.count || 0) - (a.count || 0))
                 .slice(0, 6)
                 .map((item, idx) => (
@@ -252,8 +285,13 @@ export default function Home() {
         </Card>
 
         <Card className="rounded-lg">
-          <CardContent className="p-4">
-            <h3 className="text-sm font-semibold mb-4">Quick Stats</h3>
+          <CardHeader>
+            <CardTitle>Quick Stats</CardTitle>
+            <CardDescription>
+              A quick overview of your system&apos;s current performance and activity.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                 <span className="text-sm text-muted-foreground">

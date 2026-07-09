@@ -8,38 +8,52 @@
 ![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-38bdf8?logo=tailwindcss&logoColor=white&style=flat)
 ![shadcn/ui](https://img.shields.io/badge/UI-shadcn/ui-9f7aea?logo=shadcnui&style=flat)
 ![Yarn](https://img.shields.io/badge/Package_Manager-Yarn-2C8EBB?logo=yarn&style=flat)
-![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
+![License](https://img.shields.io/github/license/shubham225/infor-ln-job-monitor?style=flat)
 
-Job Monitor is a multi-module system for monitoring **Infor LN ERP** jobs and sending alerts when executions fail or breach SLAs.  
-It consists of a Spring Boot backend, a modern Next.js web UI, and CLI tools for easy integration with existing schedulers.
+**Job Monitor** is a multi-module system for monitoring **Infor LN ERP** jobs and sending alerts when executions fail or breach SLAs. It consists of a Spring Boot backend, a modern Next.js web UI, and a lightweight client for integrating with existing schedulers.
+
+---
+
+## Table of Contents
+
+- [Modules](#modules)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+- [Configuration](#configuration)
+- [Screenshots](#screenshots)
+- [ERP Integration Contract](#erp-integration-contract)
+- [License](#license)
 
 ---
 
 ## Modules
 
-- `job-monitor-cli` – legacy Java-based CLI for interacting with the server
-- `job-monitor-cli-rs` – modern Rust-based CLI (recommended)
-- `job-monitor-common` – shared Java models and utilities
-- `job-monitor-core` – core domain and business logic
-- `job-monitor-server` – Spring Boot backend for monitoring and alerts
-- `job-monitor-web` – Next.js web UI
+| Module | Description |
+|---|---|
+| `job-monitor-client-rs` | Rust-based client for registering jobs and reporting execution results (**recommended**) |
+| `job-monitor-client` | Java-based client, functionally equivalent to `job-monitor-client-rs` (legacy) |
+| `job-monitor-server` | Spring Boot backend that stores job data and triggers alerts |
+| `job-monitor-core` | Core domain models and business logic |
+| `job-monitor-common` | Shared utilities used across backend modules |
+| `job-monitor-web` | Next.js web UI for visualization and administration |
 
-Each module has its own `README.md` with more detailed information.
+Each module includes its own `README.md` with setup and usage details specific to that module.
 
 ---
 
-## High-Level Architecture
+## Architecture
 
-- **CLIs (`job-monitor-cli`, `job-monitor-cli-rs`)**  
-  Register jobs and push execution results (success/failure) to the backend.
+- **Client** (`job-monitor-client-rs`, `job-monitor-client`)
+  Registers jobs with the server and reports execution results (success/failure). Both clients expose the same functionality; `job-monitor-client-rs` is the actively maintained, recommended implementation.
 
-- **Backend (`job-monitor-server`, `job-monitor-core`, `job-monitor-common`)**  
-  Stores job definitions and history, evaluates alert rules, and sends notifications (e.g., email).
+- **Backend** (`job-monitor-server`, `job-monitor-core`, `job-monitor-common`)
+  Stores job definitions and execution history, evaluates alert rules, and dispatches notifications (e.g., email).
 
-- **Web UI (`job-monitor-web`)**  
-  Visualizes job status and history, and provides configuration and administration views.
+- **Web UI** (`job-monitor-web`)
+  Provides dashboards for job status and history, along with configuration and administration views.
 
 ![architecture](./docs/readme/architecture.gif)
+
 ---
 
 ## Getting Started
@@ -48,13 +62,13 @@ Each module has its own `README.md` with more detailed information.
 
 - Java 17+
 - Maven
-- Node.js (LTS) for the web UI
-- Rust toolchain (`rustup`) for the Rust CLI (optional but recommended)
-- SMTP credentials for email alerts
+- Node.js (LTS), for the web UI
+- Rust toolchain (`rustup`), for the recommended client
+- SMTP credentials, for email alerts
 
-### Typical Local Setup
+### Local Setup
 
-1. **Build backend modules**
+1. **Build the backend modules**
 
    ```bash
    mvn clean package
@@ -75,35 +89,43 @@ Each module has its own `README.md` with more detailed information.
    npm run dev
    ```
 
-4. **Build and use the Rust CLI (optional)**
+4. **Build and run the recommended client**
 
    ```bash
-   cd ../job-monitor-cli-rs
+   cd ../job-monitor-client-rs
    cargo build --release
-   ./target/release/job-monitor-cli --help
+   ./target/release/job-monitor-client --help
    ```
 
 ---
 
-## Configuration Overview
+## Configuration
 
 Common environment variables used across modules:
 
-| Variable                 | Used In                | Description                                  |
-|--------------------------|------------------------|----------------------------------------------|
-| `JOB_MONITOR_SERVER_URL` | CLIs, web UI           | Base URL of `job-monitor-server`             |
-| `JOB_MONITOR_HOME`       | Server, CLIs           | Directory for logs/data                      |
-| `JOB_MONITOR_PORT`       | Server                 | HTTP port for the backend                    |
-| `MAIL_USER`              | Server                 | Email sender for alerts                      |
-| `MAIL_PASSWORD`          | Server                 | SMTP password or app-specific token          |
-| `NEXT_PUBLIC_JOB_MONITOR_SERVER_URL` | Web UI   | Public server URL exposed to the browser     |
+| Variable | Used In | Description |
+|---|---|---|
+| `JOB_MONITOR_SERVER_URL` | Client, Web UI | Base URL of `job-monitor-server` |
+| `JOB_MONITOR_HOME` | Server, Client | Directory for logs and data |
+| `JOB_MONITOR_PORT` | Server | HTTP port for the backend |
+| `MAIL_USER` | Server | Sender address for email alerts |
+| `MAIL_PASSWORD` | Server | SMTP password or app-specific token |
+| `NEXT_PUBLIC_JOB_MONITOR_SERVER_URL` | Web UI | Server URL exposed to the browser |
 
-Check the individual module README's and configuration files for full details.
+See the individual module READMEs for the full configuration reference.
 
 ---
-## Screenshot
+
+## Screenshots
+
 ### Homepage
 ![homepage](./docs/readme/homepage.png)
+
+### Job Execution History
+![execution-history](./docs/readme/execution-history.png)
+
+### Server Mapping
+![server-mapping](./docs/readme/server-mapping.png)
 
 ### Settings
 ![settings](./docs/readme/settings.png)
@@ -112,9 +134,10 @@ Check the individual module README's and configuration files for full details.
 ![alert-template](./docs/readme/alert-email-template.png)
 
 ---
+
 ## ERP Integration Contract
 
-The ERP Monitor application expects the following request and response formats. A middleware can be used to transform these requests/responses to the ERP-specific API.
+The ERP Monitor application expects requests and responses in the formats below. A middleware layer can be used to translate these into ERP-specific API calls, as long as it preserves this contract.
 
 ### 1. Fetch Job Details
 
@@ -174,10 +197,10 @@ The ERP Monitor application expects the following request and response formats. 
 ]
 ```
 
-> **Note:** The middleware may expose any ERP-specific endpoints internally, but it must accept and return data in the formats shown above so that the ERP Monitor application can interact with it without modification.
+> **Note:** The middleware may expose any ERP-specific endpoints internally, but must accept and return data in the formats shown above so the ERP Monitor application can integrate without modification.
 
 ---
+
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
