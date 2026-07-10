@@ -16,4 +16,5 @@ public class WinTaskToJobMapping extends BaseEntity{
     private String jobCode;
     private String company;
     private String taskName;
+    private String hostName;
 }

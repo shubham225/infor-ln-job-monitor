@@ -84,3 +84,10 @@ export interface MonthlyExecutionTrend {
   successfulExecutions: number;
   failedExecutions: number;
 }
+
+export type TaskJobMapping = {
+  hostName: string;
+  taskName: string;
+  jobName: string;
+  company: string;
+};

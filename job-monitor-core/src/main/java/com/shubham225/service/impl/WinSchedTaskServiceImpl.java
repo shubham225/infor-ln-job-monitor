@@ -29,8 +29,8 @@ public class WinSchedTaskServiceImpl implements WinSchedTaskService {
         // Fetch TaskName of the WinSchedTask
         String taskName = "";
 
-        // TODO: Remove or update logic after testing on Linux
         // ------------------------------------------
+        // TODO: Implementation for Linux cron jobs - for now using dummy task
         String os = System.getProperty("os.name").toLowerCase();
 
         if (os.contains("linux")) {

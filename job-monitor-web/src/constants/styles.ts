@@ -2,11 +2,11 @@ import { ERPJobStatus, FailureReason, TaskSchedulerStatus } from "@/types/enums"
 
 export const FAILURE_REASON_STYLES: Record<FailureReason, string> = {
   PENDING: "border-0 bg-sky-50 text-sky-700 border-sky-200",
-  SCHEDULER_RUNNING: "border-0 bg-sky-50 text-sky-700 border-sky-200",
+  WIN_SCHEDULER_RUNNING: "border-0 bg-sky-50 text-sky-700 border-sky-200",
   SKIPPED: "border-0 bg-slate-50 text-slate-700 border-slate-200",
 
-  PARENT_EXIT: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
-  BW_CONFIG_MISSING: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
+  EXEC_WITH_ERROR_MESSAGE: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
+  JOB_DETAILS_MISSING: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
   ERP_API_DOWN: "border-0 bg-indigo-50 text-indigo-700 border-indigo-200",
 
   NOT_FOUND: "border-0 bg-amber-50 text-amber-700 border-amber-200",
@@ -62,3 +62,4 @@ export const MONITOR_STATUS_STYLE: Record<TaskSchedulerStatus, string> = {
   [TaskSchedulerStatus.PENDING]:
     "bg-yellow-50 text-yellow-700 border-yellow-200",
 };
+

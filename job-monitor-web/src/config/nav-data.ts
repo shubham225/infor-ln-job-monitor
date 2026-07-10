@@ -8,7 +8,7 @@ import {
   IconSettings,
   IconWorldWww,
 } from "@tabler/icons-react";
-import { Calendar, Calendar1Icon, CircleQuestionMark, Globe, History, LayoutDashboard, Settings } from "lucide-react";
+import { Calendar, Calendar1Icon, CircleQuestionMark, Globe, History, LayoutDashboard, Settings, Waypoints } from "lucide-react";
 
 export const navData = {
   user: {
@@ -31,6 +31,11 @@ export const navData = {
       title: "Execution History",
       url: "/history",
       icon: History,
+    },
+    {
+      title: "Task to Job Mapping",
+      url: "/task-job-mapping",
+      icon: Waypoints,
     },
     {
       title: "Running Tasks",
