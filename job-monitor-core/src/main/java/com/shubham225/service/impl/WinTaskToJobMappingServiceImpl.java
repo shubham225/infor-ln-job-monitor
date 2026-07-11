@@ -1,7 +1,9 @@
 package com.shubham225.service.impl;
 
 import com.shubham225.exception.JobTaskMappingNotFoundException;
+import com.shubham225.model.dto.TaskJobMappingDTO;
 import com.shubham225.model.entity.WinTaskToJobMapping;
+import com.shubham225.model.mapper.TaskJobMappingMapper;
 import com.shubham225.repository.WinTaskToJobMappingRepository;
 import com.shubham225.service.WinTaskToJobMappingService;
 import com.shubham225.util.FileUtils;
@@ -28,6 +30,7 @@ import java.util.Map;
 public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingService {
     private final WinTaskToJobMappingRepository winTaskToJobMappingRepository;
     private final TaskSchedulerClient schedulerClient;
+    private final TaskJobMappingMapper taskJobMappingMapper;
 
     @Override
     public long countWinTaskToJobMapping() {
@@ -52,6 +55,14 @@ public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingServic
         log.info("generating job and task mappings");
         List<ScheduledTask> tasks = schedulerClient.findAllWinSchedTask(new TaskQuery("", ""));
         generateMapping(tasks);
+    }
+
+    @Override
+    public List<TaskJobMappingDTO> getTaskJobMappings() {
+        return winTaskToJobMappingRepository.findAll()
+                .stream()
+                .map(taskJobMappingMapper::toDTO)
+                .toList();
     }
 
     private void deleteAllJobTaskMapping() {
@@ -114,7 +125,7 @@ public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingServic
                 // Extract BSE_COMPNR from command
                 String companyCode = FileUtils.extractCompany(command);
 
-                mappings.add(new WinTaskToJobMapping(erpJobName, companyCode ,task.getTaskName()));
+                mappings.add(new WinTaskToJobMapping(hostname, task.getTaskName(), erpJobName, companyCode));
             } catch (IOException e) {
                 log.error("Error reading batch file for task: {}" ,task.getTaskName());
             }

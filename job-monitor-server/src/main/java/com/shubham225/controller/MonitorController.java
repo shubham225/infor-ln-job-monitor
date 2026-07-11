@@ -42,4 +42,12 @@ public class MonitorController {
     public ResponseEntity<AppResult> getMonitoringHistory() {
         return AppResult.success(monitorService.getMonitoringHistory());
     }
+
+    @RequestMapping(
+            value = "/taskJobMapping",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<AppResult> getTaskJobMappings() {
+        return AppResult.success(monitorService.getTaskJobMappings());
+    }
 }

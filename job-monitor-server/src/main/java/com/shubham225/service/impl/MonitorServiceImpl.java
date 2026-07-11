@@ -1,17 +1,11 @@
 package com.shubham225.service.impl;
 
-import com.shubham225.model.dto.ExecutionHistoryDTO;
-import com.shubham225.model.dto.MonitorRequestDTO;
-import com.shubham225.model.dto.MonitorResponseDTO;
-import com.shubham225.model.dto.RunningTaskDTO;
+import com.shubham225.model.dto.*;
 import com.shubham225.model.entity.InforERPJob;
 import com.shubham225.model.entity.MonitoringTask;
 import com.shubham225.model.mapper.MonitorHistoryMapper;
 import com.shubham225.model.mapper.MonitorTaskMapper;
-import com.shubham225.service.JobService;
-import com.shubham225.service.MonitorService;
-import com.shubham225.service.MonitoringTaskHistoryService;
-import com.shubham225.service.MonitoringTaskService;
+import com.shubham225.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +21,7 @@ public class MonitorServiceImpl implements MonitorService {
     private final MonitorTaskMapper monitorTaskMapper;
     private final MonitoringTaskHistoryService monitoringTaskHistoryService;
     private final MonitorHistoryMapper monitorHistoryMapper;
+    private final WinTaskToJobMappingService winTaskToJobMappingService;
 
     @Override
     public MonitorResponseDTO createMonitoringTask(MonitorRequestDTO request) {
@@ -58,5 +53,10 @@ public class MonitorServiceImpl implements MonitorService {
     public List<ExecutionHistoryDTO> getMonitoringHistory() {
         return monitoringTaskHistoryService.findAllMonitoringTaskHistory().stream()
                 .map(monitorHistoryMapper::toDTO).toList();
+    }
+
+    @Override
+    public List<TaskJobMappingDTO> getTaskJobMappings() {
+        return winTaskToJobMappingService.getTaskJobMappings();
     }
 }
