@@ -10,8 +10,7 @@
 
 It exposes REST APIs that are consumed by:
 
-- `job-monitor-cli` (Java CLI – legacy)
-- `job-monitor-cli-rs` (Rust CLI – recommended)
+- `job-monitor-client` (Rust Client)
 - `job-monitor-web` (Next.js UI)
 
 ---
@@ -100,5 +99,5 @@ These endpoints are consumed by the CLIs and by `job-monitor-web`.
 
 - `job-monitor-core` – core domain and business logic used by the server
 - `job-monitor-common` – shared utilities and DTOs
-- `job-monitor-cli` / `job-monitor-cli-rs` – CLIs that call into this server
+- `job-monitor-client` – Client that communicates to this server
 - `job-monitor-web` – UI for monitoring dashboards and configuration

@@ -34,13 +34,13 @@ From the repository root:
 
 ```bash
 cd job-monitor-web
-npm install
+yarn install
 ```
 
 ### Run the Development Server
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Open `http://localhost:3000` in your browser.
@@ -65,13 +65,13 @@ Refer to your actual configuration in the codebase and deployment manifests for 
 Create an optimized production build:
 
 ```bash
-npm run build
+yarn build
 ```
 
 Then start the production server:
 
 ```bash
-npm start
+yarn start
 ```
 
 You can also deploy this app to platforms like Vercel, Netlify, or any Node-capable hosting provider.
@@ -94,5 +94,5 @@ You can also deploy this app to platforms like Vercel, Netlify, or any Node-capa
 
 - `job-monitor-server` – REST backend for monitoring and alerts
 - `job-monitor-core` / `job-monitor-common` – domain and shared logic
-- `job-monitor-cli` / `job-monitor-cli-rs` – CLIs for automation and integration
+- `job-monitor-client` – Client for automation and integration
 

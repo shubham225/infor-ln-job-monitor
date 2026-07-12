@@ -28,14 +28,13 @@
 
 ## Modules
 
-| Module | Description |
-|---|---|
-| `job-monitor-client-rs` | Rust-based client for registering jobs and reporting execution results (**recommended**) |
-| `job-monitor-client` | Java-based client, functionally equivalent to `job-monitor-client-rs` (legacy) |
+| Module               | Description                                                  |
+|----------------------|--------------------------------------------------------------|
+| `job-monitor-client` | Rust-based client for registering jobs to server             |
 | `job-monitor-server` | Spring Boot backend that stores job data and triggers alerts |
-| `job-monitor-core` | Core domain models and business logic |
-| `job-monitor-common` | Shared utilities used across backend modules |
-| `job-monitor-web` | Next.js web UI for visualization and administration |
+| `job-monitor-core`   | Core domain models and business logic                        |
+| `job-monitor-common` | Shared utilities used across backend modules                 |
+| `job-monitor-web`    | Next.js web UI for visualization and administration          |
 
 Each module includes its own `README.md` with setup and usage details specific to that module.
 
@@ -43,8 +42,8 @@ Each module includes its own `README.md` with setup and usage details specific t
 
 ## Architecture
 
-- **Client** (`job-monitor-client-rs`, `job-monitor-client`)
-  Registers jobs with the server and reports execution results (success/failure). Both clients expose the same functionality; `job-monitor-client-rs` is the actively maintained, recommended implementation.
+- **Client** (`job-monitor-client`)
+  Registers jobs with the server and reports execution results (success/failure).
 
 - **Backend** (`job-monitor-server`, `job-monitor-core`, `job-monitor-common`)
   Stores job definitions and execution history, evaluates alert rules, and dispatches notifications (e.g., email).
@@ -85,16 +84,20 @@ Each module includes its own `README.md` with setup and usage details specific t
 
    ```bash
    cd ../job-monitor-web
-   npm install
-   npm run dev
+   yarn install
+   yarn dev
    ```
 
 4. **Build and run the recommended client**
 
    ```bash
-   cd ../job-monitor-client-rs
-   cargo build --release
-   ./target/release/job-monitor-client --help
+   cd ../job-monitor-client
+   
+   # Linux/macOS
+   ./build.sh
+
+   # Windows
+   build.bat
    ```
 
 ---
@@ -103,14 +106,14 @@ Each module includes its own `README.md` with setup and usage details specific t
 
 Common environment variables used across modules:
 
-| Variable | Used In | Description |
-|---|---|---|
-| `JOB_MONITOR_SERVER_URL` | Client, Web UI | Base URL of `job-monitor-server` |
-| `JOB_MONITOR_HOME` | Server, Client | Directory for logs and data |
-| `JOB_MONITOR_PORT` | Server | HTTP port for the backend |
-| `MAIL_USER` | Server | Sender address for email alerts |
-| `MAIL_PASSWORD` | Server | SMTP password or app-specific token |
-| `NEXT_PUBLIC_JOB_MONITOR_SERVER_URL` | Web UI | Server URL exposed to the browser |
+| Variable                             | Used In        | Description                         |
+|--------------------------------------|----------------|-------------------------------------|
+| `JOB_MONITOR_SERVER_URL`             | Client, Web UI | Base URL of `job-monitor-server`    |
+| `JOB_MONITOR_HOME`                   | Server, Client | Directory for logs and data         |
+| `JOB_MONITOR_PORT`                   | Server         | HTTP port for the backend           |
+| `MAIL_USER`                          | Server         | Sender address for email alerts     |
+| `MAIL_PASSWORD`                      | Server         | SMTP password or app-specific token |
+| `NEXT_PUBLIC_JOB_MONITOR_SERVER_URL` | Web UI         | Server URL exposed to the browser   |
 
 See the individual module READMEs for the full configuration reference.
 
@@ -203,4 +206,4 @@ The ERP Monitor application expects requests and responses in the formats below.
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License, see the [LICENSE](LICENSE) file for details.

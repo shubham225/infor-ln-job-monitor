@@ -4,7 +4,7 @@
 ![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)
 ![License](https://img.shields.io/github/license/shubham225/coding-test-backend?style=flat)
 
-Shared Java utilities, models, and helper abstractions used across the Job Monitor ecosystem (`job-monitor-core`, `job-monitor-server`, CLIs, and the web layer).
+Shared Java utilities, models, and helper abstractions used across the Job Monitor ecosystem (`job-monitor-core`, `job-monitor-server`, `job-monitor-client`, and the web layer).
 
 ---
 
@@ -58,5 +58,5 @@ This builds `job-monitor-common` and any required dependencies.
 
 - `job-monitor-core` – core business logic and domain services built on top of `job-monitor-common`
 - `job-monitor-server` – Spring Boot backend consuming `job-monitor-core` and `job-monitor-common`
-- `job-monitor-cli` / `job-monitor-cli-rs` – CLIs talking to `job-monitor-server`
+- `job-monitor-client` – Client talking to `job-monitor-server`
 
