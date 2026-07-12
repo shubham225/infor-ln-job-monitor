@@ -3,7 +3,7 @@
 set -e
 
 echo "============================================"
-echo "  JobMonitor CLI - Rust Build Script"
+echo "  JobMonitor Client - Rust Build Script"
 echo "============================================"
 echo
 
@@ -31,12 +31,12 @@ fi
 echo
 echo "============================================"
 echo "  Build successful!"
-echo "  Binary: target/release/job-monitor-cli"
+echo "  Binary: target/release/job-monitor-client"
 echo "============================================"
 
 # Show binary size
-if [ -f target/release/job-monitor-cli ]; then
-    SIZE=$(stat -c%s target/release/job-monitor-cli)
+if [ -f target/release/job-monitor-client ]; then
+    SIZE=$(stat -c%s target/release/job-monitor-client)
     SIZE_KB=$((SIZE / 1024))
     echo "  Size:   ${SIZE_KB} KB"
 fi

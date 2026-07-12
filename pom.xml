@@ -22,7 +22,6 @@
     <modules>
         <module>job-monitor-server</module>
         <module>job-monitor-common</module>
-        <module>job-monitor-cli</module>
         <module>job-monitor-core</module>
     </modules>
 
