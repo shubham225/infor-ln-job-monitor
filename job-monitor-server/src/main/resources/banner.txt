@@ -1,16 +1,15 @@
-
-${AnsiColor.BRIGHT_WHITE}       __      __   ${AnsiColor.RED}  __  ___            _ __
-${AnsiColor.BRIGHT_WHITE}      / /___  / /_  ${AnsiColor.RED} /  |/  /___  ____  (_) /_____  _____
-${AnsiColor.BRIGHT_WHITE} __  / / __ \/ __ \ ${AnsiColor.RED}/ /|_/ / __ \/ __ \/ / __/ __ \/ ___/
-${AnsiColor.BRIGHT_WHITE}/ /_/ / /_/ / /_/ ${AnsiColor.RED} / /  / / /_/ / / / / / /_/ /_/ / /
-${AnsiColor.BRIGHT_WHITE}\____/\____/_.___${AnsiColor.RED} /_/  /_/\____/_/ /_/_/\__/\____/_/
-${AnsiColor.DEFAULT}
-+---------------------------------------------------+
-| Name:               ${AnsiColor.BRIGHT_WHITE}${AnsiStyle.BOLD}${info.application.name} [${AnsiColor.48}Backend${AnsiColor.BRIGHT_WHITE}]${AnsiStyle.NORMAL}${AnsiColor.DEFAULT}   |
-| Version:            ${AnsiColor.BRIGHT_WHITE}${info.application.version}${AnsiColor.DEFAULT}                        |
-| SpringBoot Version: ${spring-boot.version}                         |
-| Port:               ${server.port}                          |
-| Profile:            ${spring.profiles.active}                        |
-+---------------------------------------------------+
-${AnsiColor.DEFAULT}
-
+${AnsiBackground.BLACK}
+${AnsiColor.BRIGHT_WHITE}       __      __   ${AnsiColor.RED}  __  ___            _ __             ${AnsiColor.BLACK}|
+${AnsiColor.BRIGHT_WHITE}      / /___  / /_  ${AnsiColor.RED} /  |/  /___  ____  (_) /_____  _____ ${AnsiColor.BLACK}|
+${AnsiColor.BRIGHT_WHITE} __  / / __ \/ __ \ ${AnsiColor.RED}/ /|_/ / __ \/ __ \/ / __/ __ \/ ___/ ${AnsiColor.BLACK}|
+${AnsiColor.BRIGHT_WHITE}/ /_/ / /_/ / /_/ ${AnsiColor.RED} / /  / / /_/ / / / / / /_/ /_/ / /     ${AnsiColor.BLACK}|
+${AnsiColor.BRIGHT_WHITE}\____/\____/_.___${AnsiColor.RED} /_/  /_/\____/_/ /_/_/\__/\____/_/      ${AnsiColor.BLACK}|
+${AnsiBackground.BLACK}${AnsiColor.DEFAULT}                                                          ${AnsiColor.BLACK}|${AnsiBackground.DEFAULT}
+${AnsiColor.BRIGHT_BLACK}+---------------------------------------------------+
+${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Application : ${AnsiColor.BRIGHT_WHITE}${AnsiStyle.BOLD}${AnsiBackground.BLACK}${banner.name}${AnsiStyle.NORMAL}${AnsiColor.BRIGHT_MAGENTA} [${info.application.version}]${banner.name.pad}${AnsiColor.BRIGHT_BLACK} |
+${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Profile     : ${AnsiColor.YELLOW}${banner.profile.padded}${AnsiColor.BRIGHT_BLACK} |
+${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Spring Boot : ${AnsiColor.YELLOW}${banner.springboot.padded}${AnsiColor.BRIGHT_BLACK} |
+${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}JDK         : ${AnsiColor.YELLOW}${banner.java.padded}${AnsiColor.BRIGHT_BLACK} |
+${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Port        : ${AnsiColor.YELLOW}${banner.port.padded}${AnsiColor.BRIGHT_BLACK} |
+${AnsiColor.BRIGHT_BLACK}+---------------------------------------------------+
+${AnsiBackground.DEFAULT}${AnsiColor.DEFAULT}

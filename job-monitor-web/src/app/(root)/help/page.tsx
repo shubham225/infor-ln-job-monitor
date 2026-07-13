@@ -79,14 +79,9 @@ const TICKER_ROWS: {
 
 const MODULES: { name: string; lang: string; desc: string }[] = [
   {
-    name: "job-monitor-cli",
-    lang: "Java",
-    desc: "Legacy CLI for interacting with the server.",
-  },
-  {
-    name: "job-monitor-cli-rs",
+    name: "job-monitor-client",
     lang: "Rust",
-    desc: "Modern CLI for registering jobs and pushing results (recommended).",
+    desc: "Modern CLI for registering jobs and pushing results.",
   },
   {
     name: "job-monitor-common",
@@ -265,7 +260,7 @@ export default function AboutJobMonitor() {
               {
                 icon: Terminal,
                 title: "Client",
-                sub: "job-monitor-client · job-monitor-client-rs",
+                sub: "job-monitor-client",
                 desc: "Register jobs and report each run's outcome back to the server.",
               },
               {
