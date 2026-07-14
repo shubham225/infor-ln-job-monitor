@@ -1,7 +1,6 @@
 import apiClient from "@/lib/axios-client";
 import { BackendResponse } from "@/types";
 import { ExecutionHistory, RunningTask, TaskJobMapping } from "@/types/api";
-import { ERPJobStatus, TaskSchedulerStatus } from "@/types/enums";
 
 export async function fetchAllMonitorHistory(): Promise<ExecutionHistory[]> {
   try {

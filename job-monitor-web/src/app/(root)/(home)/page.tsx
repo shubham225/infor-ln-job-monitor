@@ -28,6 +28,7 @@ import {
   formatEnumLabel,
   formatLastAlert,
 } from "@/lib/utils";
+import LoadingAnimation from "@/components/animations/loading-animation";
 
 export default function Home() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -87,7 +88,7 @@ export default function Home() {
     return (
       <main className="p-4 space-y-4 bg-background">
         <div className="text-sm text-muted-foreground">
-          Loading dashboard...
+          <LoadingAnimation />
         </div>
       </main>
     );

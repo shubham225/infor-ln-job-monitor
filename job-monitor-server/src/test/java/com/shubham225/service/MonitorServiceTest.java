@@ -1,13 +1,13 @@
 package com.shubham225.service;
 
-import com.shubham225.service.impl.WinTaskToJobMappingServiceImpl;
-import com.shubham225.windows.event.EventLogClient;
-import com.shubham225.windows.event.domain.EventLogQuery;
-import com.shubham225.windows.event.impl.EventLogClientImpl;
-import com.shubham225.windows.scheduler.TaskSchedulerClient;
-import com.shubham225.windows.scheduler.domain.ScheduledTask;
-import com.shubham225.windows.scheduler.domain.TaskQuery;
-import com.shubham225.windows.scheduler.impl.TaskSchedulerClientImpl;
+import com.shubham225.jobmonitor.service.impl.WinTaskToJobMappingServiceImpl;
+import com.shubham225.jobmonitor.windows.event.EventLogClient;
+import com.shubham225.jobmonitor.windows.event.domain.EventLogQuery;
+import com.shubham225.jobmonitor.windows.event.impl.EventLogClientImpl;
+import com.shubham225.jobmonitor.windows.scheduler.TaskSchedulerClient;
+import com.shubham225.jobmonitor.windows.scheduler.domain.ScheduledTask;
+import com.shubham225.jobmonitor.windows.scheduler.domain.TaskQuery;
+import com.shubham225.jobmonitor.windows.scheduler.impl.TaskSchedulerClientImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.file.Path;

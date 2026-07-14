@@ -6,7 +6,7 @@ ${AnsiColor.BRIGHT_WHITE}/ /_/ / /_/ / /_/ ${AnsiColor.RED} / /  / / /_/ / / / /
 ${AnsiColor.BRIGHT_WHITE}\____/\____/_.___${AnsiColor.RED} /_/  /_/\____/_/ /_/_/\__/\____/_/      ${AnsiColor.BLACK}|
 ${AnsiBackground.BLACK}${AnsiColor.DEFAULT}                                                          ${AnsiColor.BLACK}|${AnsiBackground.DEFAULT}
 ${AnsiColor.BRIGHT_BLACK}+---------------------------------------------------+
-${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Application : ${AnsiColor.BRIGHT_WHITE}${AnsiStyle.BOLD}${AnsiBackground.BLACK}${banner.name}${AnsiStyle.NORMAL}${AnsiColor.BRIGHT_MAGENTA} [${info.application.version}]${banner.name.pad}${AnsiColor.BRIGHT_BLACK} |
+${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Application : ${AnsiColor.BRIGHT_WHITE}${AnsiStyle.BOLD}${AnsiBackground.BLACK}${banner.name}${AnsiStyle.NORMAL}${AnsiColor.BRIGHT_YELLOW} [${info.application.version}]${banner.name.pad}${AnsiColor.BRIGHT_BLACK} |
 ${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Profile     : ${AnsiColor.YELLOW}${banner.profile.padded}${AnsiColor.BRIGHT_BLACK} |
 ${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}Spring Boot : ${AnsiColor.YELLOW}${banner.springboot.padded}${AnsiColor.BRIGHT_BLACK} |
 ${AnsiColor.BRIGHT_BLACK}| ${AnsiColor.GREEN}JDK         : ${AnsiColor.YELLOW}${banner.java.padded}${AnsiColor.BRIGHT_BLACK} |

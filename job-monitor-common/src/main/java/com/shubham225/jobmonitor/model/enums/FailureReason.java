@@ -1,0 +1,17 @@
+package com.shubham225.jobmonitor.model.enums;
+
+public enum FailureReason {
+    PENDING,
+    JOB_DETAILS_MISSING,
+    NOT_FOUND,
+    NOT_EXECUTED,
+    RUNTIME_ERROR,
+    EXECUTED_WITH_RUNTIME_ERROR,
+    TIME_LIMIT_EXCEEDED,
+    CANCELED,
+    ERP_API_DOWN,
+    EXECUTED,
+    WIN_SCHEDULER_RUNNING,
+    EXEC_WITH_ERROR_MESSAGE,
+    SKIPPED
+}

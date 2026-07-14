@@ -1,1 +1,1 @@
-org.springframework.boot.env.EnvironmentPostProcessor=com.shubham225.configuration.BannerPropertiesCustomizer
+org.springframework.boot.env.EnvironmentPostProcessor=com.shubham225.jobmonitor.configuration.BannerPropertiesCustomizer

@@ -1,14 +1,7 @@
 import {
-  IconDashboard,
-  IconHelp,
-  IconHistory,
-  IconLayoutDashboard,
-  IconList,
   IconReport,
-  IconSettings,
-  IconWorldWww,
 } from "@tabler/icons-react";
-import { Calendar, Calendar1Icon, CircleQuestionMark, Globe, History, LayoutDashboard, Settings, Waypoints } from "lucide-react";
+import { Calendar, CircleQuestionMark, Globe, History, LayoutDashboard, Settings, Waypoints } from "lucide-react";
 
 export const navData = {
   user: {

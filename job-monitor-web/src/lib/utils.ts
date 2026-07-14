@@ -19,6 +19,9 @@ export function getNavNameByPath(pathname: string) {
   const doc = navData.documents.find(item => item.url === pathname);
   if (doc) return doc.name;
 
+  // if index.html then its Dashboard
+  if (pathname === "/index.html") return "Dashboard";
+
   return null; // not found
 }
 

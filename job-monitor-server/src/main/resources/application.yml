@@ -16,7 +16,7 @@ spring:
     name: job-monitor-server
   output:
     ansi:
-      enabled=always:
+      enabled: always
   profiles:
     active: sqlite
     thymeleaf:
