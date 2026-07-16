@@ -64,7 +64,7 @@ sudo cp target/release/job-monitor-client /usr/local/bin/
 You can export these in your shell profile or set them per-command:
 
 ```bash
-JOB_MONITOR_SERVER_URL="http://server:8888" job-monitor-client status
+job-monitor-client status
 ```
 
 ---
@@ -80,8 +80,8 @@ job-monitor-client --help
 Typical commands (examples, adjust to your actual arguments):
 
 ```bash
-# Register a job definition from JSON or YAML
-job-monitor-client monitor --job-file job.json
+# Register a job definition from bwc file
+job-monitor-client monitor --job <JOB_NAME> --bwc <BWC_FILE_PATH>
 
 # Check server status/health
 job-monitor-client status

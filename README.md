@@ -113,7 +113,6 @@ Common environment variables used across modules:
 | `JOB_MONITOR_PORT`                   | Server         | HTTP port for the backend           |
 | `MAIL_USER`                          | Server         | Sender address for email alerts     |
 | `MAIL_PASSWORD`                      | Server         | SMTP password or app-specific token |
-| `NEXT_PUBLIC_JOB_MONITOR_SERVER_URL` | Web UI         | Server URL exposed to the browser   |
 
 See the individual module READMEs for the full configuration reference.
 
