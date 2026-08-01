@@ -7,6 +7,7 @@ import com.shubham225.jobmonitor.model.entity.AppSetting;
 import com.shubham225.jobmonitor.model.entity.MonitoringTask;
 import com.shubham225.jobmonitor.service.AppSettingService;
 import com.shubham225.jobmonitor.service.NotificationService;
+import com.shubham225.jobmonitor.windows.event.EventLogClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,20 @@ public class NotificationServiceImpl implements NotificationService {
     private final AppSettingService appSettingService;
     private final MailClient mailClient;
     private final TemplateEngine templateEngine;
+    private final EventLogClient eventLogClient;
 
     @Override
-    public Boolean sendMail(String subject, String body, Set<Path> attachments) {
+    public Boolean notify(String subject, String body, Set<Path> attachments) {
         AppSetting configurations = appSettingService.findAppSettings();
         String mailTo = configurations.getMailTo();
         String mailCc = configurations.getMailCc();
         boolean sendAlert = configurations.isEmailAlerts();
+        boolean logWindowsEvent = configurations.isLogWindowsEvent();
+
+        if (logWindowsEvent) {
+            log.info("Logging windows event for subject {}", subject);
+            eventLogClient.addEventViewerLog("Application", "JobMonitor", "error", subject);
+        }
 
         if (mailTo.isBlank()) {
             log.error("Email Recipients are not defined in setting mail not sent");

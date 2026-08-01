@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface WinTaskToJobMappingRepository extends JpaRepository<WinTaskToJobMapping, Long> {
     //TODO : find better alternative
     Optional<WinTaskToJobMapping> findFirstByJobCodeAndCompany(String jobName, String jobCompany);
+    Optional<WinTaskToJobMapping> findFirstByOrderByCreatedOnDesc();
 }

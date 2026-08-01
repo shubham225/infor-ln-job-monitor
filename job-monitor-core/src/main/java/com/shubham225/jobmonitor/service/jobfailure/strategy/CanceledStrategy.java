@@ -26,7 +26,7 @@ public class CanceledStrategy implements JobFailureStrategy {
         String errorInfo = "The job execution was canceled in the ERP system.";
 
         String body = notificationService.generateMailBody(task, errorInfo, false);
-        task.setMailSent(notificationService.sendMail(subject, body, Set.of()));
+        task.setMailSent(notificationService.notify(subject, body, Set.of()));
         task.setStatus(MonitoringStatus.FAILED);
     }
 }

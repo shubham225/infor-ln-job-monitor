@@ -22,4 +22,5 @@ public class AppSetting {
     private String errorKeywords;
     private Integer taskReleaseDelay;
     private boolean sendMonthlyReports;
+    private boolean logWindowsEvent;
 }

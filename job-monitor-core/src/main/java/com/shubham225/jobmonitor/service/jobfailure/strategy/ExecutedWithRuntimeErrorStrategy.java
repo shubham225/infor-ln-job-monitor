@@ -48,7 +48,7 @@ public class ExecutedWithRuntimeErrorStrategy implements JobFailureStrategy {
 
         String body = notificationService.generateMailBody(task, errorInfo, success == 0);
 
-        task.setMailSent(notificationService.sendMail(subject, body, Set.of(eventLogPath)));
+        task.setMailSent(notificationService.notify(subject, body, Set.of(eventLogPath)));
         task.setStatus(MonitoringStatus.FAILED);
 
         // Delete event log once logs sent

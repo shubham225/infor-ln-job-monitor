@@ -27,7 +27,7 @@ public class NotFoundStrategy implements JobFailureStrategy {
 
         String body = notificationService.generateMailBody(task, errorInfo, false);
 
-        task.setMailSent(notificationService.sendMail(subject, body, Set.of()));
+        task.setMailSent(notificationService.notify(subject, body, Set.of()));
         task.setStatus(MonitoringStatus.FAILED);
     }
 }

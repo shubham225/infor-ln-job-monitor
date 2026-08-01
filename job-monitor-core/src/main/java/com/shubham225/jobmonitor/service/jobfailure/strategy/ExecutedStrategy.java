@@ -47,7 +47,7 @@ public class ExecutedStrategy implements JobFailureStrategy {
             errorInfo = "The job completed execution with reported error messages.";
 
             String body = notificationService.generateMailBody(task, errorInfo, false);
-            task.setMailSent(notificationService.sendMail(subject, body, Set.of()));
+            task.setMailSent(notificationService.notify(subject, body, Set.of()));
             task.setReason(FailureReason.EXEC_WITH_ERROR_MESSAGE);
             task.setStatus(MonitoringStatus.FAILED);
         } else {

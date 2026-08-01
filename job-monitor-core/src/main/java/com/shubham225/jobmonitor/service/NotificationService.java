@@ -6,6 +6,6 @@ import java.nio.file.Path;
 import java.util.Set;
 
 public interface NotificationService {
-    Boolean sendMail(String subject, String body, Set<Path> attachments);
+    Boolean notify(String subject, String body, Set<Path> attachments);
     String generateMailBody(MonitoringTask task, String errorInfo, boolean logsAttached);
 }
