@@ -29,6 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final MailClient mailClient;
     private final TemplateEngine templateEngine;
     private final EventLogClient eventLogClient;
+    public static final String APPLICATION_NAME = "JobMonitor";
 
     @Override
     public Boolean notify(String subject, String body, Set<Path> attachments) {
@@ -40,7 +41,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         if (logWindowsEvent) {
             log.info("Logging windows event for subject {}", subject);
-            eventLogClient.addEventViewerLog("Application", "JobMonitor", "error", subject);
+            eventLogClient.addEventViewerLog("Application", APPLICATION_NAME, "error", subject);
         }
 
         if (mailTo.isBlank()) {

@@ -33,27 +33,31 @@ public class ExecutedStrategy implements JobFailureStrategy {
         task.setStatus(MonitoringStatus.COMPLETED);
 
         // Error Message captured in ERP
-        List<ErrorMessageDTO> errorMessages = jobService.getJobHistoryErrorMessages(task.getJob());
+        try {
+            List<ErrorMessageDTO> errorMessages = jobService.getJobHistoryErrorMessages(task.getJob());
 
-        List<ErrorMessageDTO> filteredMessages = errorMessages.stream()
-                .filter(message -> !exclusionService.isErrorMessageExcludedFromMonitoringAlert(
-                        task.getJob().getHostName(),
-                        message.getMessage()))
-                .toList();
+            List<ErrorMessageDTO> filteredMessages = errorMessages.stream()
+                    .filter(message -> !exclusionService.isErrorMessageExcludedFromMonitoringAlert(
+                            task.getJob().getHostName(),
+                            message.getMessage()))
+                    .toList();
 
-        if(!filteredMessages.isEmpty()) {
-            subject = String.format(
-                    "%s Job \"%s\" completed with error message", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
-            errorInfo = "The job completed execution with reported error messages.";
+            if (!filteredMessages.isEmpty()) {
+                subject = String.format(
+                        "%s Job \"%s\" completed with error message", MailUtils.getMailSubjectTitle(), task.getJob().getJobCode());
+                errorInfo = "The job completed execution with reported error messages.";
 
-            String body = notificationService.generateMailBody(task, errorInfo, false);
-            task.setMailSent(notificationService.notify(subject, body, Set.of()));
-            task.setReason(FailureReason.EXEC_WITH_ERROR_MESSAGE);
-            task.setStatus(MonitoringStatus.FAILED);
-        } else {
-            if (!errorMessages.isEmpty()) {
-                log.warn("Error messages captured for job {}, but skipped due to message exclusions", task.getJob());
+                String body = notificationService.generateMailBody(task, errorInfo, false);
+                task.setMailSent(notificationService.notify(subject, body, Set.of()));
+                task.setReason(FailureReason.EXEC_WITH_ERROR_MESSAGE);
+                task.setStatus(MonitoringStatus.FAILED);
+            } else {
+                if (!errorMessages.isEmpty()) {
+                    log.warn("Error messages captured for job {}, but skipped due to message exclusions", task.getJob());
+                }
             }
+        } catch (Exception e) {
+            log.error("Error fetching job history messages: {}", e.getMessage());
         }
     }
 }

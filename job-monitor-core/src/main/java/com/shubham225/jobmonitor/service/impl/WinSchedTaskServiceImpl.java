@@ -46,13 +46,18 @@ public class WinSchedTaskServiceImpl implements WinSchedTaskService {
         try {
             taskName = winTaskToJobMappingService.findWinTaskOfJob(jobCode, company);
         } catch (JobTaskMappingNotFoundException e) {
-            winTaskToJobMappingService.generateWinTaskToJobMapping();
-            try {
-                taskName = winTaskToJobMappingService.findWinTaskOfJob(jobCode, company);
-            } catch (JobTaskMappingNotFoundException ex) {
-                throw new IllegalStateException(
-                        "Failed to resolve WinTask mapping even after regeneration", ex
-                );
+            log.error("Exception occurred while trying to find winTaskToJobMapping for job {}",  jobCode);
+            if (winTaskToJobMappingService.isLastGeneratedMappingOlderThanOneDay()) {
+                winTaskToJobMappingService.generateWinTaskToJobMapping();
+                try {
+                    taskName = winTaskToJobMappingService.findWinTaskOfJob(jobCode, company);
+                } catch (JobTaskMappingNotFoundException ex) {
+                    throw new IllegalStateException(
+                            "Failed to resolve WinTask mapping even after regeneration", ex
+                    );
+                }
+            } else {
+                throw new IllegalStateException("Failed to resolve WinTask mapping, last generated mapping is not older than 1 day");
             }
         }
 

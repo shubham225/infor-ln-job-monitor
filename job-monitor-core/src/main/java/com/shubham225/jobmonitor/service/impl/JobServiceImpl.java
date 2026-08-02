@@ -9,6 +9,7 @@ import com.shubham225.jobmonitor.model.dto.ErrorMessageDTO;
 import com.shubham225.jobmonitor.model.enums.ERPJobStatus;
 import com.shubham225.jobmonitor.model.enums.FailureReason;
 import com.shubham225.jobmonitor.model.enums.MonitoringStatus;
+import com.shubham225.jobmonitor.model.enums.TaskSchedulerStatus;
 import com.shubham225.jobmonitor.model.mapper.InforERPJobMapper;
 import com.shubham225.jobmonitor.repository.InforERPJobRepository;
 import com.shubham225.jobmonitor.service.AppSettingService;
@@ -48,7 +49,7 @@ public class JobServiceImpl implements JobService {
         try{
             FetchERPJobResponseDTO responseDTO = erpClient.fetchERPJobDetails(apiURL, jobCode, company);
             inforERPJobMapper.updateEntity(responseDTO, inforERPJob);
-        } catch(RuntimeException e){
+        } catch(Exception e){
             log.error("Exception occurred while fetching InforERPJob", e);
             inforERPJob.setStatus(ERPJobStatus.UNKNOWN);
         }
@@ -57,9 +58,11 @@ public class JobServiceImpl implements JobService {
         WinSchedTask winSchedTask = new WinSchedTask();
         try{
             winSchedTask = winSchedTaskService.getWinSchedTaskForJob(hostName, jobCode, company);
-        } catch(RuntimeException e){
+        } catch(Exception e){
             log.error("Exception occurred while fetching InforERPJob", e);
-            inforERPJob.setStatus(ERPJobStatus.UNKNOWN);
+            winSchedTask.setTaskName(jobCode);
+            winSchedTask.setHostName(hostName);
+            winSchedTask.setStatus(TaskSchedulerStatus.UNKNOWN);
         }
 
         inforERPJob.setWinTask(winSchedTask);

@@ -22,7 +22,9 @@ public class ExclusionServiceImpl implements ExclusionService {
     public boolean isJobExcludedFromMonitoringAlert(String hostName, String jobCode, String company) {
         ExclusionJob exclusionJob = exclusionJobRepository
                                             .findByHostNameAndJobNameAndCompany(hostName, jobCode, company)
-                                            .orElse(null);
+                                            .orElseGet(() -> exclusionJobRepository
+                                                    .findByHostNameAndJobNameAndCompany("", jobCode, company)
+                                                    .orElse(null));
         return exclusionJob != null;
     }
 
@@ -30,7 +32,9 @@ public class ExclusionServiceImpl implements ExclusionService {
     public boolean isErrorMessageExcludedFromMonitoringAlert(String hostName, String message) {
         ExclusionErrorMessage exclusionErrorMessage = exclusionErrorMessageRepository
                                                         .findByHostNameAndMessage(hostName, message)
-                                                        .orElse(null);
+                                                        .orElseGet(() -> exclusionErrorMessageRepository
+                                                                .findByHostNameAndMessage("", message)
+                                                                .orElse(null));
         return exclusionErrorMessage != null;
     }
 
@@ -38,7 +42,9 @@ public class ExclusionServiceImpl implements ExclusionService {
     public boolean isJobStatusExcludedFromMonitoringAlert(String hostName, ERPJobStatus status) {
         ExclusionJobStatus exclusionJobStatus = exclusionJobStatusRepository
                                                         .findByHostNameAndStatus(hostName, status)
-                                                        .orElse(null);
+                                                        .orElseGet(() -> exclusionJobStatusRepository
+                                                                .findByHostNameAndStatus("", status)
+                                                                .orElse(null));
         return exclusionJobStatus != null;
     }
 }

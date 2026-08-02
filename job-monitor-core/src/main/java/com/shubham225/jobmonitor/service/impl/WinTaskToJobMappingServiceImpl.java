@@ -20,6 +20,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingServic
 
     @Override
     public String findWinTaskOfJob(String jobName, String jobCompany) {
-        log.info("finding win task associated with the job");
+        log.info("finding win task associated with the job {} and company {}", jobName, jobCompany);
         return winTaskToJobMappingRepository.findFirstByJobCodeAndCompany(jobName, jobCompany)
                 .map(WinTaskToJobMapping::getTaskName)
                 .orElseThrow(() ->
@@ -63,6 +64,18 @@ public class WinTaskToJobMappingServiceImpl implements WinTaskToJobMappingServic
                 .stream()
                 .map(taskJobMappingMapper::toDTO)
                 .toList();
+    }
+
+    @Override
+    public boolean isLastGeneratedMappingOlderThanOneDay() {
+        WinTaskToJobMapping lastGeneratedMapping = winTaskToJobMappingRepository
+                                                    .findFirstByOrderByCreatedOnDesc()
+                                                    .orElse(null);
+        if (lastGeneratedMapping == null) {
+            return true;
+        }
+
+        return lastGeneratedMapping.getCreatedOn().isBefore(LocalDateTime.now().minusDays(1));
     }
 
     private void deleteAllJobTaskMapping() {

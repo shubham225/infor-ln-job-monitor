@@ -9,4 +9,5 @@ public interface WinTaskToJobMappingService {
     String findWinTaskOfJob(String jobName, String jobCompany);
     void generateWinTaskToJobMapping();
     List<TaskJobMappingDTO> getTaskJobMappings();
+    boolean isLastGeneratedMappingOlderThanOneDay();
 }
