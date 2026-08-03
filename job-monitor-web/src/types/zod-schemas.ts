@@ -30,4 +30,5 @@ export const settingsSchema = z.object({
     .min(0, "Must be 0 or greater")
     .max(3600, "Max 3600 seconds"),
   errorKeywords: z.string().optional(),
+  logWindowsEvent: z.boolean(),
 });

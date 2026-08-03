@@ -3,10 +3,11 @@
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ExecutionHistory } from "@/types/api";
-import { FailureReason } from "@/types/enums";
+import { ERPJobStatus, FailureReason } from "@/types/enums";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   CalendarClock,
+  CheckCircle2,
   Clipboard,
   ClipboardClock,
   Hash,
@@ -18,7 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { FAILURE_REASON_STYLES, YES_NO_STYLES } from "@/constants/styles";
+import { FAILURE_REASON_STYLES, JOB_STATUS_STYLE, YES_NO_STYLES } from "@/constants/styles";
 
 const formatFailure = (value?: string) =>
   value
@@ -96,6 +97,37 @@ export const columns: ColumnDef<ExecutionHistory>[] = [
               {company.jobName}
             </span>
           </Badge>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "jobStatus",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Job Status"
+        icon={CheckCircle2}
+      />
+    ),
+    cell: ({ row }) => {
+      const company = row.original;
+      const jobStatus: ERPJobStatus = company.jobStatus;
+
+      return (
+        <div className="flex items-center gap-2.5">
+          <span className="font-medium text-foreground">
+            <Badge
+              key={jobStatus}
+              variant="outline"
+              className={cn(
+                "rounded-sm border px-2 py-0.5 text-[10px] font-medium inline-flex items-center gap-1.5",
+                JOB_STATUS_STYLE[jobStatus],
+              )}
+            >
+              {company.jobStatus}
+            </Badge>
+          </span>
         </div>
       );
     },

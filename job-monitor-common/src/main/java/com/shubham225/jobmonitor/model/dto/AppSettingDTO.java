@@ -13,4 +13,5 @@ public class AppSettingDTO {
     private String errorKeywords;
     private boolean sendMonthlyReports;
     private Integer taskReleaseDelay;
+    private boolean logWindowsEvent;
 }
