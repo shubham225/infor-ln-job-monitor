@@ -29,13 +29,13 @@
 
 ## Modules
 
-| Module               | Description                                                                                  |
-|-----------------------|-----------------------------------------------------------------------------------------------|
-| `job-monitor-client` | Rust-based client for registering jobs to server                                              |
-| `job-monitor-server` | Spring Boot backend that stores job data, triggers alerts, and serves the bundled web UI       |
-| `job-monitor-core`   | Core domain models and business logic                                                         |
-| `job-monitor-common` | Shared utilities used across backend modules                                                  |
-| `job-monitor-web`    | Next.js web UI for visualization and administration                                           |
+| Module               | Description                                                |
+|-----------------------|------------------------------------------------------------|
+| `job-monitor-client` | Rust-based client for registering jobs to server           |
+| `job-monitor-server` | Spring Boot backend that stores job data and triggers alerts |
+| `job-monitor-core`   | Core domain models and business logic                      |
+| `job-monitor-common` | Shared utilities used across backend modules               |
+| `job-monitor-web`    | Next.js web UI for visualization and administration        |
 
 Each module includes its own `README.md` with setup and usage details specific to that module.
 
