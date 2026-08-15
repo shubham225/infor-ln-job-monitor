@@ -20,9 +20,11 @@
     </developers>
 
     <modules>
-        <module>job-monitor-server</module>
+        <module>job-monitor-client</module>
+        <module>job-monitor-web</module>
         <module>job-monitor-common</module>
         <module>job-monitor-core</module>
+        <module>job-monitor-server</module>
     </modules>
 
 	<properties>
