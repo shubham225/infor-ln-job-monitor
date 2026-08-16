@@ -47,10 +47,10 @@ Each module includes its own `README.md` with setup and usage details specific t
   Registers jobs with the server and reports execution results (success/failure).
 
 - **Backend** (`job-monitor-server`, `job-monitor-core`, `job-monitor-common`)
-  Stores job definitions and execution history, evaluates alert rules, dispatches notifications (e.g., email), and serves the bundled web UI as static resources.
+  Stores job definitions and execution history, evaluates alert rules, dispatches notifications (e.g., email), and serves the web UI.
 
 - **Web UI** (`job-monitor-web`)
-  Provides dashboards for job status and history, along with configuration and administration views. Built and bundled into `job-monitor-server` for production; can also be run standalone for local development.
+  Provides dashboards for job status and history, along with configuration and administration views. Built as a static Next.js export and packaged into its own JAR.
 
 ![architecture](./docs/readme/architecture.gif)
 
@@ -78,54 +78,53 @@ The simplest way to get started is to download the latest packaged release, whic
 
 - Java 17+
 - Maven
-- Node.js (LTS) and Yarn, only needed if you want to build/modify the web UI
-- Rust toolchain (`rustup`), for building the client
+- Node.js (LTS) and Yarn, required to build `job-monitor-web`.
+- Rust toolchain (`rustup`), for building `job-monitor-client`
 - SMTP credentials, for email alerts
+
+> Node.js/Yarn and the Rust toolchain only need to be available on your `PATH`. Maven takes care of installing a local pinned Node/Yarn version for the web build and invoking `cargo` through the client module's build scripts, no separate manual build/copy steps required.
 
 #### Steps
 
-1. **Build the web UI and copy it into the server's resources**
+1. **Build everything from the root**
 
    ```bash
-   cd job-monitor-web
-   yarn install
-   yarn build
+   mvn clean install
    ```
 
-   Copy the resulting static export into `resources/static` (or run the module's provided build/copy script, if available) so it gets bundled with the backend.
+   This single command:
+    - Builds `job-monitor-web` — runs `yarn install` and `yarn build` (static export), then packages the output into `job-monitor-web-<version>.jar` under `META-INF/resources`.
+    - Builds `job-monitor-client` — runs `build.sh`/`build.cmd` for the Rust client, depending on your OS.
+    - Builds `job-monitor-core`, `job-monitor-common`, and `job-monitor-server`, with `job-monitor-server` pulling in `job-monitor-web` as a normal Maven dependency.
 
-2. **Build the backend modules**
-
-   ```bash
-   mvn clean package
-   ```
-
-3. **Run the server**
+2. **Run the server**
 
    ```bash
    cd job-monitor-server
    mvn spring-boot:run
    ```
 
-   The web UI is now served by the same process at `http://localhost:<JOB_MONITOR_PORT>`.
+   The web UI is served by the same process at `http://localhost:<JOB_MONITOR_PORT>`.
 
-   > For active frontend development with hot reload, you can still run the UI standalone instead of rebuilding on every change:
+   > For active frontend development with hot reload, you can still run the UI standalone instead of rebuilding the whole project on every change:
    > ```bash
    > cd job-monitor-web
    > yarn dev
    > ```
-   > Point it at the running server via `JOB_MONITOR_SERVER_URL`.
+   > Point it at the running server via `JOB_MONITOR_SERVER_URL`. Once you're done, running `mvn clean install` from the root will re-package your changes into the `job-monitor-web` JAR for the server to pick up.
 
-4. **Build and run the client**
+3. **Run the client**
+
+   After `mvn clean install` from the root, the built client binary is available under `job-monitor-client/target/release/`. Alternatively, you can build the client module on its own:
 
    ```bash
-   cd ../job-monitor-client
+   cd job-monitor-client
 
    # Linux/macOS
    ./build.sh
 
    # Windows
-   build.bat
+   build.cmd
    ```
 
 ---
