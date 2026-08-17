@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.shubham225</groupId>
         <artifactId>job-monitor</artifactId>
@@ -8,9 +9,10 @@
     </parent>
 
     <artifactId>job-monitor-web</artifactId>
-    <name>job-monitor-web</name>
     <packaging>jar</packaging>
-    <description>Job monitoring UI for Infor LN, providing real-time job tracking and status APIs.</description>
+
+    <name>JobMonitor - Web</name>
+    <description>UI for Job Monitor, providing real-time job tracking and status APIs.</description>
 
     <developers>
         <developer>
@@ -67,7 +69,8 @@
                             <outputDirectory>${project.build.outputDirectory}/META-INF/resources</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/out</directory> <!-- next export/build output -->
+                                    <!-- next export/build output -->
+                                    <directory>${basedir}/out</directory>
                                 </resource>
                             </resources>
                         </configuration>

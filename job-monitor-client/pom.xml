@@ -2,13 +2,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.shubham225</groupId>
         <artifactId>job-monitor</artifactId>
         <version>1.0.0</version>
     </parent>
+
     <artifactId>job-monitor-client</artifactId>
     <packaging>pom</packaging>
+
+    <name>JobMonitor - Client</name>
+    <description>Rust based client app to interact with JobMonitor server.</description>
+
+    <developers>
+        <developer>
+            <id>shubhamshinde225</id>
+            <name>Shubham Shinde</name>
+            <email>shubhamshinde225@gmail.com</email>
+        </developer>
+    </developers>
 
     <profiles>
         <!-- Linux / Mac -->
