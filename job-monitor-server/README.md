@@ -1,4 +1,4 @@
-# Job Monitor Server ![Backend](https://img.shields.io/badge/{_}-Backend-16A34A?style=flat-square)
+# JobMonitor - Server ![Backend](https://img.shields.io/badge/{_}-Backend-16A34A?style=flat-square)
 
 ![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7+-green?logo=springboot&logoColor=white&style=flat)

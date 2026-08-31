@@ -1,4 +1,4 @@
-# Job Monitor Web ![Frontend](https://img.shields.io/badge/{_}-Frontend-38BDF8?style=flat-square)
+# JobMonitor - Web ![Frontend](https://img.shields.io/badge/{_}-Frontend-38BDF8?style=flat-square)
 
 ![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=nextdotjs&logoColor=white&style=flat)
 ![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-38bdf8?logo=tailwindcss&logoColor=white&style=flat)
