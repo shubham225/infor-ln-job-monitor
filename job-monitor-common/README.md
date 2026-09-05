@@ -1,4 +1,4 @@
-# Job Monitor Common
+# JobMonitor - Common
 
 ![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
 ![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)

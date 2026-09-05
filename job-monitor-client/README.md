@@ -1,4 +1,4 @@
-# Job Monitor Client (Rust)
+# JobMonitor - Client 
 
 ![Java](https://img.shields.io/badge/Rust-1.90.0-red?logo=rust&logoColor=white&style=flat)
 ![Maven](https://img.shields.io/badge/Build-Cargo-orange?style=flat)
