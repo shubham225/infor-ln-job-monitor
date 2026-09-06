@@ -29,6 +29,8 @@ import {
 } from "@/components/ui/sidebar"
 import { NotificationPanel } from "@/components/notification-panel"
 import {useLoggedInUser} from "@/hooks/useLoggedInUser";
+import {handleLogout} from "@/service/auth-service";
+import {useRouter} from "next/navigation";
 
 export function NavUser({
   userDetails,
@@ -43,6 +45,7 @@ export function NavUser({
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificationOpen, setNotificationOpen] = useState(false)
   const {user, loading} = useLoggedInUser();
+  const router = useRouter();
 
   return (
     <SidebarMenu>
@@ -99,7 +102,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/logout")}>
               <IconLogout />
               Log out
             </DropdownMenuItem>
