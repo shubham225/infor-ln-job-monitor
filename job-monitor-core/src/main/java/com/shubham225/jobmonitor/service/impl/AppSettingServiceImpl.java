@@ -39,11 +39,13 @@ public class AppSettingServiceImpl implements AppSettingService {
     @Override
     public ServerMapping findFirstServerMappingByServer(String hostname) {
         return serverMappingRepository.findFirstByHostName(hostname)
-                .orElse(serverMappingRepository.findFirstByHostName("")
-                .orElseThrow( () ->
-                    new ServerMappingNotFoundException(
-                            MessageFormat.format("Mapping not found for hostname: {0}", hostname))
-                ));
+                .orElseGet(() ->
+                        serverMappingRepository.findFirstByHostName("")
+                                .orElseThrow( () ->
+                                        new ServerMappingNotFoundException(
+                                                MessageFormat.format("Mapping not found for hostname: {0}", hostname))
+                                )
+                );
     }
 
     @Override

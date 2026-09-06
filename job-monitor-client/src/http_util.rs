@@ -1,4 +1,5 @@
 use std::fmt;
+use crate::config;
 
 // ── HTTP result ─────────────────────────────────────────────────────
 
@@ -32,9 +33,11 @@ impl fmt::Display for HttpResult {
 // ── HTTP GET ────────────────────────────────────────────────────────
 
 pub fn get(url: &str) -> HttpResult {
+    let api_key = config::api_key();
     match reqwest::blocking::Client::new()
         .get(url)
         .header("Content-Type", "application/json")
+        .header("X-API-KEY", &api_key)
         .send()
     {
         Ok(resp) => {
@@ -53,9 +56,11 @@ pub fn get(url: &str) -> HttpResult {
 // ── HTTP POST ───────────────────────────────────────────────────────
 
 pub fn post(url: &str, json_body: &serde_json::Value) -> HttpResult {
+    let api_key = config::api_key();
     match reqwest::blocking::Client::new()
         .post(url)
         .header("Content-Type", "application/json")
+        .header("X-API-KEY", &api_key)
         .json(json_body)
         .send()
     {

@@ -65,6 +65,14 @@
             <artifactId>hibernate-community-dialects</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.shubham225</groupId>
             <artifactId>job-monitor-common</artifactId>
             <version>1.0.0</version>
