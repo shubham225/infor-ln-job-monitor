@@ -91,3 +91,8 @@ export type TaskJobMapping = {
   jobName: string;
   company: string;
 };
+
+export interface User {
+  name: string;
+  email: string;
+}

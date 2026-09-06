@@ -6,6 +6,11 @@ info:
     author: Shubham Shinde
     version: v1.0.0
 
+# App Config
+app:
+  security:
+    api-key: ${JOB_MONITOR_API_KEY:my-secret-dev-key}
+
 # Server Config
 server:
   error:
@@ -28,11 +33,29 @@ spring:
       enabled: true
       prefix: classpath:/templates/
       suffix: .html
+  security:
+    oauth2:
+      client:
+        registration:
+          sso:
+            client-id: ${OAUTH_CLIENT_ID}
+            client-secret: ${OAUTH_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+            provider: sso-provider
+            client-name: Login with SSO
+        provider:
+          sso-provider:
+            issuer-uri: ${OAUTH_ISSUER_URI}
 
 # Logging
 logging:
   pattern:
     console: "[%-5level]\t%d{yyyy-MM-dd HH:mm:ss.SSS}\t[%thread] %logger{0} - %msg%n"
+  level:
+    org.springframework.security: DEBUG
 
 # App Config
 mail:

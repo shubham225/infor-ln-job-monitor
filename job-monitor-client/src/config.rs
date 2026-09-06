@@ -27,6 +27,12 @@ pub fn status_url() -> String {
     format!("{}{}", server_url(), DEFAULT_STATUS_API_PATH)
 }
 
+/// Returns API-KEY from env variable
+pub fn api_key() -> String {
+    let api_key = env_or_default("JOB_MONITOR_API_KEY", "");
+    api_key
+}
+
 fn env_or_default(key: &str, default: &str) -> String {
     match env::var(key) {
         Ok(val) if !val.trim().is_empty() => val,
