@@ -133,13 +133,17 @@ The simplest way to get started is to download the latest packaged release, whic
 
 Common environment variables used across modules:
 
-| Variable                 | Used In        | Description                         |
-|---------------------------|-----------------|--------------------------------------|
-| `JOB_MONITOR_SERVER_URL` | Client, Web UI | Base URL of `job-monitor-server`    |
-| `JOB_MONITOR_HOME`       | Server, Client | Directory for logs and data         |
-| `JOB_MONITOR_PORT`       | Server         | HTTP port for the backend (and bundled web UI) |
-| `MAIL_USER`              | Server         | Sender address for email alerts     |
-| `MAIL_PASSWORD`          | Server         | SMTP password or app-specific token |
+| Variable                 | Used In        | Description                                       |
+| ------------------------ | -------------- |---------------------------------------------------|
+| `JOB_MONITOR_SERVER_URL` | Client, Web UI | Base URL of `job-monitor-server`                  |
+| `JOB_MONITOR_HOME`       | Server, Client | Directory for logs and data                       |
+| `JOB_MONITOR_PORT`       | Server         | HTTP port for the backend                         |
+| `MAIL_USER`              | Server         | Sender address for email alerts                   |
+| `MAIL_PASSWORD`          | Server         | SMTP password or app-specific token               |
+| `OAUTH_CLIENT_ID`        | Server         | OAuth2 client ID used for SSO authentication      |
+| `OAUTH_CLIENT_SECRET`    | Server         | OAuth2 client secret used for SSO authentication  |
+| `OAUTH_ISSUER_URI`       | Server         | OAuth2/OIDC issuer URI for the SSO provider       |
+| `JOB_MONITOR_API_KEY`    | Server, Client | API key used by the Client to add monitoring task |
 
 See the individual module READMEs for the full configuration reference.
 
