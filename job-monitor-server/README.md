@@ -38,12 +38,16 @@ It exposes REST APIs that are consumed by:
 
 The application can be configured using the following environment variables (in addition to standard Spring Boot properties):
 
-| Variable            | Description                                  | Example                |
-|---------------------|----------------------------------------------|------------------------|
-| `JOB_MONITOR_HOME`  | Directory for logs, data, or state files     | `/opt/job-monitor`     |
-| `MAIL_USER`         | Email address used for sending notifications | `alerts@example.com`   |
-| `MAIL_PASSWORD`     | SMTP password or app-specific token          | `super-secret-pass`    |
-| `JOB_MONITOR_PORT`  | Port for running the application             | `8080`                 |
+| Variable              | Description                                                                                                 | Example                                  |
+| --------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `JOB_MONITOR_HOME`    | Directory for logs, data, or state files                                                                    | `/opt/job-monitor`                       |
+| `MAIL_USER`           | Email address used for sending notifications                                                                | `alerts@example.com`                     |
+| `MAIL_PASSWORD`       | SMTP password or app-specific token                                                                         | `super-secret-pass`                      |
+| `JOB_MONITOR_PORT`    | Port for running the application                                                                            | `8080`                                   |
+| `OAUTH_CLIENT_ID`     | OAuth2 client ID used for SSO authentication                                                                | `job-monitor-client`                     |
+| `OAUTH_CLIENT_SECRET` | OAuth2 client secret used for SSO authentication                                                            | `your-client-secret`                     |
+| `OAUTH_ISSUER_URI`    | OAuth2/OIDC issuer URI for the SSO provider                                                                 | `https://sso.example.com/realms/example` |
+| `JOB_MONITOR_API_KEY` | API key used by the Client to authenticate requests when adding monitoring tasks via `POST /api/v1/monitor` | `your-api-key`                           |
 
 You can also use a standard `application.yml`/`application.properties` file to configure database, SMTP host, and other Spring Boot settings.
 

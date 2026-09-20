@@ -9,7 +9,7 @@ info:
 # App Config
 app:
   security:
-    api-key: ${JOB_MONITOR_API_KEY:my-secret-dev-key}
+    api-key: ${JOB_MONITOR_API_KEY}
 
 # Server Config
 server:
