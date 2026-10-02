@@ -52,7 +52,7 @@ public class SecurityConfig {
     public SecurityFilterChain webFilterChain(HttpSecurity http, ApiKeyAuthFilter apiKeyAuthFilter,
                                               OAuth2AuthorizationRequestResolver authorizationRequestResolver) throws Exception {
         http
-                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/favicon.ico",
