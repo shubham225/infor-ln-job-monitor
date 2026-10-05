@@ -60,6 +60,8 @@ sudo cp target/release/job-monitor-client /usr/local/bin/
 |--------------------------|-------------------------------------|-------------------------|
 | `JOB_MONITOR_SERVER_URL` | URL of the job-monitor server       | `http://localhost:8888` |
 | `JOB_MONITOR_HOME`       | Home directory for job-monitor data | current working dir     |
+| `JOB_MONITOR_API_KEY` | API key used by the Client to authenticate requests when adding monitoring tasks via `POST /api/v1/monitor` | `your-api-key`                           |
+
 
 You can export these in your shell profile or set them per-command:
 
