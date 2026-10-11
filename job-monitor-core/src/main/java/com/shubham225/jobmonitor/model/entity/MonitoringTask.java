@@ -28,6 +28,7 @@ public class MonitoringTask extends BaseEntity {
     private LocalDateTime executedOn;
     private LocalDateTime terminatedOn;
     @Column(nullable = false)
+    @Builder.Default
     private boolean isMailSent = false;
     private LocalDateTime nextPoolingAt;
 

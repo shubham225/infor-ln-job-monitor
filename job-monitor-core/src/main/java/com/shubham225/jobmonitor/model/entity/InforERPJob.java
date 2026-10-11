@@ -31,6 +31,7 @@ public class InforERPJob extends BaseEntity {
     private LocalDateTime jobStartedAt;
     private LocalDateTime jobEndedAt;
     private LocalDateTime nextJobExecutionAt;
+    @Builder.Default
     private Integer jobAverageRuntimeInSec = 0;
 
     @OneToOne(
