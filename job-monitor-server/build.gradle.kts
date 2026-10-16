@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.spring.boot)
 }
+
 description = "Job monitoring service for Infor LN, providing real-time job tracking and status APIs."
 
 dependencies {

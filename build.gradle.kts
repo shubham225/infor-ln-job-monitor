@@ -1,4 +1,3 @@
-
 import com.github.gradle.node.NodeExtension
 import com.github.gradle.node.NodePlugin
 
@@ -16,9 +15,19 @@ allprojects {
 }
 description = "The real-time Infor LN Job Monitoring Application."
 
+buildscript {
+    dependencies {
+        classpath(files("lib/reactor-summary-plugin-0.1.0.jar"))
+    }
+}
+
+apply<io.github.shubham225.ReactorSummaryPlugin>()
+
 subprojects {
+
     if (name != "job-monitor-client") {
         apply(plugin = "java")
+
         java {
             toolchain {
                 languageVersion.set(JavaLanguageVersion.of(17))
