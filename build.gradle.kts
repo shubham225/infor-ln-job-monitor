@@ -7,6 +7,7 @@ plugins {
     id("java")
     alias(libs.plugins.node) apply false
     alias(libs.plugins.spring.boot) apply false
+    id("io.github.shubham225.reactor-summary") version "0.2.0"
 }
 
 allprojects {
@@ -15,16 +16,7 @@ allprojects {
 }
 description = "The real-time Infor LN Job Monitoring Application."
 
-buildscript {
-    dependencies {
-        classpath(files("lib/reactor-summary-plugin-0.1.0.jar"))
-    }
-}
-
-apply<io.github.shubham225.ReactorSummaryPlugin>()
-
 subprojects {
-
     if (name != "job-monitor-client") {
         apply(plugin = "java")
 

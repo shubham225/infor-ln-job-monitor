@@ -25,7 +25,7 @@ It is intentionally focused on domain logic; transport and presentation concerns
 
 ## Dependencies
 
-Key dependencies (see `pom.xml` for full list):
+Key dependencies:
 
 - `job-monitor-common` – shared DTOs and utilities
 - Spring Data (Commons & JPA)
