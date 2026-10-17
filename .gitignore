@@ -37,3 +37,8 @@ build/
 *.drawio
 /temp/*
 releases/*
+
+### Gradle ###
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+out/
