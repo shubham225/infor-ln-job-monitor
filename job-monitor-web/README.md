@@ -34,13 +34,13 @@ From the repository root:
 
 ```bash
 cd job-monitor-web
-yarn install
+pnpm install
 ```
 
 ### Run the Development Server
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 Open `http://localhost:3000` in your browser.
@@ -65,13 +65,13 @@ Refer to your actual configuration in the codebase and deployment manifests for 
 Create an optimized production build:
 
 ```bash
-yarn build
+pnpm build
 ```
 
 Then start the production server:
 
 ```bash
-yarn start
+pnpm start
 ```
 
 You can also deploy this app to platforms like Vercel, Netlify, or any Node-capable hosting provider.

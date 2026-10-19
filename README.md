@@ -1,15 +1,25 @@
-# ![logo](./docs/readme/job-monitor-logo.png)
+<div align="center">
+
+<picture>
+  <img src="docs/readme/job-monitor-logo.svg" alt="Job Monitor logo" width="500">
+</picture>
+
+**Monitor Infor LN ERP jobs, track execution status and failures, and get alerted before SLAs are breached.**
 
 ![Java](https://img.shields.io/badge/Java-17+-red?logo=java&logoColor=white&style=flat)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7+-green?logo=springboot&logoColor=white&style=flat)
 ![H2 Database](https://img.shields.io/badge/Database-H2-blue?logo=h2database&style=flat)
-![Maven](https://img.shields.io/badge/Build-Maven-orange?logo=apachemaven&style=flat)
+![Gradle](https://img.shields.io/badge/Build-Gradle-02303A?logo=gradle&logoColor=white&style=flat)
 ![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=nextdotjs&logoColor=white&style=flat)
 ![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-38bdf8?logo=tailwindcss&logoColor=white&style=flat)
 ![shadcn/ui](https://img.shields.io/badge/UI-shadcn/ui-9f7aea?logo=shadcnui&style=flat)
-![Yarn](https://img.shields.io/badge/Package_Manager-Yarn-2C8EBB?logo=yarn&style=flat)
+![pnpm](https://img.shields.io/badge/Package_Manager-pnpm-F69220?logo=pnpm&logoColor=white&style=flat)
 ![Release](https://img.shields.io/github/v/release/shubham225/infor-ln-job-monitor?style=flat)
 ![License](https://img.shields.io/github/license/shubham225/infor-ln-job-monitor?style=flat)
+
+</div>
+
+---
 
 **Job Monitor** is a multi-module system for monitoring **Infor LN ERP** jobs and sending alerts when executions fail or breach SLAs. It consists of a Spring Boot backend, a modern Next.js web UI, and a lightweight client for integrating with existing schedulers.
 
@@ -77,45 +87,53 @@ The simplest way to get started is to download the latest packaged release, whic
 #### Prerequisites
 
 - Java 17+
-- Maven
-- Node.js (LTS) and Yarn, required to build `job-monitor-web`.
+- Node.js (LTS) and pnpm, required to build `job-monitor-web`.
 - Rust toolchain (`rustup`), for building `job-monitor-client`
 - SMTP credentials, for email alerts
 
-> Node.js/Yarn and the Rust toolchain only need to be available on your `PATH`. Maven takes care of installing a local pinned Node/Yarn version for the web build and invoking `cargo` through the client module's build scripts, no separate manual build/copy steps required.
+> Gradle does not need to be installed. The included Gradle Wrapper (`gradlew` / `gradlew.bat`) downloads the right version automatically. Node.js/pnpm and the Rust toolchain only need to be available on your `PATH`. Gradle takes care of running the web build and invoking `cargo` through the client module's build scripts, no separate manual build/copy steps required.
 
 #### Steps
 
 1. **Build everything from the root**
 
    ```bash
-   mvn clean install
+   # Linux/macOS
+   ./gradlew clean build
+
+   # Windows
+   gradlew.bat clean build
    ```
 
    This single command:
-    - Builds `job-monitor-web` — runs `yarn install` and `yarn build` (static export), then packages the output into `job-monitor-web-<version>.jar` under `META-INF/resources`.
-    - Builds `job-monitor-client` — runs `build.sh`/`build.cmd` for the Rust client, depending on your OS.
-    - Builds `job-monitor-core`, `job-monitor-common`, and `job-monitor-server`, with `job-monitor-server` pulling in `job-monitor-web` as a normal Maven dependency.
+   - Builds `job-monitor-web` — runs `pnpm install` and `pnpm build` (static export), then packages the output into `job-monitor-web-<version>.jar` under `META-INF/resources`.
+   - Builds `job-monitor-client` — runs `build.sh`/`build.cmd` for the Rust client, depending on your OS.
+   - Builds `job-monitor-core`, `job-monitor-common`, and `job-monitor-server`, with `job-monitor-server` pulling in `job-monitor-web` as a regular project dependency.
 
 2. **Run the server**
 
    ```bash
-   cd job-monitor-server
-   mvn spring-boot:run
+   ./gradlew :job-monitor-server:bootRun
    ```
 
    The web UI is served by the same process at `http://localhost:<JOB_MONITOR_PORT>`.
 
+   To run the packaged jar instead, use the one produced under `job-monitor-server/build/libs/`:
+
+   ```bash
+   java -jar job-monitor-server/build/libs/job-monitor-server-<version>.jar
+   ```
+
    > For active frontend development with hot reload, you can still run the UI standalone instead of rebuilding the whole project on every change:
    > ```bash
    > cd job-monitor-web
-   > yarn dev
+   > pnpm dev
    > ```
-   > Point it at the running server via `JOB_MONITOR_SERVER_URL`. Once you're done, running `mvn clean install` from the root will re-package your changes into the `job-monitor-web` JAR for the server to pick up.
+   > Point it at the running server via `JOB_MONITOR_SERVER_URL`. Once you're done, running `./gradlew clean build` from the root will re-package your changes into the `job-monitor-web` JAR for the server to pick up.
 
 3. **Run the client**
 
-   After `mvn clean install` from the root, the built client binary is available under `job-monitor-client/target/release/`. Alternatively, you can build the client module on its own:
+   After `./gradlew clean build` from the root, the built client binary is available under `job-monitor-client/target/release/`. Alternatively, you can build the client module on its own:
 
    ```bash
    cd job-monitor-client
@@ -217,12 +235,12 @@ The ERP Monitor application expects requests and responses in the formats below.
 
 ```json
 {
-  "jobCode": "JOB001",
-  "company": "COMP01",
-  "messages": [
-    "Unable to connect to database.",
-    "Retry completed successfully."
-  ]
+   "jobCode": "JOB001",
+   "company": "COMP01",
+   "messages": [
+      "Unable to connect to database.",
+      "Retry completed successfully."
+   ]
 }
 ```
 

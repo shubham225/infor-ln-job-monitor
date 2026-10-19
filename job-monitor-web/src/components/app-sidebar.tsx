@@ -36,8 +36,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     className="dark:invert"
                     src="/job-monitor-logo-icon.svg" // icon for collapsed state
                     alt="App Icon"
-                    width={24}
-                    height={24}
+                    width={32}
+                    height={32}
                     priority
                   />
                 ) : (
@@ -45,8 +45,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     className="dark:invert"
                     src="/job-monitor-logo.svg" // full logo for expanded state
                     alt="App Logo"
-                    width={100}
-                    height={18}
+                    width={130}
+                    height={24}
                     priority
                   />
                 )}
